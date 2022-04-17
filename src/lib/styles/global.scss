@@ -1,6 +1,7 @@
 body {
 	margin: 0;
 	font-size: 2rem;
+	font-family: 'Nunito', sans-serif;
 }
 
 @media (max-width: 900px) {
@@ -9,13 +10,19 @@ body {
 	}
 }
 
-p {
-	font-family: 'Nunito', sans-serif;
-}
-
 h1,
-h2 {
+h2,
+h3 {
 	margin-top: 0;
 	font-family: 'Outfit', serif;
 	font-weight: 900;
+}
+
+i {
+	color: gray;
+}
+
+ref {
+	color: orangered;
+	text-decoration: underline 3px;
 }

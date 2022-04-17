@@ -1,7 +1,16 @@
+import Smh from './content/physics/shm/simple-harmonic-motion.svelte';
+
 export type Course = {
 	prettyName: string;
 	name: string;
 	color: string;
+	topics?: Topic[];
+};
+
+export type Topic = {
+	prettyName: string;
+	name: string;
+	svelte?: any;
 };
 
 export const courses: Course[] = [
@@ -13,7 +22,13 @@ export const courses: Course[] = [
 	{
 		prettyName: 'Physics',
 		name: 'physics',
-		color: '#f3722c'
+		color: '#f3722c',
+		topics: [
+			{ prettyName: 'Simple Harmonic Motion', name: 'simple-harmonic-motion', svelte: Smh },
+			{ prettyName: 'Capacitors', name: 'capacitors' },
+			{ prettyName: 'Angular Momentum', name: 'angular-momentum' },
+			{ prettyName: 'Electrostatics', name: 'electrostatics' }
+		]
 	},
 	{
 		prettyName: 'Linear Algebra',

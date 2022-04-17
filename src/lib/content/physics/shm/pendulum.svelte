@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @hmr:reset
 	import { onMount } from 'svelte';
 
 	let canvas: HTMLCanvasElement;
@@ -27,8 +28,8 @@
 		let omega = 0.02;
 
 		const ticker = app.ticker.add((delta) => {
-			omega -= Math.sin(pendulum.rotation) * 0.001;
-			pendulum.rotation += omega;
+			omega -= Math.sin(pendulum.rotation) * 0.002 * delta;
+			pendulum.rotation += omega * delta;
 		});
 
 		app.stage.addChild(pendulum);

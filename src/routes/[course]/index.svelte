@@ -24,7 +24,7 @@
 	import '$lib/styles/global.scss';
 
 	export let course: Course;
-	const topics = course.topics!;
+	const topics = course.topics ?? [];
 </script>
 
 <div class="header" style="background-color: {course.color}">

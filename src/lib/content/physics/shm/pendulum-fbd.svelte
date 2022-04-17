@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @hmr:reset
 	import { onMount } from 'svelte';
 
 	let canvas: HTMLCanvasElement;
@@ -58,9 +59,9 @@
 		let omega = 0.025;
 
 		app.ticker.add((delta) => {
-			omega -= Math.sin(bob.rotation) * 0.0002;
-			line.rotation += omega;
-			bob.rotation += omega;
+			omega -= Math.sin(bob.rotation) * 0.0004 * delta;
+			line.rotation += omega * delta * 2;
+			bob.rotation += omega * delta * 2;
 			if (pressing) {
 				const theta =
 					Math.atan2(mousePos.y - app.screen.height / 3, mousePos.x - app.screen.width / 2) -

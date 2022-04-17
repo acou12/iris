@@ -42,7 +42,9 @@
 	</div>
 </div>
 <div class="content">
-	<svelte:component this={svelte} />
+	{#if svelte}
+		<svelte:component this={svelte} />
+	{/if}
 </div>
 
 <style lang="scss">

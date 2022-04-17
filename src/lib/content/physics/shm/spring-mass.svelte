@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @hmr:reset
 	import { onMount } from 'svelte';
 
 	let canvas: HTMLCanvasElement;

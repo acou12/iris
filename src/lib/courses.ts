@@ -1,4 +1,4 @@
-import Smh from './content/physics/shm/simple-harmonic-motion.svelte';
+import Smh from '$lib/content/physics/shm/simple-harmonic-motion.md';
 
 export type Course = {
 	prettyName: string;

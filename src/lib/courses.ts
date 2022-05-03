@@ -46,8 +46,14 @@ export const courses: Course[] = [
 		color: '#43aa8b'
 	},
 	{
-		prettyName: 'Calculus',
-		name: 'calculus',
-		color: '#577590'
+		prettyName: 'Vector Caclulus',
+		name: 'vector-calculus',
+		color: '#577590',
+		topics: [
+			{ prettyName: 'Curl', name: 'curl' },
+			{ prettyName: 'Divergence', name: 'divergence' },
+			{ prettyName: 'Gradient', name: 'gradient' },
+			{ prettyName: "Green's Theorem", name: 'greens-theorem' }
+		]
 	}
 ];

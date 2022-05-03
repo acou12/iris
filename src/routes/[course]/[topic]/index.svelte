@@ -28,11 +28,28 @@
 	export let course: Course;
 	export let topic: Topic;
 	const svelte = topic.svelte;
+
+	function lightenColor(color: string) {
+		const red = parseInt(color.substring(1, 3), 16);
+		const green = parseInt(color.substring(3, 5), 16);
+		const blue = parseInt(color.substring(5, 7), 16);
+		const lightness = 0.2;
+		const newRed = Math.floor((255 - red) * lightness) + red;
+		const newGreen = Math.floor((255 - green) * lightness) + green;
+		const newBlue = Math.floor((255 - blue) * lightness) + blue;
+		return '#' + newRed.toString(16) + newGreen.toString(16) + newBlue.toString(16);
+	}
+
+	function lighterenColor(color: string) {
+		return lightenColor(lightenColor(color)); // yeah
+	}
+
+	const background = `linear-gradient(to right, ${course.color}, ${lightenColor(course.color)})`;
 </script>
 
-<div class="header" style="background-color: {course.color}">
+<div class="header" style="background: {background}">
 	<div class="header-content">
-		<span class="backlinks">
+		<span class="backlinks" style="color: {lighterenColor(course.color)}">
 			<a href="/">Home</a> >
 			<a href="/{course.name}">{course.prettyName}</a>
 			>
@@ -70,7 +87,7 @@
 		a {
 			text-decoration: none;
 			// todo: make it a ligher version of `color`, looks better
-			color: white;
+			color: inherit;
 		}
 		color: white;
 		font-family: 'Outfit';

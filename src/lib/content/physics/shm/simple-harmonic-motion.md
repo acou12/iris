@@ -44,6 +44,8 @@ $$
 
 At first it may be confusing why we're defining $\omega^2$ instead of $\omega$, but this will be explained later.
 
+<!-- This is a bad explanation. Instead of explaining mathematically it'd be better to derive the constants of integration from physical attributes of a simple harmonic oscillator, such as its amplitude, initial velocity, and period (which is directly related to the strength of the restoring force). Another more advanced section will explain the derivation using ODE methods. -->
+
 The solution to this differential equation is one that is proportional to its own second derivative. Looking at this long enough, you might realize that the trigonometric functions have this property. For example, for sine,
 
 $$
@@ -98,6 +100,8 @@ a_t = \ell\alpha = \ell\theta'' = -g\sin\theta \\
 $$
 
 As you can see, the force is not directly proportional to the displacement, but rather the sine of the displacement. Thus, **in general, a pendulum does not undergo simple harmonic motion**. However, we can model the pendulum with simple harmonic motion if theta stays relatively small. For small angles (on the order of $\pi / 8$), we can say that $\sin \theta \approx \theta$. This approximation can be seen by observing the taylor series for $\sin \theta$:
+
+<!-- (this section should be ommitted for brevity and explained in more depth later) -->
 
 $$
 \sin\theta = \sum_{n=0}^\infty \sin^{(n)}(0) {\theta^n \over n! } = \theta - {\theta^3 \over 3!} + {\theta^5 \over 5!} - \dots

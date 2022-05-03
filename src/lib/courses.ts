@@ -1,4 +1,5 @@
 import Smh from '$lib/content/physics/shm/simple-harmonic-motion.md';
+import Momentum from '$lib/content/physics/momentum/momentum.md';
 
 export type Course = {
 	prettyName: string;
@@ -27,6 +28,7 @@ export const courses: Course[] = [
 			{ prettyName: 'Simple Harmonic Motion', name: 'simple-harmonic-motion', svelte: Smh },
 			{ prettyName: 'Capacitors', name: 'capacitors' },
 			{ prettyName: 'Angular Momentum', name: 'angular-momentum' },
+			{ prettyName: 'Momentum', name: 'momentum', svelte: Momentum },
 			{ prettyName: 'Electrostatics', name: 'electrostatics' }
 		]
 	},

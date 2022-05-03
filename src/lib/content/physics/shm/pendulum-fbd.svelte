@@ -31,7 +31,7 @@
 
 		let pressing = false;
 
-		const arrow = (len: number) => {
+		function arrow(len: number) {
 			const arrow = new PIXI.Graphics();
 			arrow.lineStyle({
 				width: 5,
@@ -44,7 +44,7 @@
 			arrow.moveTo(len, 0);
 			arrow.lineTo(len - 10, -10);
 			return arrow;
-		};
+		}
 
 		const f_g = arrow(100);
 		f_g.tint = 0x34ebab;

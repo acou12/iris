@@ -36,7 +36,26 @@ m(x'') = -kx \\
 x'' = -\frac km x \tag{2}
 $$
 
-To make things even more simple, we define a constant $\omega^2 = \frac km$ which makes our acceleration,
+The function of position we're looking for has the property that it is proportional to its own negative second derivative. Specifically, the trigonometric functions sine and cosine have this property:
+
+$$
+(\sin t)'' = (\cos t)' = -\sin t \\
+(\cos t)'' = (-\sin t)' = -\cos t \\
+$$
+
+Either one will work fine, but usually $\cos$ is used out of convenience, since it models a spring mass system that starts at equillibirum. However, just $\cos t$ itself isn't quite right, as it doesn't account for our constant of proportionality $\frac km$. To get an intuition for the general form of a position vs time function, let's consider how different spring mass systems could differ from each other.
+
+First off, releasing the masses from different distances from equillibrium will lead to a spring-mass system that goes further out in both directions, as seen below. This maximum distance from equilibrium is known as the **amplitude** and is given the symbol **A**. Our current function, $\cos t$, has a maximum and minimum of 1 and -1, but we can multiply it by **A** to get a function that has a max and min of A and -A.
+
+$$
+x = A\cos(t)
+$$
+
+Also,
+
+_Although this is an ordinary differential equation that could be solved directly, it's beyond the scope of this article. See [other article](/other-article) for more details on the specific procedure involved to solve this type of differential equation._
+
+<!-- To make things even more simple, we define a constant $\omega^2 = \frac km$ which makes our acceleration,
 
 $$
 x'' = -\omega^2 x
@@ -44,7 +63,7 @@ $$
 
 At first it may be confusing why we're defining $\omega^2$ instead of $\omega$, but this will be explained later.
 
-<!-- This is a bad explanation. Instead of explaining mathematically it'd be better to derive the constants of integration from physical attributes of a simple harmonic oscillator, such as its amplitude, initial velocity, and period (which is directly related to the strength of the restoring force). Another more advanced section will explain the derivation using ODE methods. -->
+ This is a bad explanation. Instead of explaining mathematically it'd be better to derive the constants of integration from physical attributes of a simple harmonic oscillator, such as its amplitude, initial velocity, and period (which is directly related to the strength of the restoring force). Another more advanced section will explain the derivation using ODE methods.
 
 The solution to this differential equation is one that is proportional to its own second derivative. Looking at this long enough, you might realize that the trigonometric functions have this property. For example, for sine,
 
@@ -71,7 +90,7 @@ $$
 x = A\cos(\omega t + \phi)
 $$
 
-We call $A$ the **amplitude**, $\omega$ the **angular velocity**, and $\phi$ the **phase constant**.
+We call $A$ the **amplitude**, $\omega$ the **angular velocity**, and $\phi$ the **phase constant**. -->
 
 ## The Pendulum
 

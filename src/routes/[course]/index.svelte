@@ -22,12 +22,32 @@
 
 <script lang="ts">
 	import '$lib/styles/global.scss';
+	import { onMount } from 'svelte';
 
 	export let course: Course;
 	const topics = course.topics ?? [];
+
+	function lightenColor(color: string) {
+		const red = parseInt(color.substring(1, 3), 16);
+		const green = parseInt(color.substring(3, 5), 16);
+		const blue = parseInt(color.substring(5, 7), 16);
+		const lightness = 0.2;
+		const newRed = Math.floor((255 - red) * lightness) + red;
+		const newGreen = Math.floor((255 - green) * lightness) + green;
+		const newBlue = Math.floor((255 - blue) * lightness) + blue;
+		return '#' + newRed.toString(16) + newGreen.toString(16) + newBlue.toString(16);
+	}
+
+	const background = `linear-gradient(to right, ${course.color}, ${lightenColor(course.color)})`;
+
+	onMount(() => {
+		console.log(course.color);
+
+		console.log(lightenColor(course.color));
+	});
 </script>
 
-<div class="header" style="background-color: {course.color}">
+<div class="header" style="background: {background}">
 	<h1 class="title">{course.prettyName}</h1>
 </div>
 <div class="content">
@@ -45,7 +65,7 @@
 	<div class="topics">
 		{#each topics as topic}
 			<a href="/{course.name}/{topic.name}">
-				<div class="topic" style="background-color: {course.color}">
+				<div class="topic" style="background: {background}">
 					<h2>{topic.prettyName}</h2>
 				</div>
 			</a>
@@ -73,13 +93,6 @@
 		padding: 30px;
 		max-width: 1300px;
 		margin: auto;
-	}
-
-	@media (min-width: 900px) {
-		.topics {
-			display: grid;
-			grid-template-columns: 1fr 1fr 1fr;
-		}
 	}
 
 	.topics {

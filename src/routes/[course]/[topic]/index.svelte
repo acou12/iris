@@ -71,6 +71,9 @@
 			text-decoration: none;
 			// todo: make it a ligher version of `color`, looks better
 			color: white;
+			&:hover {
+				text-decoration: dashed underline 3px;
+			}
 		}
 		color: white;
 		font-family: 'Outfit';

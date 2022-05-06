@@ -40,9 +40,9 @@
 
 		const ticker = app.ticker.add((delta) => {
 			t += delta;
-			spring1.extension = 30 * Math.cos(t / 30);
-			spring2.extension = 250 * Math.cos(t / 30);
-			spring3.extension = 150 * Math.cos(t / 30);
+			spring1.extension = 50 * Math.cos(t / 30);
+			spring2.extension = 50 * Math.cos(t / 30 + 2);
+			spring3.extension = 50 * Math.cos(t / 30 + 4);
 		});
 
 		app.stage.addChild(eq);

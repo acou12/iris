@@ -4,6 +4,9 @@
 	import SpringMass from '$lib/content/physics/shm/spring-mass.svelte';
 	import Pendulum from './pendulum.svelte';
 	import PendulumFBD from './pendulum-fbd.svelte';
+	import SpringMassAmplitude from './spring-mass-amplitude.svelte'
+	import SpringMassFrequency from './spring-mass-frequency.svelte'
+	import SpringMassPhase from './spring-mass-phase.svelte'
 </script>
 
 ## What is Simple Harmonic Motion?
@@ -36,24 +39,78 @@ m(x'') = -kx \\
 x'' = -\frac km x \tag{2}
 $$
 
-The function of position we're looking for has the property that it is proportional to its own negative second derivative. Specifically, the trigonometric functions sine and cosine have this property:
+The function of position we're looking for has the property that it is proportional to its own negative second derivative. Particularly, the trigonometric functions sine and cosine have this property:
 
 $$
 (\sin t)'' = (\cos t)' = -\sin t \\
 (\cos t)'' = (-\sin t)' = -\cos t \\
 $$
 
-Either one will work fine, but usually $\cos$ is used out of convenience, since it models a spring mass system that starts at equillibirum. However, just $\cos t$ itself isn't quite right, as it doesn't account for our constant of proportionality $\frac km$. To get an intuition for the general form of a position vs time function, let's consider how different spring mass systems could differ from each other.
+_Although this is an ordinary differential equation that could be solved directly, it's beyond the scope of this article. See [other article](/other-article) for more details on the specific procedure involved to solve this type of differential equation._
 
-First off, releasing the masses from different distances from equillibrium will lead to a spring-mass system that goes further out in both directions, as seen below. This maximum distance from equilibrium is known as the **amplitude** and is given the symbol **A**. Our current function, $\cos t$, has a maximum and minimum of 1 and -1, but we can multiply it by **A** to get a function that has a max and min of A and -A.
+Either one will work fine, but $\cos$ is usually used out of convenience, since it models a spring mass system that starts at equillibirum. However, just $\cos t$ itself isn't quite right, as it doesn't account for our constant of proportionality $\frac km$. To get an intuition for the general form of a position vs time function, let's consider how different spring mass systems could differ from each other.
+
+First off, releasing the masses from different distances from equillibrium will lead to a spring-mass system that goes further out in both directions, as seen below.
+
+<SpringMassAmplitude />
+
+This maximum distance from equilibrium is known as the **amplitude** and is given the symbol **A**. Our current function, $\cos t$, has a maximum and minimum of 1 and -1, but we can multiply it by A to get a function that has a max and min of A and -A.
 
 $$
 x = A\cos(t)
 $$
 
-Also,
+There are also factors that could affect the general speed of oscillation. For example, if the mass is heavier, it will resist the spring force more, and so will oscillate slower than a lighter mass. The spring constant also affects the speed of oscillation; if a spring is more "stiff", it will oscillate faster.
 
-_Although this is an ordinary differential equation that could be solved directly, it's beyond the scope of this article. See [other article](/other-article) for more details on the specific procedure involved to solve this type of differential equation._
+<SpringMassFrequency />
+
+This oscillation speed is represented as $\omega$ and is often referred to as the **angular frequency**. In our position function, it is multiplied by time:
+
+$$
+x = A\cos(\omega t)
+$$
+
+Finally, we need to consider that the system is not always at equilibrium at $t = 0$; it could already have an initial velocity.
+
+<SpringMassPhase />
+
+The above three springs are all identical other than the fact that they are offset but some amount of time. To represent this offset in our position function, we use $\phi$, called the **phase constant**.
+
+$$
+x = A\cos(\omega t + \phi)
+$$
+
+This is the general form for the position of a simple harmonic oscillator.
+
+## Velocity and acceleration
+
+Since we have a closed form for the position, we can simply differentiate with respect to time to find the velocity and acceleration as well.
+
+$$
+v = {dx \over dt} = {d \over dt}\left(A\cos(\omega t + \phi)\right) = -A\omega\sin(\omega t + \phi) \\
+a = {dv \over dt} = {d \over dt}\left(-A\omega\sin(\omega t + \phi)\right) = -A\omega^2\cos(\omega t + \phi)
+$$
+
+If we rearrange the expression for acceleration, we can confirm that this is in fact a solution to equation $(2)$:
+
+$$
+\begin{aligned}
+x'' = a &= -A\omega^2\cos(\omega t + \phi) \\
+&= -\omega^2(A\cos(\omega t + \phi)) \\
+&= -\omega^2(x) \\
+x'' &= -\omega^2x
+\end{aligned}
+$$
+
+with our constant of proportionality being $\omega^2$.
+
+Although we derived this general function from a spring-mass system, it applies to any object in simple harmonic motion, with the constants $A$, $\omega$, and $\phi$ varying. For the spring mass sytem, we can solve for $\omega$ as follows:
+
+$$
+x'' = -\frac km x = -\omega^2 x \\
+\omega^2 = \frac km \to
+\omega = \sqrt \frac km
+$$
 
 <!-- To make things even more simple, we define a constant $\omega^2 = \frac km$ which makes our acceleration,
 

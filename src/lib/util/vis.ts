@@ -7,7 +7,7 @@ export class SpringMass {
 	private realLength: number;
 	private _extension: number;
 
-	private COIL_LENGTH = 50;
+	private COIL_LENGTH = 40;
 
 	constructor(private springLen: number, private massSize: number) {
 		this.realLength = springLen - massSize / 2;
@@ -17,7 +17,7 @@ export class SpringMass {
 			color: 0x999999
 		});
 		this.spring.moveTo(0, 0);
-		for (let x = 0; x <= this.realLength - (this.realLength % this.COIL_LENGTH); x++) {
+		for (let x = 0; x <= this.realLength - (this.realLength % (this.COIL_LENGTH / 2)); x++) {
 			this.spring.lineTo(x, -Math.sin((x * 2 * Math.PI) / this.COIL_LENGTH) * 50);
 		}
 		this.spring.lineTo(this.realLength, 0);

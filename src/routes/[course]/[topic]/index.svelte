@@ -89,7 +89,7 @@
 			// todo: make it a ligher version of `color`, looks better
 			color: inherit;
 			&:hover {
-				text-decoration: dashed underline 3px;
+				text-decoration: solid underline 3px;
 			}
 		}
 		color: white;

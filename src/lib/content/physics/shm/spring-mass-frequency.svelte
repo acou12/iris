@@ -24,11 +24,11 @@
 			eq.lineTo(app.screen.width / 2, y + 20);
 		}
 
-		const spring1 = new VIS.SpringMass(400, 100);
+		const spring1 = new VIS.SpringMass(400, 50);
 		spring1.pixi.x = 0;
 		spring1.pixi.y = app.screen.height / 4;
 
-		const spring2 = new VIS.SpringMass(400, 100);
+		const spring2 = new VIS.SpringMass(400, 70);
 		spring2.pixi.x = 0;
 		spring2.pixi.y = (app.screen.height * 2) / 4;
 
@@ -40,9 +40,9 @@
 
 		const ticker = app.ticker.add((delta) => {
 			t += delta;
-			spring1.extension = 30 * Math.cos(t / 30);
-			spring2.extension = 250 * Math.cos(t / 30);
-			spring3.extension = 150 * Math.cos(t / 30);
+			spring1.extension = 50 * Math.cos(t / 20);
+			spring2.extension = 50 * Math.cos(t / 30);
+			spring3.extension = 50 * Math.cos(t / 40);
 		});
 
 		app.stage.addChild(eq);

@@ -3,39 +3,38 @@
 
 	let canvas: HTMLCanvasElement;
 
+	let stop: () => void;
+
 	withPixi(async (PIXI) => {
 		const VIS = await import('$lib/util/vis');
 		const app = new PIXI.Application({
 			view: canvas,
 			resolution: window.devicePixelRatio || 1,
 			autoDensity: true,
-			backgroundColor: 0xffffff
+			backgroundColor: 0xffffff,
+			width: 1100,
+			height: 1100
 		});
 
-		const eq = new PIXI.Graphics();
-		eq.lineStyle({
-			width: 5,
-			color: 0x999999
-		});
-		for (let y = 0; y < app.screen.height; y += 20 * 2) {
-			eq.moveTo(app.screen.width / 2, y);
-			eq.lineTo(app.screen.width / 2, y + 20);
-		}
-
-		const spring = new VIS.SpringMass(400, 100);
-		spring.pixi.x = 0;
+		const spring = new VIS.SpringMass(300, 100);
+		spring.pixi.x = app.screen.width / 2;
 		spring.pixi.y = app.screen.height / 2;
 
 		let t = 0;
 
 		const ticker = app.ticker.add((delta) => {
 			t += delta;
-			spring.extension = 150 * Math.cos(t / 30);
+			spring.extension = 200 * Math.cos(t / 45);
+			spring.pixi.rotation += 0.03 / Math.pow((spring.extension + 400) / 400, 2);
 		});
 
-		app.stage.addChild(eq);
+		stop = () => {
+			console.log('GONE');
+			app.destroy();
+			ticker.stop();
+		};
+
 		app.stage.addChild(spring.pixi);
-		console.log('UH OG');
 		return [app, ticker];
 	});
 </script>

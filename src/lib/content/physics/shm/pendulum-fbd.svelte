@@ -4,9 +4,9 @@
 
 	let canvas: HTMLCanvasElement;
 
-	onMount(async () => {
-		// todo: abstract
-		const PIXI = await import('pixi.js');
+	import { withPixi } from '$lib/util/custom-lifecycle';
+
+	withPixi(async (PIXI) => {
 		const app = new PIXI.Application({
 			view: canvas,
 			resolution: window.devicePixelRatio || 1,
@@ -99,7 +99,6 @@
 
 		canvas.addEventListener('mousedown', (event) => {
 			pressing = true;
-			console.log(mousePos);
 		});
 
 		canvas.addEventListener('mouseup', (event) => {
@@ -110,6 +109,7 @@
 			mousePos.x = event.offsetX;
 			mousePos.y = event.offsetY;
 		});
+		return [app, new PIXI.Ticker()];
 	});
 </script>
 

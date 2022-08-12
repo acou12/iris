@@ -4,8 +4,9 @@
 
 	let canvas: HTMLCanvasElement;
 
-	onMount(async () => {
-		const PIXI = await import('pixi.js');
+	import { withPixi } from '$lib/util/custom-lifecycle';
+
+	withPixi(async (PIXI) => {
 		const app = new PIXI.Application({
 			view: canvas,
 			resolution: window.devicePixelRatio || 1,
@@ -90,6 +91,7 @@
 		app.stage.addChild(v2arrow);
 		app.stage.addChild(force1);
 		app.stage.addChild(force2);
+		return [app, ticker];
 	});
 </script>
 

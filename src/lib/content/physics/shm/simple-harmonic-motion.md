@@ -1,6 +1,4 @@
 <script>
-	import Kb from '$lib/util/KatexBlock.svelte';
-	import Kl from '$lib/util/KatexInline.svelte';
 	import SpringMass from '$lib/content/physics/shm/spring-mass.svelte';
 	import Pendulum from './pendulum.svelte';
 	import PendulumFBD from './pendulum-fbd.svelte';
@@ -46,7 +44,7 @@ $$
 (\cos t)'' = (-\sin t)' = -\cos t \\
 $$
 
-_Although this is an ordinary differential equation that could be solved directly, it's beyond the scope of this article. See [other article](/other-article) for more details on the specific procedure involved to solve this type of differential equation._
+_Although this is an ordinary differential equation that could be solved directly, it's beyond the scope of this article. See [other article](/) for more details on the specific procedure involved to solve this type of differential equation._
 
 Either one will work fine, but $\cos$ is usually used out of convenience, since it models a spring mass system that starts at equillibirum. However, just $\cos t$ itself isn't quite right, as it doesn't account for our constant of proportionality $\frac km$. To get an intuition for the general form of a position vs time function, let's consider how different spring mass systems could differ from each other.
 

@@ -38,17 +38,20 @@
 		return '#' + newRed.toString(16) + newGreen.toString(16) + newBlue.toString(16);
 	}
 
+	function lighterenColor(color: string) {
+		return lightenColor(lightenColor(color)); // yeah
+	}
+
 	const background = `linear-gradient(to right, ${course.color}, ${lightenColor(course.color)})`;
-
-	onMount(() => {
-		console.log(course.color);
-
-		console.log(lightenColor(course.color));
-	});
 </script>
 
 <div class="header" style="background: {background}">
-	<h1 class="title">{course.prettyName}</h1>
+	<div class="header-content">
+		<span class="backlinks" style="color: {lighterenColor(course.color)}">
+			<a href="/">Home</a>
+		</span>
+		<h1>{course.prettyName}</h1>
+	</div>
 </div>
 <div class="content">
 	<h1>Welcome to {course.prettyName}!</h1>
@@ -87,6 +90,26 @@
 		padding: 30px;
 		padding-bottom: 50px;
 		color: white;
+	}
+
+	.header-content {
+		max-width: 1300px;
+		margin: auto;
+	}
+
+	.backlinks {
+		a {
+			text-decoration: none;
+			// todo: make it a ligher version of `color`, looks better
+			color: inherit;
+			&:hover {
+				text-decoration: solid underline 3px;
+			}
+		}
+		color: white;
+		font-family: 'Outfit';
+		text-transform: uppercase;
+		font-size: 70%;
 	}
 
 	.content {

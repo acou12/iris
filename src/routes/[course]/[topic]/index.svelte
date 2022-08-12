@@ -24,6 +24,8 @@
 
 <script lang="ts">
 	import '$lib/styles/global.scss';
+	// @ts-ignore
+	import Placeholder from '$lib/content/placeholder.md';
 
 	export let course: Course;
 	export let topic: Topic;
@@ -52,8 +54,6 @@
 		<span class="backlinks" style="color: {lighterenColor(course.color)}">
 			<a href="/">Home</a> >
 			<a href="/{course.name}">{course.prettyName}</a>
-			>
-			<a href="/{course.name}/{topic.name}">{topic.prettyName}</a>
 		</span>
 		<h1>{topic.prettyName}</h1>
 	</div>
@@ -61,6 +61,8 @@
 <div class="content">
 	{#if svelte}
 		<svelte:component this={svelte} />
+	{:else}
+		<svelte:component this={Placeholder} />
 	{/if}
 </div>
 
@@ -86,7 +88,6 @@
 	.backlinks {
 		a {
 			text-decoration: none;
-			// todo: make it a ligher version of `color`, looks better
 			color: inherit;
 			&:hover {
 				text-decoration: solid underline 3px;

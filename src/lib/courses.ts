@@ -1,6 +1,13 @@
+// @ts-ignore (SAD)
 import Smh from '$lib/content/physics/shm/simple-harmonic-motion.md';
+// @ts-ignore (SAD)
 import Momentum from '$lib/content/physics/momentum/momentum.md';
+// @ts-ignore (SAD)
 import Curl from '$lib/content/vector-calc/curl/curl.md';
+// @ts-ignore (SAD)
+import AngularMomentum from '$lib/content/physics/angular-momentum/angular-momentum.md';
+// @ts-ignore (SAD)
+import Placeholder from '$lib/content/placeholder.md';
 
 export type Course = {
 	prettyName: string;
@@ -21,11 +28,13 @@ export const courses: Course[] = [
 		name: 'computer-science',
 		color: '#f94144',
 		topics: [
-			{
-				prettyName: 'Lorem ipsum',
-				name: 'lorem-ipsum',
-				svelte: Smh
-			}
+			{ prettyName: 'Variables', name: 'variables', svelte: Placeholder },
+			{ prettyName: 'Data Types', name: 'data-types', svelte: Smh },
+			{ prettyName: 'Functions and Operators', name: 'functions-and-operators', svelte: Smh },
+			{ prettyName: 'Control Flow', name: 'control-flow', svelte: Smh },
+			{ prettyName: 'Data Structures', name: 'data-structures', svelte: Smh },
+			{ prettyName: 'Static Type Checking', name: 'static-type-checking', svelte: Smh },
+			{ prettyName: 'Functional Programming', name: 'functional-programming', svelte: Smh }
 		]
 	},
 	{
@@ -35,7 +44,7 @@ export const courses: Course[] = [
 		topics: [
 			{ prettyName: 'Simple Harmonic Motion', name: 'simple-harmonic-motion', svelte: Smh },
 			{ prettyName: 'Capacitors', name: 'capacitors' },
-			{ prettyName: 'Angular Momentum', name: 'angular-momentum' },
+			{ prettyName: 'Angular Momentum', name: 'angular-momentum', svelte: AngularMomentum },
 			{ prettyName: 'Momentum', name: 'momentum', svelte: Momentum },
 			{ prettyName: 'Electrostatics', name: 'electrostatics' }
 		]
@@ -48,7 +57,7 @@ export const courses: Course[] = [
 			{
 				prettyName: 'Lorem ipsum',
 				name: 'lorem-ipsum',
-				svelte: Smh
+				svelte: Placeholder
 			}
 		]
 	},
@@ -60,7 +69,7 @@ export const courses: Course[] = [
 			{
 				prettyName: 'Lorem ipsum',
 				name: 'lorem-ipsum',
-				svelte: Smh
+				svelte: Placeholder
 			}
 		]
 	},
@@ -72,7 +81,7 @@ export const courses: Course[] = [
 			{
 				prettyName: 'Lorem ipsum',
 				name: 'lorem-ipsum',
-				svelte: Smh
+				svelte: Placeholder
 			}
 		]
 	},

@@ -4,8 +4,9 @@
 
 	let canvas: HTMLCanvasElement;
 
-	onMount(async () => {
-		const PIXI = await import('pixi.js');
+	import { withPixi } from '$lib/util/custom-lifecycle';
+
+	withPixi(async (PIXI) => {
 		const VIS = await import('$lib/util/vis');
 		const app = new PIXI.Application({
 			view: canvas,
@@ -49,6 +50,7 @@
 		app.stage.addChild(spring1.pixi);
 		app.stage.addChild(spring2.pixi);
 		app.stage.addChild(spring3.pixi);
+		return [app, ticker];
 	});
 </script>
 

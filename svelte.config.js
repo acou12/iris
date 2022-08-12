@@ -7,8 +7,6 @@ import preprocess from 'svelte-preprocess';
 const config = {
 	extensions: ['.svelte', '.md'],
 
-	// Consult https://github.com/sveltejs/svelte-preprocess
-	// for more information about preprocessors
 	preprocess: [preprocess(), mdsvex(mdsvexConfig)],
 
 	kit: {
@@ -17,9 +15,9 @@ const config = {
 			pages: 'dist'
 		}),
 
-		browser: {
-			router: false
-		},
+		// browser: {
+		// 	router: false
+		// },
 
 		prerender: {
 			default: true

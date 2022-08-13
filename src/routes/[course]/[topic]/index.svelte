@@ -52,7 +52,8 @@
 <div class="header" style="background: {background}">
 	<div class="header-content">
 		<span class="backlinks" style="color: {lighterenColor(course.color)}">
-			<a href="/">Home</a> >
+			<a href="/">Home</a>
+			<span class="slash">/</span>
 			<a href="/{course.name}">{course.prettyName}</a>
 		</span>
 		<h1>{topic.prettyName}</h1>
@@ -86,6 +87,9 @@
 	}
 
 	.backlinks {
+		.slash {
+			margin: 0 3px;
+		}
 		a {
 			text-decoration: none;
 			color: inherit;

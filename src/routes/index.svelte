@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '$lib/styles/global.scss';
 	import { courses } from '$lib/courses';
+	import { irisButton } from '$lib/styles/emotion';
 </script>
 
 <div class="logo-wrapper">
@@ -18,9 +19,11 @@
 	</p>
 	<h1>Courses</h1>
 	<div class="courses">
-		{#each courses as c}
-			<a href="/{c.name}"
-				><div class="course" style="background-color: {c.color}"><h2>{c.prettyName}</h2></div></a
+		{#each courses as course}
+			<a href="/{course.name}"
+				><div class={'course ' + irisButton(course.color)}>
+					<h2>{course.prettyName}</h2>
+				</div></a
 			>
 		{/each}
 	</div>
@@ -32,7 +35,7 @@
 		justify-content: center;
 		align-items: center;
 		height: 100vh;
-		background-color: #222;
+		/* background-color: #222; */
 	}
 
 	.logo {

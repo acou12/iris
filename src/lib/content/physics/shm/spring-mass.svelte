@@ -35,7 +35,6 @@
 
 		app.stage.addChild(eq);
 		app.stage.addChild(spring.pixi);
-		console.log('UH OG');
 		return [app, ticker];
 	});
 </script>

@@ -29,7 +29,6 @@
 		});
 
 		stop = () => {
-			console.log('GONE');
 			app.destroy();
 			ticker.stop();
 		};

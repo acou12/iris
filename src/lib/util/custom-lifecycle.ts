@@ -33,7 +33,6 @@ export const withPixi = async (f: (pixi: typeof PIXI) => Promise<[Application, T
 		stop = () => {
 			app.destroy();
 			ticker.stop();
-			console.log('PWNED!');
 		};
 	}, stop);
 	onDestroy(() => {

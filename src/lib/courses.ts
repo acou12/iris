@@ -18,6 +18,7 @@ export type Topic = {
 	name: string;
 	svelte?: typeof import('*.md').default;
 	feature?: number;
+	icon?: string;
 };
 
 export const courses: Course[] = [
@@ -26,7 +27,13 @@ export const courses: Course[] = [
 		name: 'computer-science',
 		color: '#f94144',
 		topics: [
-			{ prettyName: 'Variables', name: 'variables', svelte: Variables, feature: 1 },
+			{
+				prettyName: 'Variables',
+				name: 'variables',
+				svelte: Variables,
+				feature: 1,
+				icon: '/icons/variables.svg'
+			},
 			{ prettyName: 'Data Types', name: 'data-types', svelte: DataTypes },
 			{
 				prettyName: 'Functions and Operators',
@@ -47,16 +54,24 @@ export const courses: Course[] = [
 				prettyName: 'Simple Harmonic Motion',
 				name: 'simple-harmonic-motion',
 				svelte: Smh,
-				feature: 0
+				feature: 0,
+				icon: '/icons/simple-harmonic-motion.svg'
 			},
-			{ prettyName: 'Capacitors', name: 'capacitors' },
+			{
+				prettyName: 'Momentum',
+				name: 'momentum',
+				svelte: Momentum,
+				feature: 2.5,
+				icon: '/icons/momentum.svg'
+			},
 			{
 				prettyName: 'Angular Momentum',
 				name: 'angular-momentum',
-				svelte: AngularMomentum
+				svelte: AngularMomentum,
+				icon: '/icons/angular-momentum.svg'
 			},
-			{ prettyName: 'Momentum', name: 'momentum', svelte: Momentum },
-			{ prettyName: 'Electrostatics', name: 'electrostatics' }
+			{ prettyName: 'Electrostatics', name: 'electrostatics' },
+			{ prettyName: 'Capacitors', name: 'capacitors' }
 		]
 	},
 	{
@@ -76,7 +91,7 @@ export const courses: Course[] = [
 		name: 'calculus',
 		color: '#43aa8b',
 		topics: [
-			{ prettyName: 'Limits', name: 'limits', feature: 2 },
+			{ prettyName: 'Limits', name: 'limits', feature: 2, icon: '/icons/limits.svg' },
 			{ prettyName: 'Differentiation', name: 'differentiation' },
 			{ prettyName: 'Integration', name: 'integration' },
 			{ prettyName: 'Maxima', name: 'maxima' },
@@ -88,7 +103,7 @@ export const courses: Course[] = [
 		name: 'vector-calculus',
 		color: '#577590',
 		topics: [
-			{ prettyName: 'Curl', name: 'curl', svelte: Curl, feature: 3 },
+			{ prettyName: 'Curl', name: 'curl', svelte: Curl, feature: 3, icon: '/icons/curl.svg' },
 			{ prettyName: 'Divergence', name: 'divergence' },
 			{ prettyName: 'Gradient', name: 'gradient' },
 			{ prettyName: "Green's Theorem", name: 'greens-theorem' }

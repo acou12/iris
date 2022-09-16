@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="121.1068mm"
+   height="121.1068mm"
+   viewBox="0 0 121.1068 121.1068"
+   version="1.1"
+   id="svg1980"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="limits.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1982"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.0381216"
+     inkscape:cx="187.35762"
+     inkscape:cy="194.10057"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1977" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(32.818787,-60.765182)">
+    <g
+       id="g2617"
+       transform="translate(-2.0389855,-0.89202887)">
+      <path
+         style="fill:none;stroke:#ffffff;stroke-width:6.33732;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m -23.805596,173.42419 c 0,0 15.8298386,-103.969196 54.539972,-48.18535 C 65.249692,174.97766 83.35279,70.997029 83.35279,70.997029"
+         id="path5253"
+         sodipodi:nodetypes="csc" />
+      <circle
+         style="fill:#ffffff;stroke:#ffffff;stroke-width:6.03837;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="path5773"
+         cx="22.125841"
+         cy="115.68814"
+         r="4.5188322" />
+      <circle
+         style="fill:#ffffff;stroke:#ffffff;stroke-width:6.03837;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="circle6442"
+         cx="37.936504"
+         cy="133.23994"
+         r="4.5188322" />
+    </g>
+  </g>
+</svg>

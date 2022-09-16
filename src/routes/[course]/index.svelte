@@ -22,6 +22,7 @@
 </script>
 
 <script lang="ts">
+	import IrisButton from '$lib/components/IrisButton.svelte';
 	import '$lib/styles/global.scss';
 	import { lightenColor, lighterenColor } from '$lib/util/color';
 
@@ -53,11 +54,9 @@
 	</p>
 	<div class="topics">
 		{#each topics as topic}
-			<a href="/{course.name}/{topic.name}">
-				<div class={'topic ' + irisButton(course.color)}>
-					<h2>{topic.prettyName}</h2>
-				</div>
-			</a>
+			<IrisButton href="/{course.name}/{topic.name}" color={course.color} icon={topic.icon}>
+				<h2>{topic.prettyName}</h2>
+			</IrisButton>
 		{/each}
 	</div>
 </div>
@@ -107,13 +106,5 @@
 		a {
 			text-decoration: none;
 		}
-	}
-
-	.topic {
-		color: white;
-		margin: 10px;
-		padding: 10px;
-		padding-bottom: 50px;
-		border-radius: 8px;
 	}
 </style>

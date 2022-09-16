@@ -1,3 +1,4 @@
+// todo: fix
 import Variables from '$lib/content/computer-science/variables/variables.md';
 import DataTypes from '$lib/content/computer-science/data-types/data-types.md';
 import AngularMomentum from '$lib/content/physics/angular-momentum/angular-momentum.md';
@@ -16,6 +17,7 @@ export type Topic = {
 	prettyName: string;
 	name: string;
 	svelte?: typeof import('*.md').default;
+	feature?: number;
 };
 
 export const courses: Course[] = [
@@ -24,7 +26,7 @@ export const courses: Course[] = [
 		name: 'computer-science',
 		color: '#f94144',
 		topics: [
-			{ prettyName: 'Variables', name: 'variables', svelte: Variables },
+			{ prettyName: 'Variables', name: 'variables', svelte: Variables, feature: 1 },
 			{ prettyName: 'Data Types', name: 'data-types', svelte: DataTypes },
 			{
 				prettyName: 'Functions and Operators',
@@ -41,9 +43,18 @@ export const courses: Course[] = [
 		name: 'physics',
 		color: '#f3722c',
 		topics: [
-			{ prettyName: 'Simple Harmonic Motion', name: 'simple-harmonic-motion', svelte: Smh },
+			{
+				prettyName: 'Simple Harmonic Motion',
+				name: 'simple-harmonic-motion',
+				svelte: Smh,
+				feature: 0
+			},
 			{ prettyName: 'Capacitors', name: 'capacitors' },
-			{ prettyName: 'Angular Momentum', name: 'angular-momentum', svelte: AngularMomentum },
+			{
+				prettyName: 'Angular Momentum',
+				name: 'angular-momentum',
+				svelte: AngularMomentum
+			},
 			{ prettyName: 'Momentum', name: 'momentum', svelte: Momentum },
 			{ prettyName: 'Electrostatics', name: 'electrostatics' }
 		]
@@ -65,7 +76,7 @@ export const courses: Course[] = [
 		name: 'calculus',
 		color: '#43aa8b',
 		topics: [
-			{ prettyName: 'Limits', name: 'limits' },
+			{ prettyName: 'Limits', name: 'limits', feature: 2 },
 			{ prettyName: 'Differentiation', name: 'differentiation' },
 			{ prettyName: 'Integration', name: 'integration' },
 			{ prettyName: 'Maxima', name: 'maxima' },
@@ -77,7 +88,7 @@ export const courses: Course[] = [
 		name: 'vector-calculus',
 		color: '#577590',
 		topics: [
-			{ prettyName: 'Curl', name: 'curl', svelte: Curl },
+			{ prettyName: 'Curl', name: 'curl', svelte: Curl, feature: 3 },
 			{ prettyName: 'Divergence', name: 'divergence' },
 			{ prettyName: 'Gradient', name: 'gradient' },
 			{ prettyName: "Green's Theorem", name: 'greens-theorem' }

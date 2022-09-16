@@ -5,7 +5,8 @@
 </script>
 
 <div class="logo-wrapper">
-	<img class="logo" src="/iris.svg" alt="Iris" />
+	<img class="logo" src="/iris.svg" alt="The word Iris with a rainbow background." />
+	<img class="spinner" src="/spinner.svg" alt="The iris spinner." />
 </div>
 <div class="content">
 	<h1>What is Iris?</h1>
@@ -27,14 +28,27 @@
 			>
 		{/each}
 	</div>
+	<h1>Featured Articles</h1>
+	<div class="featured-artices">
+		{#each courses
+			.flatMap((c) => c.topics.map((t) => ({ ...t, parent: c })))
+			.filter((t) => t.feature !== undefined)
+			.sort((t) => t.feature) as topic}
+			<a href="/{topic.parent.name}/{topic.name}"
+				><div class={'course ' + irisButton(topic.parent.color)}>
+					<h2>{topic.prettyName}</h2>
+				</div></a
+			>
+		{/each}
+	</div>
 </div>
 
 <style lang="scss">
 	.logo-wrapper {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 100vh;
+		/* display: flex; */
+		/* justify-content: center; */
+		/* align-items: center; */
+		height: 60vw;
 		/* background-color: #222; */
 	}
 
@@ -57,6 +71,13 @@
 		a {
 			text-decoration: none;
 		}
+		margin-bottom: 32px;
+	}
+
+	.featured-artices {
+		a {
+			text-decoration: none;
+		}
 	}
 
 	.course {
@@ -65,5 +86,31 @@
 		padding: 10px;
 		padding-bottom: 50px;
 		border-radius: 8px;
+	}
+
+	@keyframes spin {
+		from {
+			transform: rotate(0deg);
+		}
+
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	.spinner {
+		position: absolute;
+		left: -50vw;
+		top: -20vw;
+		width: 80vw;
+		animation: spin 30s infinite linear;
+	}
+
+	.logo {
+		position: absolute;
+		left: 30vw;
+		top: 30vh;
+		height: 40vh;
+		/* animation: spin 30s infinite linear; */
 	}
 </style>

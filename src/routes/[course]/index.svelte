@@ -2,7 +2,6 @@
 	import type { Load } from '@sveltejs/kit';
 	import { courses } from '$lib/courses';
 	import type { Course } from '$lib/courses';
-	import { irisButton } from '$lib/styles/emotion';
 
 	export const load: Load = async ({ params }) => {
 		const { course: courseName } = params;
@@ -32,6 +31,11 @@
 	const background = `linear-gradient(to right, ${course.color}, ${lightenColor(course.color)})`;
 </script>
 
+<svelte:head>
+	<title>
+		{course.prettyName}
+	</title>
+</svelte:head>
 <div class="header" style="background: {background}">
 	<div class="header-content">
 		<span class="backlinks" style="color: {lighterenColor(course.color)}">

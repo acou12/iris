@@ -4,6 +4,9 @@
 	import IrisButton from '$lib/components/IrisButton.svelte';
 </script>
 
+<svelte:head>
+	<title>Iris Home</title>
+</svelte:head>
 <div class="logo-wrapper">
 	<img class="logo" src="/iris.svg" alt="The word Iris with a rainbow background." />
 	<img class="spinner" src="/spinner.svg" alt="The iris spinner." />

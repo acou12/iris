@@ -14,5 +14,15 @@ export const irisButton = (color: string) => css`
 		h2 {
 			color: ${color};
 		}
+		* {
+			fill: ${color} !important;
+		}
+	}
+	svg {
+		position: absolute;
+		right: 50px;
+		top: 10%;
+		height: 80%;
+		width: auto;
 	}
 `;

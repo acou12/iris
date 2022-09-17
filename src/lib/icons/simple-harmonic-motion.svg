@@ -45,12 +45,11 @@
       <g
          id="g2681">
         <path
-           style="fill:none;stroke:#ffffff;stroke-width:3.165;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           d="M 908.8206,-12.417541 893.86242,-40.72277"
-           id="path137"
-           sodipodi:nodetypes="cc" />
+           style="color:#000000;fill:#ffffff;stroke-linecap:round;-inkscape-stroke:none"
+           d="m 893.12305,-42.121094 a 1.5825,1.5825 0 0 0 -0.66016,2.138672 l 14.95898,28.304688 a 1.5825,1.5825 0 0 0 2.13868,0.660156 1.5825,1.5825 0 0 0 0.66015,-2.138672 l -14.95898,-28.306641 a 1.5825,1.5825 0 0 0 -2.13867,-0.658203 z"
+           id="path137" />
         <circle
-           style="fill:#ffffff;stroke:none;stroke-width:4.27275;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
+           style="fill:#ffffff;stroke-width:4.27275;stroke-linecap:round"
            id="path1238"
            cx="-419.20615"
            cy="809.32245"
@@ -58,7 +57,7 @@
            transform="rotate(-117.85467)" />
       </g>
       <path
-         style="fill:#ffffff;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:#ffffff;stroke-width:0.264583px"
          d="m 901.89656,-9.6181957 c 0,0 -13.68668,2.0187323 -24.63382,-5.9849133 0,0 10.04656,14.89204838 28.94727,16.33647817 0,0 -5.94055,-4.65118027 -4.31345,-10.35156487 z"
          id="path1401"
          sodipodi:nodetypes="cccc" />

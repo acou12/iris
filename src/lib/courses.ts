@@ -32,7 +32,7 @@ export const courses: Course[] = [
 				name: 'variables',
 				svelte: Variables,
 				feature: 1,
-				icon: '/icons/variables.svg'
+				icon: 'variables'
 			},
 			{ prettyName: 'Data Types', name: 'data-types', svelte: DataTypes },
 			{
@@ -55,20 +55,20 @@ export const courses: Course[] = [
 				name: 'simple-harmonic-motion',
 				svelte: Smh,
 				feature: 0,
-				icon: '/icons/simple-harmonic-motion.svg'
+				icon: 'simple-harmonic-motion'
 			},
 			{
 				prettyName: 'Momentum',
 				name: 'momentum',
 				svelte: Momentum,
 				feature: 2.5,
-				icon: '/icons/momentum.svg'
+				icon: 'momentum'
 			},
 			{
 				prettyName: 'Angular Momentum',
 				name: 'angular-momentum',
 				svelte: AngularMomentum,
-				icon: '/icons/angular-momentum.svg'
+				icon: 'angular-momentum'
 			},
 			{ prettyName: 'Electrostatics', name: 'electrostatics' },
 			{ prettyName: 'Capacitors', name: 'capacitors' }
@@ -91,7 +91,7 @@ export const courses: Course[] = [
 		name: 'calculus',
 		color: '#43aa8b',
 		topics: [
-			{ prettyName: 'Limits', name: 'limits', feature: 2, icon: '/icons/limits.svg' },
+			{ prettyName: 'Limits', name: 'limits', feature: 2, icon: 'limits' },
 			{ prettyName: 'Differentiation', name: 'differentiation' },
 			{ prettyName: 'Integration', name: 'integration' },
 			{ prettyName: 'Maxima', name: 'maxima' },
@@ -103,7 +103,7 @@ export const courses: Course[] = [
 		name: 'vector-calculus',
 		color: '#577590',
 		topics: [
-			{ prettyName: 'Curl', name: 'curl', svelte: Curl, feature: 3, icon: '/icons/curl.svg' },
+			{ prettyName: 'Curl', name: 'curl', svelte: Curl, feature: 3, icon: 'curl' },
 			{ prettyName: 'Divergence', name: 'divergence' },
 			{ prettyName: 'Gradient', name: 'gradient' },
 			{ prettyName: "Green's Theorem", name: 'greens-theorem' }

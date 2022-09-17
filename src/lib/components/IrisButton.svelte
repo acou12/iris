@@ -8,9 +8,6 @@
 	export let icon: string | undefined = undefined;
 
 	const svg = icon === undefined ? '' : svgs[`./icons/${icon}.svg`];
-
-	console.log(svg);
-	console.log(svgs);
 </script>
 
 <a {href}>

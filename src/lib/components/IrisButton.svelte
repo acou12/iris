@@ -1,20 +1,16 @@
 <script lang="ts">
+	import { svgs } from '$lib/courses';
 	import { irisButton } from '$lib/styles/emotion';
-	import { css } from '@emotion/css';
 	import { onMount } from 'svelte';
 
 	export let color: string;
 	export let href: string;
 	export let icon: string | undefined = undefined;
 
-	let svg = '';
+	const svg = icon === undefined ? '' : svgs[`./icons/${icon}.svg`];
 
-	onMount(async () => {
-		if (icon !== undefined) {
-			svg = (await import(`../icons/${icon}.svg?raw`)).default;
-			console.log(svg);
-		}
-	});
+	console.log(svg);
+	console.log(svgs);
 </script>
 
 <a {href}>

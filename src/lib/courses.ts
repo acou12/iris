@@ -110,3 +110,5 @@ export const courses: Course[] = [
 		]
 	}
 ];
+
+export const svgs = import.meta.glob('./icons/*.svg', { as: 'raw' });

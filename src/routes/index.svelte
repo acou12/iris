@@ -34,7 +34,7 @@
 		{#each courses
 			.flatMap((c) => c.topics.map((t) => ({ ...t, parent: c })))
 			.filter((t) => t.feature !== undefined)
-			.sort((t) => t.feature) as topic}
+			.sort((t, u) => t.feature - u.feature) as topic}
 			<IrisButton
 				href="/{topic.parent.name}/{topic.name}"
 				color={topic.parent.color}

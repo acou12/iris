@@ -5,6 +5,8 @@ import AngularMomentum from '$lib/content/physics/angular-momentum/angular-momen
 import Momentum from '$lib/content/physics/momentum/momentum.md';
 import Smh from '$lib/content/physics/shm/simple-harmonic-motion.md';
 import Curl from '$lib/content/vector-calc/curl/curl.md';
+import SetTheory from '$lib/content/discrete-math/set-theory/set-theory.md';
+import GraphTheory from '$lib/content/discrete-math/graph-theory/graph-theory.md';
 
 export type Course = {
 	prettyName: string;
@@ -95,18 +97,37 @@ export const courses: Course[] = [
 			{ prettyName: 'Differentiation', name: 'differentiation' },
 			{ prettyName: 'Integration', name: 'integration' },
 			{ prettyName: 'Maxima', name: 'maxima' },
-			{ prettyName: 'Sequences and Series', name: 'sequences-and-series' }
-		]
-	},
-	{
-		prettyName: 'Vector Caclulus',
-		name: 'vector-calculus',
-		color: '#577590',
-		topics: [
+			{ prettyName: 'Sequences and Series', name: 'sequences-and-series' },
 			{ prettyName: 'Curl', name: 'curl', svelte: Curl, feature: 3, icon: 'curl' },
 			{ prettyName: 'Divergence', name: 'divergence' },
 			{ prettyName: 'Gradient', name: 'gradient' },
 			{ prettyName: "Green's Theorem", name: 'greens-theorem' }
+		]
+	},
+	{
+		prettyName: 'Discrete Math',
+		name: 'discrete-math',
+		color: '#577590',
+		topics: [
+			{
+				prettyName: 'Set Theory',
+				name: 'set-theory',
+				svelte: SetTheory,
+				icon: 'set-theory'
+			},
+			{
+				prettyName: 'Graph Theory',
+				name: 'graph-theory',
+				svelte: GraphTheory,
+				icon: 'graphs',
+				feature: 3
+			},
+			{
+				prettyName: 'Logic',
+				name: 'logic',
+				svelte: SetTheory,
+				icon: 'logic'
+			}
 		]
 	}
 ];

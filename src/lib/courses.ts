@@ -7,6 +7,7 @@ import Smh from '$lib/content/physics/shm/simple-harmonic-motion.md';
 import Curl from '$lib/content/vector-calc/curl/curl.md';
 import SetTheory from '$lib/content/discrete-math/set-theory/set-theory.md';
 import GraphTheory from '$lib/content/discrete-math/graph-theory/graph-theory.md';
+import ImaginaryTime from '$lib/content/esophysics/imaginary-time/imaginary-time.md';
 
 export type Course = {
 	prettyName: string;
@@ -125,8 +126,30 @@ export const courses: Course[] = [
 			{
 				prettyName: 'Logic',
 				name: 'logic',
-				svelte: SetTheory,
 				icon: 'logic'
+			}
+		]
+	},
+	{
+		prettyName: 'Esophysics',
+		name: 'esophysics',
+		color: '#bf81ea',
+		topics: [
+			{
+				prettyName: 'Imaginary Time',
+				svelte: ImaginaryTime,
+				name: 'imaginary-time',
+				icon: 'imaginary-time'
+			},
+			{
+				prettyName: 'Hyperbolic Gravity',
+				name: 'hyperbolic-gravity',
+				icon: 'hyperbolic'
+			},
+			{
+				prettyName: 'Dilatory Kinematics',
+				name: 'dilatory-kinematics',
+				icon: 'dilation'
 			}
 		]
 	}

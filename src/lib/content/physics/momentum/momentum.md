@@ -34,9 +34,21 @@ So, when two objects are in contact, they always transfer momentum between each 
 
 ## Collisions
 
-The law of conservation of momemtum is most useful when analyzing a collision between two or more objects. All collisions between objects conserve the total amount of momentum, so if we know the initial velocity and masses of objects, we can determine how the objects should move after a collision. However, not all collisions act exactly the same. A collision can either be **elastic** or **inelastic**, depending on whether **kinetic energy** is conserved. You may be tempted to say that kinetic energy should always be conserved, due to the conservation of energy. However, during a collision kinetic energy could be transfered into many other types of energy, such as thermal, sound, or even potential energy. Momentum, however, is necessarily conserved, as the forces between two colliding objects are always equal and opposite.
+The law of conservation of momemtum is most useful when analyzing a collision between two or more objects. All collisions between objects conserve the total amount of momentum, so if we know the initial velocity and masses of objects, we can determine how the objects should move after a collision. However, not all collisions act exactly the same. A collision can either be **elastic** or **inelastic**, depending on whether **kinetic energy** is conserved.
 
-Here's an example of an elastic collision between two balls.
+<!-- You may be tempted to say that kinetic energy should always be conserved, due to the conservation of energy. However, during a collision kinetic energy could be transfered into many other types of energy, such as thermal, sound, or even potential energy. Momentum, however, is necessarily conserved, as the forces between two colliding objects are always equal and opposite. -->
+
+### Elastic Collision
+
+When analyzing collisions, it can often be difficult to determine the exact velocities of objects after the collision. While the conservation of momentum restricts the possible space, it often still leaves infinitely many possible velocities.
+
+<!-- todo: some examples of different possibilites from a single initial velocity set -->
+
+Collisions that are **elastic** (preserve kinetic energy) are usually the easiest to analyze, since they add an aditional restraint on the system. While it's unlikely that all kinetic energy is conserved in a real collision, these types of collisions are usually very good approximations of real life phenomena. For example, gas particles in a container tend to collide almost perfectly elastically.
+
+<!-- elastic collision (gas containers) -->
+
+Let's consider a specific example. Suppose two particles are travelling towards each other at velocities of $2 \frac ms$ and $-3 \frac ms$, and start $5 m$ away from each other.
 
 ## Impulse
 
@@ -46,7 +58,7 @@ $$
 \vec J = \int \vec F \, dt
 $$
 
-To see that this represents a change in impulse, let's go back to the momentum form of Newton's Second Law:
+To see that this represents a change in momentum, let's go back to the momentum form of Newton's Second Law:
 
 $$
 \vec F = {d\vec p \over dt}

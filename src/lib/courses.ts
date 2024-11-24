@@ -4,6 +4,7 @@ import DataTypes from '$lib/content/computer-science/data-types/data-types.md';
 import AngularMomentum from '$lib/content/physics/angular-momentum/angular-momentum.md';
 import Momentum from '$lib/content/physics/momentum/momentum.md';
 import Smh from '$lib/content/physics/shm/simple-harmonic-motion.md';
+import GraphAlgorithms from '$lib/content/foundations/graph-algorithms/graph-algorithms.md';
 import Curl from '$lib/content/vector-calc/curl/curl.md';
 
 export type Course = {
@@ -98,15 +99,37 @@ export const courses: Course[] = [
 			{ prettyName: 'Sequences and Series', name: 'sequences-and-series' }
 		]
 	},
+	// {
+	// 	prettyName: 'Vector Caclulus',
+	// 	name: 'vector-calculus',
+	// 	color: '#577590',
+	// 	topics: [
+	// 		{ prettyName: 'Curl', name: 'curl', svelte: Curl, feature: 3, icon: 'curl' },
+	// 		{ prettyName: 'Divergence', name: 'divergence' },
+	// 		{ prettyName: 'Gradient', name: 'gradient' },
+	// 		{ prettyName: "Green's Theorem", name: 'greens-theorem' }
+	// 	]
+	// }
 	{
-		prettyName: 'Vector Caclulus',
-		name: 'vector-calculus',
-		color: '#577590',
+		prettyName: 'Foundations',
+		name: 'foundations',
+		color: '#205cbd',
 		topics: [
-			{ prettyName: 'Curl', name: 'curl', svelte: Curl, feature: 3, icon: 'curl' },
-			{ prettyName: 'Divergence', name: 'divergence' },
-			{ prettyName: 'Gradient', name: 'gradient' },
-			{ prettyName: "Green's Theorem", name: 'greens-theorem' }
+			{ prettyName: 'Asymptotic Notation', name: 'asymptotic-notation' },
+			{ prettyName: 'Loop Analysis', name: 'loop-analysis' },
+			{ prettyName: 'Recurrence Relations', name: 'recurrence-relations' },
+			{ prettyName: 'Probabilistic Analysis', name: 'probabilistic-analysis' },
+			{ prettyName: 'Quick Sort', name: 'quick-sort' },
+			{ prettyName: 'Hashing', name: 'hashing' },
+			{ prettyName: 'Table Doubling', name: 'table-doubling' },
+			{ prettyName: 'Heaps and Data Structures', name: 'heaps-and-data-structures' },
+			{ prettyName: 'Binary Search Trees', name: 'binary-search-trees' },
+			{ prettyName: 'Red Black Trees', name: 'red-black-trees' },
+			{ prettyName: 'Graph Algorithms', name: 'graph-algorithms', svelte: GraphAlgorithms },
+			{ prettyName: 'Greedy Graph Algorithms', name: 'greedy-graph-algorithms' },
+			{ prettyName: 'Union Find', name: 'union-find' },
+			{ prettyName: 'NP Completeness', name: 'np-completeness' },
+			{ prettyName: 'Dynamic Programming', name: 'dynamic-programming' }
 		]
 	}
 ];

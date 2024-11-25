@@ -2,11 +2,10 @@
 import Graph from './graph.svelte';
 </script>
 
-## What is a graph?
+## Breadth-first Search
 
-A graph has two components:
+<Graph searchType={"breadth"}/>
 
-- A set of **vertices**, $V$. These can be anything, but for convenience we typically enumerate these using $v_i$, where $i$ is a positive integer.
-- A set of **edges**, $E$. An edge is a pair $(v_i, v_j)$, representing a _connection_ between two vertices.
+## Depth-first Search
 
-<Graph/>
+<Graph searchType={"depth"}/>

@@ -11,6 +11,7 @@ export class Canvas2DPrimativeDrawer implements PrimativeDrawer {
 		this.context.moveTo(from.x, from.y);
 		this.context.lineTo(to.x, to.y);
 		this.context.stroke();
+		this.context.closePath();
 	}
 
 	drawRect(
@@ -25,6 +26,7 @@ export class Canvas2DPrimativeDrawer implements PrimativeDrawer {
 		this.context.rect(topLeft.x, topLeft.y, bottomRight.x - topLeft.x, bottomRight.y - topLeft.y);
 		this.context.fill();
 		this.context.stroke();
+		this.context.closePath();
 	}
 
 	drawCircle(
@@ -39,5 +41,6 @@ export class Canvas2DPrimativeDrawer implements PrimativeDrawer {
 		this.context.ellipse(at.x, at.y, radius, radius, 0, 0, Math.PI * 2);
 		this.context.fill();
 		this.context.stroke();
+		this.context.closePath();
 	}
 }

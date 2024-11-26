@@ -5,7 +5,7 @@ import AngularMomentum from '$lib/content/physics/angular-momentum/angular-momen
 import Momentum from '$lib/content/physics/momentum/momentum.md';
 import Smh from '$lib/content/physics/shm/simple-harmonic-motion.md';
 import GraphAlgorithms from '$lib/content/foundations/graph-algorithms/graph-algorithms.md';
-import Curl from '$lib/content/vector-calc/curl/curl.md';
+import SweepLine from '$lib/content/interactive-systems/sweep-line.md';
 
 export type Course = {
 	prettyName: string;
@@ -130,6 +130,18 @@ export const courses: Course[] = [
 			{ prettyName: 'Union Find', name: 'union-find' },
 			{ prettyName: 'NP Completeness', name: 'np-completeness' },
 			{ prettyName: 'Dynamic Programming', name: 'dynamic-programming' }
+		]
+	},
+	{
+		prettyName: 'Interactive Systems',
+		name: 'interactive-systems',
+		color: '#0d8000',
+		topics: [
+			{
+				prettyName: 'Sweep Line Collision Detection',
+				name: 'sweep-line',
+				svelte: SweepLine
+			}
 		]
 	}
 ];

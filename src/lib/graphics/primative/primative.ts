@@ -1,6 +1,8 @@
 import { Point } from '../point/point';
 
 export interface PrimativeDrawer {
+	getCanvasDimensions(): Point;
+
 	drawLine(
 		from: Point,
 		to: Point,
@@ -9,6 +11,7 @@ export interface PrimativeDrawer {
 			strokeWidth: number;
 		}
 	): void;
+
 	drawRect(
 		topLeft: Point,
 		bottomRight: Point,
@@ -18,6 +21,7 @@ export interface PrimativeDrawer {
 			strokeWidth: number;
 		}
 	): void;
+
 	drawCircle(
 		at: Point,
 		radius: number,
@@ -27,6 +31,7 @@ export interface PrimativeDrawer {
 			strokeWidth: number;
 		}
 	): void;
+
 	drawText(
 		text: string,
 		center: Point,

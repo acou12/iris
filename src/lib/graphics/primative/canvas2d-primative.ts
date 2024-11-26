@@ -1,8 +1,16 @@
-import { Point } from '../point/point';
+import { p, Point } from '../point/point';
 import type { PrimativeDrawer } from './primative';
 
 export class Canvas2DPrimativeDrawer implements PrimativeDrawer {
-	constructor(private context: CanvasRenderingContext2D) {}
+	context: CanvasRenderingContext2D;
+
+	constructor(private canvas: HTMLCanvasElement) {
+		this.context = canvas.getContext('2d');
+	}
+
+	getCanvasDimensions(): Point {
+		return p(this.canvas.width, this.canvas.height);
+	}
 
 	drawLine(from: Point, to: Point, style: { stroke: string; strokeWidth: number }): void {
 		this.context.strokeStyle = style.stroke;

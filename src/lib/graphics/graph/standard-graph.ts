@@ -12,15 +12,12 @@ export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
 	private vertexColorMap: Map<V, AnimatedColor>;
 	private animating: boolean;
 
-	private primative: PrimativeDrawer;
-
-	constructor(context: CanvasRenderingContext2D) {
+	constructor(private primative: PrimativeDrawer) {
 		this.vertexSet = new Set();
 		this.adjMap = new Map();
 		this.locationMap = new Map();
 		this.vertexColorMap = new Map();
 		this.animating = false;
-		this.primative = new Canvas2DPrimativeDrawer(context);
 	}
 
 	getWeight(e: [V, V]): number {

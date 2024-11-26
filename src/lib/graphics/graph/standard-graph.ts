@@ -12,7 +12,7 @@ export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
 	private vertexColorMap: Map<V, AnimatedColor>;
 	private animating: boolean;
 
-	constructor(private primative: PrimativeDrawer) {
+	constructor(private primative: PrimativeDrawer, private showWeights: boolean = true) {
 		this.vertexSet = new Set();
 		this.adjMap = new Map();
 		this.locationMap = new Map();
@@ -101,22 +101,24 @@ export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
 					strokeWidth: 10
 				});
 
-				let center = uLocation.add(vLocation).multiply(1 / 2);
+				if (this.showWeights) {
+					let center = uLocation.add(vLocation).multiply(1 / 2);
 
-				let diff = vLocation.add(uLocation.multiply(-1));
+					let diff = vLocation.add(uLocation.multiply(-1));
 
-				let offset = p(diff.y, -diff.x);
-				offset = offset.multiply((1 / offset.length()) * 20);
+					let offset = p(diff.y, -diff.x);
+					offset = offset.multiply((1 / offset.length()) * 20);
 
-				if (offset.y > 0) {
-					offset = offset.multiply(-1);
+					if (offset.y > 0) {
+						offset = offset.multiply(-1);
+					}
+
+					this.primative.drawText(weight.toString(), center.add(offset), {
+						fill: '#555',
+						stroke: '#555',
+						strokeWidth: 0.001
+					});
 				}
-
-				this.primative.drawText(weight.toString(), center.add(offset), {
-					fill: '#555',
-					stroke: '#555',
-					strokeWidth: 0.001
-				});
 			}
 		}
 

@@ -26,13 +26,13 @@ class Block {
 				this.color.animateTo(new Color(0, 0, 0));
 				break;
 			case BlockState.INTERSECTING:
-				this.color.animateTo(new Color(255, 0, 0));
+				this.color.animateTo(new Color(111, 26, 214));
 				break;
 			case BlockState.DONE:
 				this.color.animateTo(new Color(0, 0, 0));
 				break;
 			case BlockState.COLLIDED:
-				this.color.animateTo(new Color(255, 0, 0));
+				this.color.animateTo(new Color(111, 26, 214));
 				break;
 		}
 	}
@@ -46,29 +46,9 @@ class Block {
 	}
 }
 
-class Collision {
-	width: number;
-	constructor(public from: Point, public to: Point) {
-		this.width = 0;
-	}
-
-	update(delta: number) {
-		this.width += (10 - this.width) * 0.1;
-	}
-
-	draw(primative: PrimativeDrawer) {
-		primative.drawLine(this.from, this.to, {
-			stroke: '#000',
-			strokeWidth: this.width
-		});
-	}
-}
-
 export class SweepLineVisualization {
 	private sweepLinePosition: number;
 	private blocks: Block[];
-
-	private collisions: Collision[];
 
 	private interactiveMode: boolean;
 	private mousePosition: Point;
@@ -76,8 +56,6 @@ export class SweepLineVisualization {
 	private initializeRandomBlocks() {
 		this.sweepLinePosition = 0;
 		this.blocks = [];
-
-		this.collisions = [];
 
 		for (let i = 0; i < 30; i++) {
 			let width = Math.floor(Math.random() * 50) + 50;
@@ -136,17 +114,6 @@ export class SweepLineVisualization {
 								) {
 									block.state = BlockState.COLLIDED;
 									otherBlock.state = BlockState.COLLIDED;
-
-									this.collisions.push(
-										new Collision(
-											block.topLeft.add(
-												block.bottomRight.add(block.topLeft.multiply(-1)).multiply(1 / 2)
-											),
-											otherBlock.topLeft.add(
-												otherBlock.bottomRight.add(otherBlock.topLeft.multiply(-1)).multiply(1 / 2)
-											)
-										)
-									);
 								}
 							}
 						}
@@ -162,10 +129,6 @@ export class SweepLineVisualization {
 				case BlockState.COLLIDED:
 					break;
 			}
-		}
-
-		for (const collision of this.collisions) {
-			collision.update(delta);
 		}
 
 		if (this.interactiveMode) {
@@ -184,10 +147,6 @@ export class SweepLineVisualization {
 	draw(): void {
 		for (const block of this.blocks) {
 			block.draw(this.primative);
-		}
-
-		for (const collision of this.collisions) {
-			collision.draw(this.primative);
 		}
 
 		this.primative.drawLine(

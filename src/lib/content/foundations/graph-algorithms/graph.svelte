@@ -28,7 +28,10 @@
 		canvas.height = canvas.clientHeight;
 
 		primative = new Canvas2DPrimativeDrawer(canvas);
-		graph = new StandardAnimatedGraph<number>(primative);
+		graph = new StandardAnimatedGraph<number>(
+			primative,
+			!(searchType == 'breadth' || searchType == 'depth')
+		);
 
 		const test = [
 			p(121, 263),

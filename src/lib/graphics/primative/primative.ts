@@ -27,4 +27,13 @@ export interface PrimativeDrawer {
 			strokeWidth: number;
 		}
 	): void;
+	drawText(
+		text: string,
+		center: Point,
+		style: {
+			fill: string;
+			stroke: string;
+			strokeWidth: number;
+		}
+	);
 }

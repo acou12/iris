@@ -43,4 +43,18 @@ export class Canvas2DPrimativeDrawer implements PrimativeDrawer {
 		this.context.stroke();
 		this.context.closePath();
 	}
+
+	drawText(
+		text: string,
+		center: Point,
+		style: {
+			fill: string;
+		}
+	) {
+		this.context.fillStyle = style.fill;
+		this.context.textAlign = 'center';
+		this.context.textBaseline = 'middle';
+		this.context.font = '20px monospace';
+		this.context.fillText(text, center.x, center.y);
+	}
 }

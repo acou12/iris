@@ -8,8 +8,11 @@ import { Color } from './color/color';
  */
 export interface AnimatedGraph<V> {
 	addVertex(v: V, location: Point): void;
-	addEdge(v1: V, v2: V): void;
-	getAdjacent(v: V): [V, V][];
+	addEdge(v1: V, v2: V, w: number): void;
+	getAdjacent(v: V): [V, V, number][];
+
+	getWeight(e: [V, V]): number;
+	setWeight(e: [V, V], weight: number): void;
 
 	startAnimating(): void;
 	stopAnimating(): void;

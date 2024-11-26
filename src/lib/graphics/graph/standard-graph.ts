@@ -1,4 +1,4 @@
-import { Point } from '../point/point';
+import { p, Point } from '../point/point';
 import { Canvas2DPrimativeDrawer } from '../primative/canvas2d-primative';
 import type { PrimativeDrawer } from '../primative/primative';
 import { AnimatedColor } from './color/animated-color';
@@ -7,7 +7,7 @@ import type { AnimatedGraph } from './graph';
 
 export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
 	private vertexSet: Set<V>;
-	private adjMap: Map<V, { adj: V; color: AnimatedColor }[]>;
+	private adjMap: Map<V, { adj: V; weight: number; color: AnimatedColor }[]>;
 	private locationMap: Map<V, Point>;
 	private vertexColorMap: Map<V, AnimatedColor>;
 	private animating: boolean;
@@ -23,6 +23,14 @@ export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
 		this.primative = new Canvas2DPrimativeDrawer(context);
 	}
 
+	getWeight(e: [V, V]): number {
+		return this.adjMap.get(e[0]).find((edge) => edge.adj === e[1])!.weight;
+	}
+
+	setWeight(e: [V, V], weight: number): void {
+		this.adjMap.get(e[0]).find((edge) => edge.adj === e[1])!.weight = weight;
+	}
+
 	addVertex(v: V, location: Point): void {
 		this.vertexSet.add(v);
 		this.adjMap.set(v, []);
@@ -30,13 +38,13 @@ export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
 		this.locationMap.set(v, location);
 	}
 
-	addEdge(v1: V, v2: V): void {
-		this.adjMap.get(v1).push({ adj: v2, color: new AnimatedColor(new Color(0, 0, 0)) });
-		this.adjMap.get(v2).push({ adj: v1, color: new AnimatedColor(new Color(0, 0, 0)) });
+	addEdge(v1: V, v2: V, weight: number): void {
+		this.adjMap.get(v1).push({ adj: v2, weight, color: new AnimatedColor(new Color(0, 0, 0)) });
+		this.adjMap.get(v2).push({ adj: v1, weight, color: new AnimatedColor(new Color(0, 0, 0)) });
 	}
 
-	getAdjacent(v: V): [V, V][] {
-		return this.adjMap.get(v).map((adj) => [v, adj.adj]);
+	getAdjacent(v: V): [V, V, number][] {
+		return this.adjMap.get(v).map((edge) => [v, edge.adj, edge.weight]);
 	}
 
 	startAnimating(): void {
@@ -86,11 +94,31 @@ export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
 	}
 
 	draw(): void {
-		for (const [v, adj] of this.adjMap.entries()) {
-			for (const u of adj) {
-				this.primative.drawLine(this.locationMap.get(u.adj), this.locationMap.get(v), {
-					stroke: lighten(u.color.getAnimatedColor()).toString(),
+		for (const [u, adj] of this.adjMap.entries()) {
+			for (const { adj: v, color, weight } of adj) {
+				let uLocation = this.locationMap.get(u);
+				let vLocation = this.locationMap.get(v);
+
+				this.primative.drawLine(uLocation, vLocation, {
+					stroke: lighten(color.getAnimatedColor()).toString(),
 					strokeWidth: 10
+				});
+
+				let center = uLocation.add(vLocation).multiply(1 / 2);
+
+				let diff = vLocation.add(uLocation.multiply(-1));
+
+				let offset = p(diff.y, -diff.x);
+				offset = offset.multiply((1 / offset.length()) * 20);
+
+				if (offset.y > 0) {
+					offset = offset.multiply(-1);
+				}
+
+				this.primative.drawText(weight.toString(), center.add(offset), {
+					fill: '#555',
+					stroke: '#555',
+					strokeWidth: 0.001
 				});
 			}
 		}

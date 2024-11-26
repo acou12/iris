@@ -7,16 +7,19 @@
 	import { onMount } from 'svelte';
 	import { BreadthFirstSearcher } from './search/bfs';
 	import { DepthFirstSearcher } from './search/dfs';
-	import type { GraphSearcher } from './search/search';
+	import type { Algorithm } from './algorithm';
+	import { DijstrasShortestPathAlgorithm } from './weighted/dijkstras';
+	import { PrimsMSTAlgorithm } from './weighted/prims';
+	import { BottleneckMaxSTAlgorithm } from './weighted/bottleneck';
 
-	export let searchType: 'breadth' | 'depth';
+	export let searchType: 'breadth' | 'depth' | 'shortest' | 'mst' | 'maxst';
 
 	// @hmr:reset
 	let canvas: HTMLCanvasElement;
 	let context: CanvasRenderingContext2D;
 	let primative: PrimativeDrawer;
 	let graph: AnimatedGraph<number>;
-	let search: GraphSearcher<number>;
+	let algorithm: Algorithm<number>;
 
 	onMount(() => {
 		context = canvas.getContext('2d');
@@ -45,33 +48,39 @@
 			graph.addVertex(i, test[i]);
 		}
 
-		graph.addEdge(0, 1);
-		graph.addEdge(0, 2);
-		graph.addEdge(0, 3);
-		graph.addEdge(1, 4);
-		graph.addEdge(2, 4);
-		graph.addEdge(3, 5);
-		graph.addEdge(3, 8);
-		graph.addEdge(4, 5);
-		graph.addEdge(4, 6);
-		graph.addEdge(5, 6);
-		graph.addEdge(5, 7);
-		graph.addEdge(5, 8);
-		graph.addEdge(6, 9);
-		graph.addEdge(6, 10);
+		graph.addEdge(0, 1, Math.floor(Math.random() * 10) + 1);
+		graph.addEdge(0, 2, Math.floor(Math.random() * 10) + 1);
+		graph.addEdge(0, 3, Math.floor(Math.random() * 10) + 1);
+		graph.addEdge(1, 4, Math.floor(Math.random() * 10) + 1);
+		graph.addEdge(2, 4, Math.floor(Math.random() * 10) + 1);
+		graph.addEdge(3, 5, Math.floor(Math.random() * 10) + 1);
+		graph.addEdge(3, 8, Math.floor(Math.random() * 10) + 1);
+		graph.addEdge(4, 5, Math.floor(Math.random() * 10) + 1);
+		graph.addEdge(4, 6, Math.floor(Math.random() * 10) + 1);
+		graph.addEdge(5, 6, Math.floor(Math.random() * 10) + 1);
+		graph.addEdge(5, 7, Math.floor(Math.random() * 10) + 1);
+		graph.addEdge(5, 8, Math.floor(Math.random() * 10) + 1);
+		graph.addEdge(6, 9, Math.floor(Math.random() * 10) + 1);
+		graph.addEdge(6, 10, Math.floor(Math.random() * 10) + 1);
 
 		if (searchType === 'breadth') {
-			search = new BreadthFirstSearcher(graph);
-		} else {
-			search = new DepthFirstSearcher(graph);
+			algorithm = new BreadthFirstSearcher(graph);
+		} else if (searchType === 'depth') {
+			algorithm = new DepthFirstSearcher(graph);
+		} else if (searchType === 'shortest') {
+			algorithm = new DijstrasShortestPathAlgorithm(graph);
+		} else if (searchType === 'mst') {
+			algorithm = new PrimsMSTAlgorithm(graph);
+		} else if (searchType === 'maxst') {
+			algorithm = new BottleneckMaxSTAlgorithm(graph);
 		}
 
-		search.initalize(0);
+		algorithm.initalize(0);
 
 		draw(0);
 
 		canvas.addEventListener('click', (event) => {
-			search.step();
+			algorithm.step();
 		});
 	});
 

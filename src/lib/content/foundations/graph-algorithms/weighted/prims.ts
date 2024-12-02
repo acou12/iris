@@ -9,6 +9,8 @@ const DONE_COLOR = new Color(230, 230, 230);
 export class PrimsMSTAlgorithm<T> implements Algorithm<T> {
 	private fringe: [T, T, number][];
 	private visited: Set<T>;
+	public tree: Map<T, T>;
+	public height: Map<T, number>;
 	private graph: AnimatedGraph<T>;
 
 	constructor(graph: AnimatedGraph<T>) {
@@ -18,6 +20,9 @@ export class PrimsMSTAlgorithm<T> implements Algorithm<T> {
 	public initalize(start: T): void {
 		this.fringe = [[undefined, start, 0]];
 		this.visited = new Set();
+		this.tree = new Map();
+		this.height = new Map();
+		this.height.set(start, 0);
 		this.graph.colorVertex(start, FRINGE_COLOR);
 	}
 
@@ -33,6 +38,10 @@ export class PrimsMSTAlgorithm<T> implements Algorithm<T> {
 				this.graph.colorEdge([prev, next], DONE_COLOR);
 			}
 		} else {
+			this.tree.set(next, prev);
+			if (prev !== undefined) {
+				this.height.set(next, this.height.get(prev) + 1);
+			}
 			this.visited.add(next);
 			this.graph.colorVertex(next, VISITED_COLOR);
 			if (prev !== undefined) {

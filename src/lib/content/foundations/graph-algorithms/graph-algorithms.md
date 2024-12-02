@@ -1,5 +1,6 @@
 <script>
 import Graph from './graph.svelte';
+import MSTHover from './mst-hover.svelte';
 </script>
 
 ## Graphs
@@ -27,3 +28,7 @@ A graph is an abstraction representing some objects and connections between pair
 ## Minimum Bottleneck Tree
 
 <Graph searchType={"maxst"}/>
+
+## MST Lemma
+
+<MSTHover />

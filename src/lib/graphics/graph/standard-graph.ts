@@ -20,6 +20,16 @@ export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
 		this.animating = false;
 	}
 
+	getAllEdges(): [V, V, number][] {
+		const used = new Set();
+		const result: [V, V, number][] = [];
+		for (const v of this.vertexSet) {
+			result.push(...this.getAdjacent(v).filter(([_from, to, _weight]) => !used.has(to)));
+			used.add(v);
+		}
+		return result;
+	}
+
 	getWeight(e: [V, V]): number {
 		return this.adjMap.get(e[0]).find((edge) => edge.adj === e[1])!.weight;
 	}
@@ -79,9 +89,6 @@ export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
 		for (const [v, adj] of this.adjMap.entries()) {
 			for (const u of adj) {
 				u.color.update(delta);
-				if (v === 0) {
-					console.log(u.color);
-				}
 			}
 		}
 

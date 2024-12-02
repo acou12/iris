@@ -32,7 +32,7 @@ class Block {
 				this.color.animateTo(new Color(0, 0, 0));
 				break;
 			case BlockState.COLLIDED:
-				this.color.animateTo(new Color(111, 26, 214));
+				this.color.animateTo(new Color(255, 0, 0));
 				break;
 		}
 	}

@@ -11,6 +11,8 @@ export interface AnimatedGraph<V> {
 	addEdge(v1: V, v2: V, w: number): void;
 	getAdjacent(v: V): [V, V, number][];
 
+	getAllEdges(): [V, V, number][];
+
 	getWeight(e: [V, V]): number;
 	setWeight(e: [V, V], weight: number): void;
 

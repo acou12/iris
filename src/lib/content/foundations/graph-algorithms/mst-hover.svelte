@@ -1,17 +1,13 @@
 <script lang="ts">
 	import type { AnimatedGraph } from '$lib/graphics/graph/graph';
-	import { StandardAnimatedGraph } from '$lib/graphics/graph/standard-graph';
-	import { p } from '$lib/graphics/point/point';
-	import { Canvas2DPrimativeDrawer } from '$lib/graphics/primative/canvas2d-primative';
 	import type { PrimativeDrawer } from '$lib/graphics/primative/primative';
-	import { onMount } from 'svelte';
-	import { BreadthFirstSearcher } from './search/bfs';
-	import { DepthFirstSearcher } from './search/dfs';
 	import type { Algorithm } from './algorithm';
-	import { DijstrasShortestPathAlgorithm } from './weighted/dijkstras';
-	import { PrimsMSTAlgorithm } from './weighted/prims';
-	import { BottleneckMaxSTAlgorithm } from './weighted/bottleneck';
+
+	import { onMount } from 'svelte';
+
+	import { Canvas2DPrimativeDrawer } from '$lib/graphics/primative/canvas2d-primative';
 	import { HoverMSTGraph } from '$lib/graphics/graph/hover-mst-graph';
+	import { wally } from '$lib/graphics/graph/presets';
 
 	// @hmr:reset
 	let canvas: HTMLCanvasElement;
@@ -27,40 +23,7 @@
 		canvas.height = canvas.clientHeight;
 
 		primative = new Canvas2DPrimativeDrawer(canvas);
-		graph = new StandardAnimatedGraph<number>(primative, false);
-
-		const test = [
-			p(121, 263),
-			p(239, 68),
-			p(275, 207),
-			p(347, 358),
-			p(417, 102),
-			p(491, 241),
-			p(528, 56),
-			p(600, 200),
-			p(636, 337),
-			p(711, 60),
-			p(773, 235)
-		];
-
-		for (let i = 0; i < test.length; i++) {
-			graph.addVertex(i, test[i]);
-		}
-
-		graph.addEdge(0, 1, Math.floor(Math.random() * 10) + 1);
-		graph.addEdge(0, 2, Math.floor(Math.random() * 10) + 1);
-		graph.addEdge(0, 3, Math.floor(Math.random() * 10) + 1);
-		graph.addEdge(1, 4, Math.floor(Math.random() * 10) + 1);
-		graph.addEdge(2, 4, Math.floor(Math.random() * 10) + 1);
-		graph.addEdge(3, 5, Math.floor(Math.random() * 10) + 1);
-		graph.addEdge(3, 8, Math.floor(Math.random() * 10) + 1);
-		graph.addEdge(4, 5, Math.floor(Math.random() * 10) + 1);
-		graph.addEdge(4, 6, Math.floor(Math.random() * 10) + 1);
-		graph.addEdge(5, 6, Math.floor(Math.random() * 10) + 1);
-		graph.addEdge(5, 7, Math.floor(Math.random() * 10) + 1);
-		graph.addEdge(5, 8, Math.floor(Math.random() * 10) + 1);
-		graph.addEdge(6, 9, Math.floor(Math.random() * 10) + 1);
-		graph.addEdge(6, 10, Math.floor(Math.random() * 10) + 1);
+		graph = wally(primative, false);
 
 		const hoverGraph = new HoverMSTGraph(graph);
 

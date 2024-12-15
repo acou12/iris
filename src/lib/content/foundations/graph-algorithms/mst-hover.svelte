@@ -23,7 +23,7 @@
 		canvas.height = canvas.clientHeight;
 
 		primative = new Canvas2DPrimativeDrawer(canvas);
-		graph = wally(primative, false);
+		graph = wally(primative, canvas, false);
 
 		const hoverGraph = new HoverMSTGraph(graph);
 

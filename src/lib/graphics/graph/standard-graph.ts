@@ -1,23 +1,29 @@
-import { p, Point } from '../point/point';
-import { Canvas2DPrimativeDrawer } from '../primative/canvas2d-primative';
+import type { MathRenderer } from '../math/math-renderer';
 import type { PrimativeDrawer } from '../primative/primative';
+import type { AnimatedGraph } from './graph';
+
+import { KaTeXMathRenderer } from '../math/katex-math-renderer';
+import { p, Point } from '../point/point';
 import { AnimatedColor } from './color/animated-color';
 import { Color, lighten } from './color/color';
-import type { AnimatedGraph } from './graph';
 
 export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
 	private vertexSet: Set<V>;
 	private adjMap: Map<V, { adj: V; weight: number; color: AnimatedColor }[]>;
 	private locationMap: Map<V, Point>;
 	private vertexColorMap: Map<V, AnimatedColor>;
-	private animating: boolean;
+	private vertexLabelRenderer: MathRenderer<V>;
 
-	constructor(private primative: PrimativeDrawer, private showWeights: boolean = true) {
+	constructor(
+		private primative: PrimativeDrawer,
+		private canvas: HTMLCanvasElement,
+		private showWeights: boolean = true
+	) {
 		this.vertexSet = new Set();
 		this.adjMap = new Map();
 		this.locationMap = new Map();
 		this.vertexColorMap = new Map();
-		this.animating = false;
+		this.vertexLabelRenderer = new KaTeXMathRenderer(canvas);
 	}
 
 	getAllEdges(): [V, V, number][] {
@@ -42,6 +48,7 @@ export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
 		this.vertexSet.add(v);
 		this.adjMap.set(v, []);
 		this.vertexColorMap.set(v, new AnimatedColor(new Color(0, 0, 0)));
+		this.vertexLabelRenderer.addElement(v, `v_{${v}}`, location);
 		this.locationMap.set(v, location);
 	}
 
@@ -52,14 +59,6 @@ export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
 
 	getAdjacent(v: V): [V, V, number][] {
 		return this.adjMap.get(v).map((edge) => [v, edge.adj, edge.weight]);
-	}
-
-	startAnimating(): void {
-		this.animating = true;
-	}
-
-	stopAnimating(): void {
-		this.animating = false;
 	}
 
 	colorEdge(e: [V, V], color: Color): void {
@@ -130,7 +129,7 @@ export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
 		}
 
 		for (const v of this.vertexSet) {
-			this.primative.drawCircle(this.locationMap.get(v), 20, {
+			this.primative.drawCircle(this.locationMap.get(v), 30, {
 				fill: this.vertexColorMap.get(v).getAnimatedColor().toString(),
 				stroke: lighten(this.vertexColorMap.get(v).getAnimatedColor()).toString(),
 				strokeWidth: 5

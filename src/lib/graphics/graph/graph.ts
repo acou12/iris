@@ -16,9 +16,6 @@ export interface AnimatedGraph<V> {
 	getWeight(e: [V, V]): number;
 	setWeight(e: [V, V], weight: number): void;
 
-	startAnimating(): void;
-	stopAnimating(): void;
-
 	colorEdge(e: [V, V], color: Color): void;
 	colorVertex(v: V, color: Color): void;
 

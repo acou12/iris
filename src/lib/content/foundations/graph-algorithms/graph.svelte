@@ -29,7 +29,7 @@
 		canvas.height = canvas.clientHeight;
 
 		primative = new Canvas2DPrimativeDrawer(canvas);
-		graph = wally(primative, !(searchType == 'breadth' || searchType == 'depth'));
+		graph = wally(primative, canvas, !(searchType == 'breadth' || searchType == 'depth'));
 
 		if (searchType === 'breadth') {
 			algorithm = new BreadthFirstSearcher(graph);

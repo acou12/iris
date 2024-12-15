@@ -2,8 +2,12 @@ import { p } from '../point/point';
 import type { PrimativeDrawer } from '../primative/primative';
 import { StandardAnimatedGraph } from './standard-graph';
 
-export const wally = (primative: PrimativeDrawer, weightsDisplayed: boolean) => {
-	let graph = new StandardAnimatedGraph<number>(primative, weightsDisplayed);
+export const wally = (
+	primative: PrimativeDrawer,
+	canvas: HTMLCanvasElement,
+	weightsDisplayed: boolean
+) => {
+	let graph = new StandardAnimatedGraph<number>(primative, canvas, weightsDisplayed);
 
 	const test = [
 		p(121, 263),

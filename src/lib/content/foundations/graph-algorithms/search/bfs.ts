@@ -26,7 +26,7 @@ export class BreadthFirstSearcher<T> implements Algorithm<T> {
 	}
 
 	public step(): void {
-		let [prev, next] = this.fringe.shift();
+		const [prev, next] = this.fringe.shift();
 		if (this.visited.has(next)) {
 			if (prev !== undefined) {
 				this.graph.colorEdge([prev, next], DONE_COLOR);

@@ -1,5 +1,5 @@
-import { Point } from '../point/point';
-import { Color } from './color/color';
+import type { Point } from '../point/point';
+import type { Color } from './color/color';
 
 /**
  * This class stores information about a graph as

@@ -84,7 +84,7 @@ export class SweepLineVisualization {
 			this.mousePosition = p(e.offsetX, e.offsetY);
 		});
 
-		document.addEventListener('click', (e) => {
+		document.addEventListener('click', (_e) => {
 			this.interactiveMode = !this.interactiveMode;
 		});
 	}

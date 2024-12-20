@@ -1,5 +1,5 @@
 import katex from 'katex';
-import { Point } from '../point/point';
+import type { Point } from '../point/point';
 import type { MathRenderer } from './math-renderer';
 
 class KaTeXMathObject {

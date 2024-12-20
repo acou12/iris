@@ -91,7 +91,7 @@ export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
 	}
 
 	update(delta: number): void {
-		for (const [v, adj] of this.adjMap.entries()) {
+		for (const [_v, adj] of this.adjMap.entries()) {
 			for (const u of adj) {
 				u.color.update(delta);
 			}
@@ -105,8 +105,8 @@ export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
 	draw(): void {
 		for (const [u, adj] of this.adjMap.entries()) {
 			for (const { adj: v, color, weight } of adj) {
-				let uLocation = this.locationMap.get(u);
-				let vLocation = this.locationMap.get(v);
+				const uLocation = this.locationMap.get(u);
+				const vLocation = this.locationMap.get(v);
 
 				this.primative.drawLine(uLocation, vLocation, {
 					stroke: lighten(color.getAnimatedColor()).toString(),
@@ -114,9 +114,9 @@ export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
 				});
 
 				if (this.showWeights) {
-					let center = uLocation.add(vLocation).multiply(1 / 2);
+					const center = uLocation.add(vLocation).multiply(1 / 2);
 
-					let diff = vLocation.add(uLocation.multiply(-1));
+					const diff = vLocation.add(uLocation.multiply(-1));
 
 					let offset = p(diff.y, -diff.x);
 					offset = offset.multiply((1 / offset.length()) * 20);

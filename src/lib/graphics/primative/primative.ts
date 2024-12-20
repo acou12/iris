@@ -1,4 +1,4 @@
-import { Point } from '../point/point';
+import type { Point } from '../point/point';
 
 export interface PrimativeDrawer {
 	getCanvasDimensions(): Point;
@@ -40,5 +40,5 @@ export interface PrimativeDrawer {
 			stroke: string;
 			strokeWidth: number;
 		}
-	);
+	): void;
 }

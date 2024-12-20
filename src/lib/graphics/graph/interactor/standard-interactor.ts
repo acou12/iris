@@ -51,8 +51,7 @@ export class StandardGraphInteractor<V> implements GraphInteractor<V> {
 		this.edgeHandlers.push(handle);
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	update(delta: number): void {
+	update(_delta: number): void {
 		this.hoverVertex = undefined;
 		for (const v of this.graph.getAllVertices()) {
 			const vPosition = this.graph.getVertexLocation(v);

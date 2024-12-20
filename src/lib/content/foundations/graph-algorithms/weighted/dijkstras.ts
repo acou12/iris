@@ -26,8 +26,10 @@ export class DijstrasShortestPathAlgorithm<T> implements Algorithm<T> {
 	}
 
 	public step(): void {
-		let nextIndex = this.fringe.indexOf(this.fringe.reduce((acc, x) => (x[2] <= acc[2] ? x : acc)));
-		let [prev, next, dist] = this.fringe.splice(nextIndex, 1)[0];
+		const nextIndex = this.fringe.indexOf(
+			this.fringe.reduce((acc, x) => (x[2] <= acc[2] ? x : acc))
+		);
+		const [prev, next, dist] = this.fringe.splice(nextIndex, 1)[0];
 		if (this.visited.has(next)) {
 			if (prev !== undefined) {
 				this.graph.colorEdge([prev, next], DONE_COLOR);

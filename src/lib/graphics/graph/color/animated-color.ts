@@ -1,4 +1,4 @@
-import { Color } from './color';
+import type { Color } from './color';
 
 const ANIMATION_SPEED = 0.1;
 
@@ -19,7 +19,7 @@ export class AnimatedColor {
 		return this.currentColor;
 	}
 
-	update(delta: number): void {
+	update(_delta: number): void {
 		this.currentColor.r += (this.toColor.r - this.currentColor.r) * ANIMATION_SPEED;
 		this.currentColor.g += (this.toColor.g - this.currentColor.g) * ANIMATION_SPEED;
 		this.currentColor.b += (this.toColor.b - this.currentColor.b) * ANIMATION_SPEED;

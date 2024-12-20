@@ -56,7 +56,7 @@ export class VectorField {
 
 	SIZE = 400;
 
-	constructor(f: (v: Vector) => Vector) {
+	constructor(_f: (v: Vector) => Vector) {
 		this.pixi = new PIXI.Container();
 		const lines = new PIXI.Graphics();
 		lines.lineStyle({
@@ -83,7 +83,7 @@ export class VectorField {
 			lines.moveTo(this.SIZE, -y);
 			lines.lineTo(-this.SIZE, -y);
 		}
-		function drawVector(x: number, y: number) {}
+		// function drawVector(x: number, y: number) {}
 		this.pixi.addChild(lines);
 	}
 }

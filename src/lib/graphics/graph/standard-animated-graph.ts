@@ -1,6 +1,6 @@
 import type { MathRenderer } from '../math/math-renderer';
 import type { PrimativeDrawer } from '../primative/primative';
-import type { AnimatedGraph } from './graph';
+import type { AnimatedGraph } from './animated-graph';
 
 import { KaTeXMathRenderer } from '../math/katex-math-renderer';
 import { p, Point } from '../point/point';

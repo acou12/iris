@@ -1,5 +1,5 @@
 import { Color } from '$lib/graphics/graph/color/color';
-import type { AnimatedGraph } from '$lib/graphics/graph/graph';
+import type { AnimatedGraph } from '$lib/graphics/graph/animated-graph';
 import type { Algorithm } from '../algorithm';
 
 const FRINGE_COLOR = new Color(252, 38, 235);

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { AnimatedGraph } from '$lib/graphics/graph/graph';
-	import { StandardAnimatedGraph } from '$lib/graphics/graph/standard-graph';
+	import type { AnimatedGraph } from '$lib/graphics/graph/animated-graph';
+	import { StandardAnimatedGraph } from '$lib/graphics/graph/standard-animated-graph';
 	import { p } from '$lib/graphics/point/point';
 	import { Canvas2DPrimativeDrawer } from '$lib/graphics/primative/canvas2d-primative';
 	import type { PrimativeDrawer } from '$lib/graphics/primative/primative';

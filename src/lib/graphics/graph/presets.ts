@@ -1,6 +1,6 @@
 import { p } from '../point/point';
 import type { PrimativeDrawer } from '../primative/primative';
-import { StandardAnimatedGraph } from './standard-graph';
+import { StandardAnimatedGraph } from './standard-animated-graph';
 
 export const wally = (
 	primative: PrimativeDrawer,

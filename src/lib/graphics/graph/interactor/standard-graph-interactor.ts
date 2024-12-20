@@ -1,7 +1,7 @@
 import { dist, p, Point } from '$lib/graphics/point/point';
-import type { AnimatedGraph } from '../graph';
-import { NODE_RADIUS } from '../standard-graph';
-import type { GraphInteractor } from './interator';
+import type { AnimatedGraph } from '../animated-graph';
+import { NODE_RADIUS } from '../standard-animated-graph';
+import type { GraphInteractor } from './graph-interactor';
 
 export class StandardGraphInteractor<V> implements GraphInteractor<V> {
 	hoverVertex: V | undefined;

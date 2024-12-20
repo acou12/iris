@@ -1,9 +1,9 @@
 import { PrimsMSTAlgorithm } from '$lib/content/foundations/graph-algorithms/weighted/prims';
 import { equalArrays } from '$lib/util/array';
 import { Color } from './color/color';
-import type { AnimatedGraph } from './graph';
-import type { GraphInteractor } from './interactor/interator';
-import { StandardGraphInteractor } from './interactor/standard-interactor';
+import type { AnimatedGraph } from './animated-graph';
+import type { GraphInteractor } from './interactor/graph-interactor';
+import { StandardGraphInteractor } from './interactor/standard-graph-interactor';
 
 const CYCLE_COLOR = new Color(255, 100, 0);
 

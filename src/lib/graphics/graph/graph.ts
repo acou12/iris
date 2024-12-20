@@ -11,6 +11,7 @@ export interface AnimatedGraph<V> {
 	addEdge(v1: V, v2: V, w: number): void;
 	getAdjacent(v: V): [V, V, number][];
 
+	getAllVertices(): Set<V>;
 	getAllEdges(): [V, V, number][];
 
 	getWeight(e: [V, V]): number;
@@ -21,6 +22,8 @@ export interface AnimatedGraph<V> {
 
 	getVertexLocation(v: V): Point;
 	setVertexLocation(v: V, p: Point): void;
+
+	getCanvas(): HTMLCanvasElement;
 
 	update(delta: number): void;
 	draw(): void;

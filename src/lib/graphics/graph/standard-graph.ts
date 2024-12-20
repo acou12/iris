@@ -7,6 +7,8 @@ import { p, Point } from '../point/point';
 import { AnimatedColor } from './color/animated-color';
 import { Color, lighten } from './color/color';
 
+export const NODE_RADIUS = 30;
+
 export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
 	private vertexSet: Set<V>;
 	private adjMap: Map<V, { adj: V; weight: number; color: AnimatedColor }[]>;
@@ -24,6 +26,10 @@ export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
 		this.locationMap = new Map();
 		this.vertexColorMap = new Map();
 		this.vertexLabelRenderer = new KaTeXMathRenderer(canvas);
+	}
+
+	getAllVertices(): Set<V> {
+		return this.vertexSet;
 	}
 
 	getAllEdges(): [V, V, number][] {
@@ -129,11 +135,15 @@ export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
 		}
 
 		for (const v of this.vertexSet) {
-			this.primative.drawCircle(this.locationMap.get(v), 30, {
+			this.primative.drawCircle(this.locationMap.get(v), NODE_RADIUS, {
 				fill: this.vertexColorMap.get(v).getAnimatedColor().toString(),
 				stroke: lighten(this.vertexColorMap.get(v).getAnimatedColor()).toString(),
 				strokeWidth: 5
 			});
 		}
+	}
+
+	getCanvas(): HTMLCanvasElement {
+		return this.canvas;
 	}
 }

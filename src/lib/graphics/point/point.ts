@@ -14,3 +14,7 @@ export class Point {
 export const p = (x: number, y: number) => {
 	return new Point(x, y);
 };
+
+export const dist = (p1: Point, p2: Point): number => {
+	return Math.hypot(p1.x - p2.x, p1.y - p2.y);
+};

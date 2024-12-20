@@ -1,4 +1,5 @@
 import { PrimsMSTAlgorithm } from '$lib/content/foundations/graph-algorithms/weighted/prims';
+import { equalArrays } from '$lib/util/array';
 import { Color } from './color/color';
 import type { AnimatedGraph } from './graph';
 import type { GraphInteractor } from './interactor/interator';
@@ -32,7 +33,7 @@ export class HoverMSTGraph {
 
 		const hoverEdge = this.interactor.getHoverEdge();
 
-		if (hoverEdge !== this.addedEdge) {
+		if (!equalArrays(hoverEdge, this.addedEdge)) {
 			if (hoverEdge === undefined) {
 				this.addedEdge = undefined;
 				this.cycle = new Set();

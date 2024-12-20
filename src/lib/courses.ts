@@ -6,6 +6,9 @@ import Momentum from '$lib/content/physics/momentum/momentum.md';
 import Smh from '$lib/content/physics/shm/simple-harmonic-motion.md';
 import GraphAlgorithms from '$lib/content/foundations/graph-algorithms/graph-algorithms.md';
 import SweepLine from '$lib/content/interactive-systems/sweep-line.md';
+import Curl from '$lib/content/vector-calc/curl/curl.md';
+import SetTheory from '$lib/content/discrete-math/set-theory/set-theory.md';
+import GraphTheory from '$lib/content/discrete-math/graph-theory/graph-theory.md';
 
 export type Course = {
 	prettyName: string;
@@ -96,7 +99,11 @@ export const courses: Course[] = [
 			{ prettyName: 'Differentiation', name: 'differentiation' },
 			{ prettyName: 'Integration', name: 'integration' },
 			{ prettyName: 'Maxima', name: 'maxima' },
-			{ prettyName: 'Sequences and Series', name: 'sequences-and-series' }
+			{ prettyName: 'Sequences and Series', name: 'sequences-and-series' },
+			{ prettyName: 'Curl', name: 'curl', svelte: Curl, feature: 3, icon: 'curl' },
+			{ prettyName: 'Divergence', name: 'divergence' },
+			{ prettyName: 'Gradient', name: 'gradient' },
+			{ prettyName: "Green's Theorem", name: 'greens-theorem' }
 		]
 	},
 	// {
@@ -141,6 +148,32 @@ export const courses: Course[] = [
 				prettyName: 'Sweep Line Collision Detection',
 				name: 'sweep-line',
 				svelte: SweepLine
+			}
+		]
+	},
+	{
+		prettyName: 'Discrete Math',
+		name: 'discrete-math',
+		color: '#577590',
+		topics: [
+			{
+				prettyName: 'Set Theory',
+				name: 'set-theory',
+				svelte: SetTheory,
+				icon: 'set-theory'
+			},
+			{
+				prettyName: 'Graph Theory',
+				name: 'graph-theory',
+				svelte: GraphTheory,
+				icon: 'graphs',
+				feature: 3
+			},
+			{
+				prettyName: 'Logic',
+				name: 'logic',
+				svelte: SetTheory,
+				icon: 'logic'
 			}
 		]
 	}

@@ -1,4 +1,4 @@
-import { PrimsMSTAlgorithm } from '$lib/content/foundations/graph-algorithms/weighted/prims';
+import { PrimsMSTAlgorithm } from '$lib/content/algorithms/graph-algorithms/weighted/prims';
 import { equalArrays } from '$lib/util/array';
 import { Color } from './color/color';
 import type { AnimatedGraph } from './animated-graph';

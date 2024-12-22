@@ -45,22 +45,14 @@
 	</div>
 </div>
 <div class="content">
-	<h1>Welcome to {course.prettyName}!</h1>
-	<p>
-		This is the page for all things {course.prettyName}. Lorem ipsum dolor sit amet consectetur
-		adipisicing elit. Aut rerum beatae, saepe asperiores veniam cupiditate recusandae, autem natus
-		quia facilis nobis neque modi molestiae repudiandae! Voluptate explicabo repellat accusamus
-		fugiat? Optio, corporis beatae vero quas excepturi amet minus unde placeat veniam impedit animi
-		odio quis saepe consectetur dolore fuga earum, illo error dignissimos? Beatae qui ab earum vitae
-		unde velit! Minima, quisquam iure excepturi autem veniam itaque placeat rerum, quae dolorum
-		deleniti dignissimos laborum perferendis voluptatibus quos sit nihil neque. Fugiat laboriosam
-		veniam ut ratione, aperiam nihil perspiciatis itaque asperiores!
-	</p>
+	<h1>Articles</h1>
 	<div class="topics">
 		{#each topics as topic}
 			<IrisButton href="/{course.name}/{topic.name}" color={course.color} icon={topic.icon}>
 				<h2>{topic.prettyName}</h2>
 			</IrisButton>
+		{:else}
+			There aren't any articles in this subject yet.
 		{/each}
 	</div>
 </div>

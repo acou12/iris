@@ -18,7 +18,7 @@ The **degree** of a node $v$ (denoted $\text{deg}(v)$) is the number of other no
 
 We define a **path** as a sequence of nodes such that any two adjacent nodes in the sequence are adjacent in $G$. Two nodes $u$ and $v$ are then **reachable** from each other if there is a path that starts at $u$ and ends at $v$ (or vice versa).
 
-As with most sufficiently complex mathematical notions, there is an [infinite black hole](https://en.wikipedia.org/w/Glossary_of_graph_theory) of graph theory terminology, many of which we will see in the future. For now, however, these terms are sufficient for making basic claims about graphs. The following is one of the most important facts about graphs, especially for the purpose of runtime analysis.
+As with most sufficiently complex mathematical notions, there is an [infinite black hole](https://en.wikipedia.org/wiki/Glossary_of_graph_theory) of graph theory terminology, much of which we will see in the future. For now, however, these terms are sufficient for making basic claims about graphs. The following is one of the most important facts about graphs, especially for the purpose of runtime analysis.
 
 **The Handshaking Lemma.** For any graph $G$, the sum of the degrees of every node is twice the number of edges. That is,
 
@@ -32,17 +32,14 @@ _Proof._ We can actually formalize this intuitive idea of "contribution." (do th
 
 # Representations
 
-We have discussed the mathematical idea of a graph, but it remains to define the abstract data type for use in our code.
+We have discussed the mathematical idea of a graph, but it remains to define the abstract data type for use in our code:
 
-**Graph**:
-
-| Operation                  | Description                                                                |
-| -------------------------- | -------------------------------------------------------------------------- |
-| _Vertex iteration._        | Iterate over every vertex $v \in V$.                                       |
-| _Iterate over every edge._ | Iterate over every edge $e \in E$.                                         |
-| _Iterate over neighbors._  | Iterate over every $v \in V$ where $(u, v) \in E$, for some specified $u$. |
-
-(fix this garbage ^^^)
+| Operation          | Description                                                                |
+| ------------------ | -------------------------------------------------------------------------- |
+| Vertex iteration   | Iterate over every vertex $v \in V$.                                       |
+| Edge iteration     | Iterate over every edge $e \in E$.                                         |
+| Edge detection     | For two vertices $u$ and $v$, determine whether $(u, v) \in E$.            |
+| Neighbor iteration | For some specified $u$, iterate over every $v \in V$ where $(u, v) \in E$. |
 
 There are two common ways of implementing this data type.
 

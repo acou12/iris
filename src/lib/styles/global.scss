@@ -34,3 +34,16 @@ a {
 strong {
 	font-weight: 800;
 }
+
+table {
+	margin: auto;
+	text-align: center;
+	border-spacing: 0;
+	border: solid black 2px;
+	td,
+	th {
+		padding: 5px;
+		border: solid black 2px;
+		width: 400px;
+	}
+}

@@ -12,16 +12,7 @@
 	<img class="spinner" src="/spinner.svg" alt="The iris spinner." />
 </div>
 <div class="content">
-	<h1>What is Iris?</h1>
-	<p>
-		This is a cool paragraph. Something something soh-cah-toa something something. Lorem ipsum dolor
-		sit, amet consectetur adipisicing elit. Ad autem laudantium sunt. Officia molestias temporibus,
-		amet eveniet quidem porro odio vitae necessitatibus, saepe ipsum error reiciendis assumenda
-		nobis esse sequi. Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga nobis dolore,
-		cupiditate hic recusandae ullam cum itaque quasi blanditiis. Ducimus minus quos ipsum alias
-		laudantium optio tempore, ab numquam doloremque?
-	</p>
-	<h1>Courses</h1>
+	<h1>Subjects</h1>
 	<div class="courses">
 		{#each courses as course}
 			<IrisButton href="/{course.name}" color={course.color}>

@@ -1,17 +1,17 @@
 <script lang="ts">
 	import { svgs } from '$lib/courses';
 	import { irisButton } from '$lib/styles/emotion';
-	import { onMount } from 'svelte';
 
 	export let color: string;
 	export let href: string;
 	export let icon: string | undefined = undefined;
+	export let enabled: boolean = true;
 
 	const svg = icon === undefined ? '' : svgs[`./icons/${icon}.svg`];
 </script>
 
-<a {href}>
-	<div class={irisButton(color)}>
+<a href={enabled ? href : ''}>
+	<div class={irisButton(color, enabled)}>
 		<slot />
 		{@html svg}
 	</div>

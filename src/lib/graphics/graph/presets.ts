@@ -7,7 +7,7 @@ export const wally = (
 	canvas: HTMLCanvasElement,
 	weightsDisplayed: boolean
 ) => {
-	let graph = new StandardAnimatedGraph<number>(primative, canvas, weightsDisplayed);
+	const graph = new StandardAnimatedGraph<number>(primative, canvas, weightsDisplayed);
 
 	const test = [
 		p(121, 263),

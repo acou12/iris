@@ -1,5 +1,6 @@
 <script>
 import Graph from './graph.svelte';
+import AdjMatrix from './representation/adj-matrix/adj-matrix.svelte';
 import MSTHover from './mst-hover.svelte';
 </script>
 
@@ -45,7 +46,9 @@ There are two common ways of implementing this data type.
 
 ## Adjacency Matrix
 
-One way to interpret a graph is that it is simply a binary relation on the vertices -- that is, any two vertices are either adjacent or they aren't adjacent. This leads to a natural programmatic representation -- for every pair of vertices, keep track of whether they are adjacent or not. We can use any data type that acts as a two-place boolean predicate, but the most obvious choice is a two dimensional array. True to relation interpretation, we could use a two-dimensional boolean array, but for reasons that will make sense later, it is more typical to use an integer array and store a $1$ for adjacency and $0$ for non-adjacency. This array is known as an **adjacency matrix**.
+One way to interpret a graph is that it is simply a binary relation on the vertices -- that is, any two vertices are either adjacent or they aren't adjacent. This leads to a natural programmatic representation -- for every pair of vertices, keep track of whether they are adjacent or not. We can use any data type that acts as a two-place boolean predicate, but the most obvious choice is a two dimensional array. True to the relation interpretation, we could use a two-dimensional boolean array, but for reasons that will make sense later, it is more typical to use an integer array and store a $1$ for adjacency and $0$ for non-adjacency. This array is known as an **adjacency matrix**.
+
+<AdjMatrix/>
 
 ## Adjacency List
 

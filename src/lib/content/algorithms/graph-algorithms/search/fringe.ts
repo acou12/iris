@@ -1,4 +1,4 @@
-import type { AnimatedGraph } from '$lib/graphics/graph/animated-graph';
+import type { GraphAnimator } from '$lib/graphics/graph/animator/graph-animator';
 import type { Algorithm } from '../algorithm';
 
 import { Edge } from '$lib/graphics/graph/edge';
@@ -11,9 +11,9 @@ const DONE_COLOR = new Color(230, 230, 230);
 export class FringeSearch<T> implements Algorithm<T> {
 	private fringe: [T, T][];
 	private visited: Set<T>;
-	private graph: AnimatedGraph<T>;
+	private graph: GraphAnimator<T>;
 
-	constructor(graph: AnimatedGraph<T>) {
+	constructor(graph: GraphAnimator<T>) {
 		this.graph = graph;
 	}
 

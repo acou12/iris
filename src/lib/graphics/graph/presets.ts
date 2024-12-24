@@ -2,7 +2,7 @@ import type { PrimativeDrawer } from '../primative/primative';
 
 import { Edge } from './edge';
 import { p } from '../point/point';
-import { StandardAnimatedGraph } from './standard-animated-graph';
+import { StandardGraphAnimator } from './animator/standard-graph-animator';
 import { StandardGraph } from './standard-graph';
 
 export const wally = (
@@ -45,7 +45,7 @@ export const wally = (
 	graph.addEdge(new Edge(6, 9), Math.floor(Math.random() * 10) + 1);
 	graph.addEdge(new Edge(6, 10), Math.floor(Math.random() * 10) + 1);
 
-	const animator = new StandardAnimatedGraph(primative, canvas, graph, weightsDisplayed);
+	const animator = new StandardGraphAnimator(primative, canvas, graph, weightsDisplayed);
 
 	for (let i = 0; i < vertexLocations.length; i++) {
 		animator.setVertexLocation(i, vertexLocations[i]);

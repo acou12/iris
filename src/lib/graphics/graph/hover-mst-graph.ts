@@ -1,7 +1,7 @@
 import { PrimsMSTAlgorithm } from '$lib/content/algorithms/graph-algorithms/weighted/prims';
 import { equalArrays } from '$lib/util/array';
 import { Color } from './color/color';
-import type { AnimatedGraph } from './animated-graph';
+import type { GraphAnimator } from './animator/graph-animator';
 import type { GraphInteractor } from './interactor/graph-interactor';
 import { StandardGraphInteractor } from './interactor/standard-graph-interactor';
 import { Edge } from './edge';
@@ -14,7 +14,7 @@ export class HoverMSTGraph {
 	addedEdge: [number, number] | undefined;
 	cycle: Set<Edge<number>>;
 
-	constructor(private animator: AnimatedGraph<number>) {
+	constructor(private animator: GraphAnimator<number>) {
 		this.mstAlgorithm = new PrimsMSTAlgorithm(animator);
 		this.mstAlgorithm.initalize(0);
 

@@ -1,5 +1,5 @@
 import { Color } from '$lib/graphics/graph/color/color';
-import type { AnimatedGraph } from '$lib/graphics/graph/animated-graph';
+import type { GraphAnimator } from '$lib/graphics/graph/animator/graph-animator';
 import type { Algorithm } from '../algorithm';
 import { Edge } from '$lib/graphics/graph/edge';
 
@@ -12,9 +12,9 @@ export class PrimsMSTAlgorithm<T> implements Algorithm<T> {
 	private visited: Set<T>;
 	public tree: Map<T, T>;
 	public height: Map<T, number>;
-	private graph: AnimatedGraph<T>;
+	private graph: GraphAnimator<T>;
 
-	constructor(graph: AnimatedGraph<T>) {
+	constructor(graph: GraphAnimator<T>) {
 		this.graph = graph;
 	}
 

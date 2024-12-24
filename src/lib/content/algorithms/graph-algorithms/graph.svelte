@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AnimatedGraph } from '$lib/graphics/graph/animated-graph';
+	import type { GraphAnimator } from '$lib/graphics/graph/graph-animator';
 	import type { PrimativeDrawer } from '$lib/graphics/primative/primative';
 	import type { Algorithm } from './algorithm';
 
@@ -12,7 +12,7 @@
 	let canvas: HTMLCanvasElement;
 	let context: CanvasRenderingContext2D;
 	let primative: PrimativeDrawer;
-	let graph: AnimatedGraph<number>;
+	let graph: GraphAnimator<number>;
 	let algorithm: Algorithm<number>;
 
 	onMount(() => {

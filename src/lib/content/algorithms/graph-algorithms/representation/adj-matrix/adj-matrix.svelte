@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Graph } from '$lib/graphics/graph/graph';
-	import type { AnimatedGraph } from '$lib/graphics/graph/animated-graph';
+	import type { GraphAnimator } from '$lib/graphics/graph/graph-animator';
 	import type { PrimativeDrawer } from '$lib/graphics/primative/primative';
 
 	import { onMount } from 'svelte';
@@ -12,7 +12,7 @@
 	let canvas: HTMLCanvasElement;
 	let context: CanvasRenderingContext2D;
 	let primative: PrimativeDrawer;
-	let animator: AnimatedGraph<number>;
+	let animator: GraphAnimator<number>;
 	let adjMatrixFigure: AdjMatrix;
 
 	onMount(() => {

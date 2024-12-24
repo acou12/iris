@@ -1,7 +1,7 @@
-import type { Point } from '../point/point';
-import type { Color } from './color/color';
-import type { Graph } from './graph';
-import { Edge } from './edge';
+import type { Point } from '../../point/point';
+import type { Color } from '../color/color';
+import type { Graph } from '../graph';
+import { Edge } from '../edge';
 
 /**
  * This class represents a graph drawing. Each vertex
@@ -9,7 +9,7 @@ import { Edge } from './edge';
  * and vertices and edges are associated with colors. These
  * colors are slowly animated after each change.
  */
-export interface AnimatedGraph<V> {
+export interface GraphAnimator<V> {
 	/**
 	 * Set the color of a vertex in the drawing.
 	 */

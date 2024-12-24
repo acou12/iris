@@ -1,18 +1,18 @@
-import type { MathRenderer } from '../math/math-renderer';
-import type { PrimativeDrawer } from '../primative/primative';
-import type { AnimatedGraph } from './animated-graph';
-import type { Graph } from './graph';
+import type { MathRenderer } from '../../math/math-renderer';
+import type { PrimativeDrawer } from '../../primative/primative';
+import type { GraphAnimator } from './graph-animator';
+import type { Graph } from '../graph';
 
-import { KaTeXMathRenderer } from '../math/katex-math-renderer';
-import { p, Point } from '../point/point';
-import { AnimatedColor } from './color/animated-color';
-import { Color, lighten } from './color/color';
-import { UndirectedEdgeMap } from './edge-map';
-import { Edge } from './edge';
+import { KaTeXMathRenderer } from '../../math/katex-math-renderer';
+import { p, Point } from '../../point/point';
+import { AnimatedColor } from '../color/animated-color';
+import { Color, lighten } from '../color/color';
+import { UndirectedEdgeMap } from '../edge-map';
+import { Edge } from '../edge';
 
 export const NODE_RADIUS = 30;
 
-export class StandardAnimatedGraph<V> implements AnimatedGraph<V> {
+export class StandardGraphAnimator<V> implements GraphAnimator<V> {
 	private locationMap: Map<V, Point>;
 	private edgeColorMap: UndirectedEdgeMap<V, AnimatedColor>;
 	private vertexColorMap: Map<V, AnimatedColor>;

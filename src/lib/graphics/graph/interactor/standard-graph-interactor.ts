@@ -1,8 +1,8 @@
-import type { AnimatedGraph } from '../animated-graph';
+import type { GraphAnimator } from '../animator/graph-animator';
 import type { Graph } from '../graph';
 import type { GraphInteractor } from './graph-interactor';
 import { dist, p, Point } from '$lib/graphics/point/point';
-import { NODE_RADIUS } from '../standard-animated-graph';
+import { NODE_RADIUS } from '../animator/standard-graph-animator';
 
 export class StandardGraphInteractor<V> implements GraphInteractor<V> {
 	hoverVertex: V | undefined;
@@ -15,7 +15,7 @@ export class StandardGraphInteractor<V> implements GraphInteractor<V> {
 
 	graph: Graph<V>;
 
-	constructor(private animator: AnimatedGraph<V>) {
+	constructor(private animator: GraphAnimator<V>) {
 		this.graph = animator.getGraph();
 		this.setup();
 	}

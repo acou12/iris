@@ -1,5 +1,5 @@
 import type { GraphInteractor } from '$lib/graphics/graph/interactor/graph-interactor';
-import type { AnimatedGraph } from '$lib/graphics/graph/animated-graph';
+import type { GraphAnimator } from '$lib/graphics/graph/animator/graph-animator';
 import type { Graph } from '$lib/graphics/graph/graph';
 import { Color } from '$lib/graphics/graph/color/color';
 import { StandardGraphInteractor } from '$lib/graphics/graph/interactor/standard-graph-interactor';
@@ -11,7 +11,7 @@ export class AdjMatrix {
 	graph: Graph<number>;
 	interactor: GraphInteractor<number>;
 
-	constructor(private animator: AnimatedGraph<number>) {
+	constructor(private animator: GraphAnimator<number>) {
 		this.graph = animator.getGraph();
 		this.interactor = new StandardGraphInteractor(animator);
 	}

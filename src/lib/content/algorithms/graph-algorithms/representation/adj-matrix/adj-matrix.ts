@@ -1,5 +1,6 @@
 import type { GraphInteractor } from '$lib/graphics/graph/interactor/graph-interactor';
 import type { AnimatedGraph } from '$lib/graphics/graph/animated-graph';
+import type { Graph } from '$lib/graphics/graph/graph';
 import { Color } from '$lib/graphics/graph/color/color';
 import { StandardGraphInteractor } from '$lib/graphics/graph/interactor/standard-graph-interactor';
 
@@ -7,35 +8,38 @@ const AMBIENT_COLOR = new Color(87, 87, 87);
 const HOVER_COLOR = new Color(255, 100, 0);
 
 export class AdjMatrix {
+	graph: Graph<number>;
 	interactor: GraphInteractor<number>;
 
-	constructor(private graph: AnimatedGraph<number>) {
-		this.interactor = new StandardGraphInteractor(graph);
+	constructor(private animator: AnimatedGraph<number>) {
+		this.graph = animator.getGraph();
+		this.interactor = new StandardGraphInteractor(animator);
 	}
 
 	update(delta: number): void {
-		this.graph.update(delta);
-
+		this.animator.update(delta);
 		this.interactor.update(delta);
 
 		const hoverVertex = this.interactor.getHoverVertex();
 
-		for (const [u, v, _w] of this.graph.getAllEdges()) {
-			this.graph.colorEdge([u, v], AMBIENT_COLOR);
-			this.graph.colorVertex(u, AMBIENT_COLOR);
-			this.graph.colorVertex(v, AMBIENT_COLOR);
+		for (const vertex of this.graph.getAllVertices()) {
+			this.animator.colorVertex(vertex, AMBIENT_COLOR);
+		}
+
+		for (const edge of this.graph.getAllEdges()) {
+			this.animator.colorEdge(edge, AMBIENT_COLOR);
 		}
 
 		if (hoverVertex !== undefined) {
-			this.graph.colorVertex(hoverVertex, HOVER_COLOR);
-			for (const [u, v, _w] of this.graph.getAdjacent(hoverVertex)) {
-				this.graph.colorEdge([u, v], HOVER_COLOR);
-				this.graph.colorVertex(v, HOVER_COLOR);
+			this.animator.colorVertex(hoverVertex, HOVER_COLOR);
+			for (const edge of this.graph.getAdjacent(hoverVertex)) {
+				this.animator.colorEdge(edge, HOVER_COLOR);
+				this.animator.colorVertex(edge.getTo(), HOVER_COLOR);
 			}
 		}
 	}
 
 	draw(): void {
-		this.graph.draw();
+		this.animator.draw();
 	}
 }

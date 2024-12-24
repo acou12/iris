@@ -5,24 +5,28 @@ import type { MathRenderer } from './math-renderer';
 class KaTeXMathObject {
 	private element: HTMLDivElement;
 
-	constructor(text: string, position: Point, canvas: HTMLCanvasElement) {
+	constructor(text: string, position: Point, private canvas: HTMLCanvasElement) {
 		this.element = document.createElement('div');
 		this.element.innerHTML = katex.renderToString(text);
 
 		this.element.style.color = 'white';
 		this.element.style.fontSize = '24px';
 
-		this.element.style.position = 'absolute';
 		document.body.appendChild(this.element);
-		let boundingBox = this.element.getBoundingClientRect();
+
+		const boundingBox = this.element.getBoundingClientRect();
+		this.element.style.position = 'absolute';
 		this.element.style.left = `${position.x + canvas.offsetLeft - boundingBox.width / 2}px`;
 		this.element.style.top = `${position.y + canvas.offsetTop - boundingBox.height / 2 - 3}px`;
+
+		console.log(this.element);
 	}
 
 	setPosition(position: Point) {
-		this.element.style.left = `${position.x}px`;
-		this.element.style.top = `${position.y}px`;
-		this.element.style.position = 'relative';
+		const boundingBox = this.element.getBoundingClientRect();
+		this.element.style.position = 'absolute';
+		this.element.style.left = `${position.x + this.canvas.offsetLeft - boundingBox.width / 2}px`;
+		this.element.style.top = `${position.y + this.canvas.offsetTop - boundingBox.height / 2 - 3}px`;
 	}
 
 	setText(text: string): void {
@@ -46,7 +50,7 @@ export class KaTeXMathRenderer<K> implements MathRenderer<K> {
 	}
 
 	addElement(key: K, initialText: string, position: Point): number {
-		let id = this.nextId;
+		const id = this.nextId;
 		this.nextId++;
 		this.map.set(key, new KaTeXMathObject(initialText, position, this.canvas));
 		return id;

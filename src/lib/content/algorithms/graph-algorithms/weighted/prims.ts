@@ -1,6 +1,7 @@
 import { Color } from '$lib/graphics/graph/color/color';
 import type { AnimatedGraph } from '$lib/graphics/graph/animated-graph';
 import type { Algorithm } from '../algorithm';
+import { Edge } from '$lib/graphics/graph/edge';
 
 const FRINGE_COLOR = new Color(252, 38, 235);
 const VISITED_COLOR = new Color(13, 122, 255);
@@ -37,7 +38,7 @@ export class PrimsMSTAlgorithm<T> implements Algorithm<T> {
 		const [prev, next, _dist] = this.fringe.splice(nextIndex, 1)[0];
 		if (this.visited.has(next)) {
 			if (prev !== undefined) {
-				this.graph.colorEdge([prev, next], DONE_COLOR);
+				this.graph.colorEdge(new Edge(prev, next), DONE_COLOR);
 			}
 		} else {
 			this.tree.set(next, prev);
@@ -47,14 +48,14 @@ export class PrimsMSTAlgorithm<T> implements Algorithm<T> {
 			this.visited.add(next);
 			this.graph.colorVertex(next, VISITED_COLOR);
 			if (prev !== undefined) {
-				this.graph.colorEdge([prev, next], VISITED_COLOR);
+				this.graph.colorEdge(new Edge(prev, next), VISITED_COLOR);
 			}
 			this.graph.colorVertex(next, VISITED_COLOR);
-			for (const [_, adj, weight] of this.graph.getAdjacent(next)) {
-				if (!this.visited.has(adj)) {
-					this.fringe.push([next, adj, weight]);
-					this.graph.colorVertex(adj, FRINGE_COLOR);
-					this.graph.colorEdge([next, adj], FRINGE_COLOR);
+			for (const edge of this.graph.getGraph().getAdjacent(next)) {
+				if (!this.visited.has(edge.getTo())) {
+					this.fringe.push([next, edge.getTo(), this.graph.getGraph().getWeight(edge)]);
+					this.graph.colorVertex(edge.getTo(), FRINGE_COLOR);
+					this.graph.colorEdge(edge, FRINGE_COLOR);
 				}
 			}
 		}

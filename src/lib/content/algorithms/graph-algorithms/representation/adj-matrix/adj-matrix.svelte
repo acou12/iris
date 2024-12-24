@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
+	import type { Graph } from '$lib/graphics/graph/graph';
 	import type { AnimatedGraph } from '$lib/graphics/graph/animated-graph';
-	import { Canvas2DPrimativeDrawer } from '$lib/graphics/primative/canvas2d-primative';
 	import type { PrimativeDrawer } from '$lib/graphics/primative/primative';
+
+	import { onMount } from 'svelte';
+	import { Canvas2DPrimativeDrawer } from '$lib/graphics/primative/canvas2d-primative';
 	import { wally } from '$lib/graphics/graph/presets';
 	import { AdjMatrix } from './adj-matrix';
 
@@ -11,7 +12,7 @@
 	let canvas: HTMLCanvasElement;
 	let context: CanvasRenderingContext2D;
 	let primative: PrimativeDrawer;
-	let graph: AnimatedGraph<number>;
+	let animator: AnimatedGraph<number>;
 	let adjMatrixFigure: AdjMatrix;
 
 	onMount(() => {
@@ -21,8 +22,9 @@
 		canvas.height = canvas.clientHeight;
 
 		primative = new Canvas2DPrimativeDrawer(canvas);
-		graph = wally(primative, canvas, false);
-		adjMatrixFigure = new AdjMatrix(graph);
+		animator = wally(primative, canvas, false);
+
+		adjMatrixFigure = new AdjMatrix(animator);
 
 		draw(0);
 	});

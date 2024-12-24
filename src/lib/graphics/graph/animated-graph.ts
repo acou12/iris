@@ -1,29 +1,41 @@
 import type { Point } from '../point/point';
 import type { Color } from './color/color';
+import type { Graph } from './graph';
+import { Edge } from './edge';
 
 /**
- * This class stores information about a graph as
- * well as information about visual characteristics
- * of its edges and vertices.
+ * This class represents a graph drawing. Each vertex
+ * is associated with a physical location in the canvas
+ * and vertices and edges are associated with colors. These
+ * colors are slowly animated after each change.
  */
 export interface AnimatedGraph<V> {
-	addVertex(v: V, location: Point): void;
-	addEdge(v1: V, v2: V, w: number): void;
-	getAdjacent(v: V): [V, V, number][];
-
-	getAllVertices(): Set<V>;
-	getAllEdges(): [V, V, number][];
-
-	getWeight(e: [V, V]): number;
-	setWeight(e: [V, V], weight: number): void;
-
-	colorEdge(e: [V, V], color: Color): void;
+	/**
+	 * Set the color of a vertex in the drawing.
+	 */
 	colorVertex(v: V, color: Color): void;
 
-	getVertexLocation(v: V): Point;
-	setVertexLocation(v: V, p: Point): void;
+	/**
+	 * Set the color of an edge in the drawing.
+	 */
+	colorEdge(e: Edge<V>, color: Color): void;
 
+	/**
+	 * Get the canvas location of a vertex.
+	 */
+	getVertexLocation(v: V): Point;
+
+	/**
+	 * Update the canvas location of a vertex.
+	 */
+	setVertexLocation(v: V, location: Point): void;
+
+	/**
+	 * Get the canvas that this graph is being drawn onto.
+	 */
 	getCanvas(): HTMLCanvasElement;
+
+	getGraph(): Graph<V>;
 
 	update(delta: number): void;
 	draw(): void;

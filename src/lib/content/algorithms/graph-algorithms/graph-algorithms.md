@@ -79,23 +79,7 @@ The most common way to solve the reachability problem is with a **searching algo
 
 ## Breadth-first Search
 
-<Graph searchType={"breadth"}/>
-
-## Depth-first Search
-
-<Graph searchType={"depth"}/>
-
-## Dijkstra's Shortest Path
-
-<Graph searchType={"shortest"}/>
-
-## Prim's Minimum Spanning Tree
-
-<Graph searchType={"mst"}/>
-
-## Minimum Bottleneck Tree
-
-<Graph searchType={"maxst"}/>
+<Graph/>
 
 ## MST Lemma
 

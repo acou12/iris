@@ -11,6 +11,7 @@ export interface Graph<V> {
 	addVertex(v: V): void;
 	addEdge(edge: Edge<V>, weight: number): void;
 	getAdjacent(v: V): Edge<V>[];
+	hasEdge(edge: Edge<V>): boolean;
 
 	getAllVertices(): Set<V>;
 	getAllEdges(): Edge<V>[];

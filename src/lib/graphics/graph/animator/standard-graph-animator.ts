@@ -30,7 +30,7 @@ export class StandardGraphAnimator<V> implements GraphAnimator<V> {
 		this.vertexLabelRenderer = new KaTeXMathRenderer(canvas);
 		for (const v of graph.getAllVertices()) {
 			this.vertexColorMap.set(v, new AnimatedColor(new Color(0, 0, 0)));
-			this.vertexLabelRenderer.addElement(v, `v_{${v}}`, p(0, 0));
+			this.vertexLabelRenderer.addElement(v, `v_{${v}}`, p(0, 0), { color: 'white' });
 		}
 		for (const e of graph.getAllEdges()) {
 			this.edgeColorMap.set(e, new AnimatedColor(new Color(0, 0, 0)));

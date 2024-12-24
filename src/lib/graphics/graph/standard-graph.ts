@@ -13,6 +13,19 @@ export class StandardGraph<V> implements Graph<V> {
 		this.weightMap = new UndirectedEdgeMap();
 	}
 
+	hasEdge(edge: Edge<V>): boolean {
+		const fromList = this.adjMap.get(edge.getFrom());
+		const toList = this.adjMap.get(edge.getTo());
+		if (fromList.length < toList.length) {
+			return fromList.some((e) => e.getFrom() === edge.getFrom() && e.getTo() == edge.getTo());
+		} else {
+			const reversed = edge.reversed();
+			return toList.some(
+				(e) => e.getFrom() === reversed.getFrom() && e.getTo() == reversed.getTo()
+			);
+		}
+	}
+
 	addVertex(v: V): void {
 		this.vertexSet.add(v);
 		this.adjMap.set(v, []);

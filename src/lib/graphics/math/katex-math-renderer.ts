@@ -1,25 +1,31 @@
 import katex from 'katex';
 import type { Point } from '../point/point';
-import type { MathRenderer } from './math-renderer';
+import type { MathElementStyle, MathRenderer } from './math-renderer';
 
 class KaTeXMathObject {
 	private element: HTMLDivElement;
 
-	constructor(text: string, position: Point, private canvas: HTMLCanvasElement) {
+	constructor(
+		text: string,
+		position: Point,
+		private canvas: HTMLCanvasElement,
+		style: MathElementStyle
+	) {
 		this.element = document.createElement('div');
 		this.element.innerHTML = katex.renderToString(text);
 
-		this.element.style.color = 'white';
+		this.element.style.color = style.color;
 		this.element.style.fontSize = '24px';
+		this.element.style.transition = 'color 0.5s';
 
 		document.body.appendChild(this.element);
 
-		const boundingBox = this.element.getBoundingClientRect();
 		this.element.style.position = 'absolute';
-		this.element.style.left = `${position.x + canvas.offsetLeft - boundingBox.width / 2}px`;
-		this.element.style.top = `${position.y + canvas.offsetTop - boundingBox.height / 2 - 3}px`;
 
-		console.log(this.element);
+		const boundingBox = this.element.getBoundingClientRect();
+
+		this.element.style.left = `${position.x + this.canvas.offsetLeft - boundingBox.width / 2}px`;
+		this.element.style.top = `${position.y + this.canvas.offsetTop - boundingBox.height / 2 - 3}px`;
 	}
 
 	setPosition(position: Point) {
@@ -31,6 +37,10 @@ class KaTeXMathObject {
 
 	setText(text: string): void {
 		this.element.innerHTML = katex.renderToString(text);
+	}
+
+	setStyle(style: MathElementStyle) {
+		this.element.style.color = style.color;
 	}
 
 	remove() {
@@ -49,10 +59,10 @@ export class KaTeXMathRenderer<K> implements MathRenderer<K> {
 		this.canvas = canvas;
 	}
 
-	addElement(key: K, initialText: string, position: Point): number {
+	addElement(key: K, initialText: string, position: Point, style: MathElementStyle): number {
 		const id = this.nextId;
 		this.nextId++;
-		this.map.set(key, new KaTeXMathObject(initialText, position, this.canvas));
+		this.map.set(key, new KaTeXMathObject(initialText, position, this.canvas, style));
 		return id;
 	}
 
@@ -67,5 +77,9 @@ export class KaTeXMathRenderer<K> implements MathRenderer<K> {
 
 	setElementText(key: K, text: string) {
 		this.map.get(key).setText(text);
+	}
+
+	setElementStyle(key: K, style: MathElementStyle) {
+		this.map.get(key).setStyle(style);
 	}
 }

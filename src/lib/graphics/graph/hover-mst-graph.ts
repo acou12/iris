@@ -1,8 +1,9 @@
+import type { GraphAnimator } from './animator/graph-animator';
+import type { GraphInteractor } from './interactor/graph-interactor';
+
 import { PrimsMSTAlgorithm } from '$lib/content/algorithms/graph-algorithms/weighted/prims';
 import { equalArrays } from '$lib/util/array';
 import { Color } from './color/color';
-import type { GraphAnimator } from './animator/graph-animator';
-import type { GraphInteractor } from './interactor/graph-interactor';
 import { StandardGraphInteractor } from './interactor/standard-graph-interactor';
 import { Edge } from './edge';
 

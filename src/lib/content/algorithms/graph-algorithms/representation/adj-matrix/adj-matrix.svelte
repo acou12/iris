@@ -1,6 +1,5 @@
 <script lang="ts">
-	import type { Graph } from '$lib/graphics/graph/graph';
-	import type { GraphAnimator } from '$lib/graphics/graph/graph-animator';
+	import type { GraphAnimator } from '$lib/graphics/graph/animator/graph-animator';
 	import type { PrimativeDrawer } from '$lib/graphics/primative/primative';
 
 	import { onMount } from 'svelte';
@@ -24,7 +23,7 @@
 		primative = new Canvas2DPrimativeDrawer(canvas);
 		animator = wally(primative, canvas, false);
 
-		adjMatrixFigure = new AdjMatrix(animator);
+		adjMatrixFigure = new AdjMatrix(primative, animator);
 
 		draw(0);
 	});
@@ -53,7 +52,7 @@
 
 <style lang="scss">
 	canvas {
-		width: 75%;
+		width: 100%;
 		height: 500px;
 		margin: auto;
 		display: block;

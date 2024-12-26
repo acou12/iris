@@ -1,6 +1,6 @@
 import katex from 'katex';
 import type { Point } from '../point/point';
-import type { MathElementStyle, MathRenderer } from './math-renderer';
+import { MathAlign, type MathElementStyle, type MathRenderer } from './math-renderer';
 
 class KaTeXMathObject {
 	private element: HTMLDivElement;
@@ -9,30 +9,36 @@ class KaTeXMathObject {
 		text: string,
 		position: Point,
 		private canvas: HTMLCanvasElement,
-		style: MathElementStyle
+		style: MathElementStyle,
+		private align: MathAlign
 	) {
 		this.element = document.createElement('div');
-		this.element.innerHTML = katex.renderToString(text);
-
-		this.element.style.color = style.color;
-		this.element.style.fontSize = '24px';
-		this.element.style.transition = 'color 0.5s';
-
 		document.body.appendChild(this.element);
 
-		this.element.style.position = 'absolute';
+		this.element.style.transition = 'color 0.5s';
+		this.element.style.fontSize = '24px';
 
-		const boundingBox = this.element.getBoundingClientRect();
-
-		this.element.style.left = `${position.x + this.canvas.offsetLeft - boundingBox.width / 2}px`;
-		this.element.style.top = `${position.y + this.canvas.offsetTop - boundingBox.height / 2 - 3}px`;
+		this.setText(text);
+		this.setStyle(style);
+		this.setPosition(position);
 	}
 
 	setPosition(position: Point) {
-		const boundingBox = this.element.getBoundingClientRect();
 		this.element.style.position = 'absolute';
-		this.element.style.left = `${position.x + this.canvas.offsetLeft - boundingBox.width / 2}px`;
-		this.element.style.top = `${position.y + this.canvas.offsetTop - boundingBox.height / 2 - 3}px`;
+		const boundingBox = this.element.getBoundingClientRect();
+
+		let offsetX: number, offsetY: number;
+
+		if (this.align === MathAlign.CENTER) {
+			offsetX = boundingBox.width / 2;
+			offsetY = boundingBox.height / 2;
+		} else {
+			offsetX = 0;
+			offsetY = 0;
+		}
+
+		this.element.style.left = `${position.x + this.canvas.offsetLeft - offsetX}px`;
+		this.element.style.top = `${position.y + this.canvas.offsetTop - offsetY - 3}px`;
 	}
 
 	setText(text: string): void {
@@ -59,10 +65,16 @@ export class KaTeXMathRenderer<K> implements MathRenderer<K> {
 		this.canvas = canvas;
 	}
 
-	addElement(key: K, initialText: string, position: Point, style: MathElementStyle): number {
+	addElement(
+		key: K,
+		initialText: string,
+		position: Point,
+		style: MathElementStyle,
+		align: MathAlign = MathAlign.CENTER
+	): number {
 		const id = this.nextId;
 		this.nextId++;
-		this.map.set(key, new KaTeXMathObject(initialText, position, this.canvas, style));
+		this.map.set(key, new KaTeXMathObject(initialText, position, this.canvas, style, align));
 		return id;
 	}
 

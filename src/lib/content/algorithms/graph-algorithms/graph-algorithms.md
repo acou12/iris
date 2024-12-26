@@ -1,8 +1,10 @@
 <script>
 import Graph from './graph.svelte';
 import AdjMatrix from './representation/adj-matrix/adj-matrix.svelte';
+import AdjList from './representation/adj-list/adj-list.svelte';
 import MSTHover from './mst-hover.svelte';
 import Dropdown from '$lib/components/article/Dropdown.svelte'
+import Todo from '$lib/components/article/Todo.svelte'
 </script>
 
 # Introduction
@@ -25,12 +27,12 @@ As with most sufficiently complex mathematical notions, there is an [infinite bl
 **The Handshaking Lemma.** For any graph $G$, the sum of the degrees of every node is twice the number of edges. That is,
 
 $$
-\sum_{v \in E} \text{deg}(v) = 2|E|
+\sum_{v \in V} \text{deg}(v) = 2|E|
 $$
 
 _Intuition._ It is more useful to consider the edge-incidence definition of degree here. First, observe that every edge is incident on exactly two vertices. Thus, in our sum of degrees, any given edge contributes to exactly two $\text{deg}(v)$ terms by 1. Therefore, we would expect this sum to be equal to twice the number of edges.
 
-_Proof._ We can actually formalize this intuitive idea of "contribution." (TODO: do that)
+_Proof._ We can formalize this intuitive idea. <Todo/>
 
 # Representations
 
@@ -47,6 +49,10 @@ There are two common ways of implementing this data type.
 
 ## Adjacency List
 
+The most common way of representing a graph is by associating each vertex with a list of its neighbors, as shown in Figure 2.
+
+<AdjList/>
+
 ## Adjacency Matrix
 
 One way to interpret a graph is that it is simply a binary relation on the vertices -- that is, any two vertices are either adjacent or they aren't adjacent. This leads to a natural programmatic representation -- for every pair of vertices, keep track of whether they are adjacent or not. We can use any data type that acts as a two-place boolean predicate, but the most obvious choice is a two dimensional array. True to the relation interpretation, we could use a two-dimensional boolean array, but for reasons that will make sense later, it is more typical to use an integer array and store a $1$ for adjacency and $0$ for non-adjacency. This array is known as an **adjacency matrix**.
@@ -59,7 +65,7 @@ Unfortunately, unlike the case of the adjacency list, we can no longer quickly f
 
 <Dropdown title={`Tangent: Walk Counting`}>
 
-Adjacency matrices have a couple of fringe applications that make use of matrix operations. One of the simplest examples of this is counting the number of walks bewteen adjacent vertices. A **walk** is a sequence of vertices in a graph such that every adjacent vertices in the sequence are connected by an edge. Note that the only difference between this definition and that of a path is that a path must contain unique vertices. A walk, on the other hand, can repeat vertices an arbitrary number of times. It turns out that there is a very simple algorithm to count the number of walks between _every pair of vertices_ if $G$ is represented as an adjacency matrix.
+Adjacency matrices have a couple of fringe applications that make use of matrix operations. One of the simplest examples of this is counting the number of walks between pairs of vertices. A **walk** is a sequence of vertices in a graph such that every pair of adjacent vertices in the sequence are connected by an edge. Note that the only difference between this definition and that of a path is that a path must contain unique vertices. A walk, on the other hand, can repeat vertices an arbitrary number of times. It turns out that there is a very simple algorithm to count the number of walks between _every pair of vertices_ if $G$ is represented as an adjacency matrix. In the following, we will use $G$ to refer to the graph as well as its adjacency matrix representation.
 
 **Lemma.** Let $W = G^k$, where $G$ is the adjacency matrix of a graph and $k$ is a positive integer and let $v_i$ and $v_j$ be arbitrary vertices in $G$. Then $W_{ij}$ is the number of walks that start at $v_i$ and end at $v_j$ of length $k$.
 
@@ -67,9 +73,49 @@ _Proof._ We proceed by induction in $k$.
 
 **Base case:** Consider walks of length 1. Every possible walk of length 1 must start at $v_i$ and end at $v_j$ (by definition) -- therefore, the walk $\langle v_i, v_j \rangle$ is the only possible walk of length 1. This is only a valid walk if $(v_i, v_j) \in E$. Therefore, $G_{ij} = 1$ if and only if $W_{ij} = 1$, and so $W = G = G^1$.
 
-**Inductive step:** Suppose $W = G^k$ correctly represents the number of walks between all pairs of vertices in $G$. (TODO: finish this)
+**Inductive step:** Suppose $W = G^k$ correctly represents the number of walks between all pairs of vertices in $G$. <Todo />
 
-We can compute this power quickly using the divide-and-conquer repeated squares technique, yielding a $\Theta(n^2 \log k)$ algorithm.
+<!-- CONISDERATION: It might make sense to write about fast matrix multiplication independently somewhere else and reference it here to make this section more self-contained. -->
+
+We can compute this power by repeatedly multiplying $G$ by itself. Each of the $k - 1$ multiplications take $\Theta(n^3)$ time, so the algorithm takes $\Theta(n^3k)$ time. We can speed this up by using the same trick we used to speed up integer exponentiation. Since matrix multiplication is associative, we can rewrite $W$ as the product of two matrices with (approximately) half the number of multplications. If $k$ is even, we can rewrite $W$ as
+
+$$
+W = G^k = (G^{k/2})(G^{k/2})
+$$
+
+If $k$ is odd,
+
+$$
+W = G^k = (G^{\lfloor k/2 \rfloor})(G^{\lfloor k/2 \rfloor})G
+$$
+
+Either way, we can recursively compute $G^{\lfloor k/2 \rfloor}$ and perform a constant number of matrix multiplications, which each take $\Theta(n^3)$ time. Therefore, this algorithm has the recurrence
+
+$$
+T(k) = cn^3 + 2T(k/2)
+$$
+
+Note that $k$ varies in our recursive calls, but $n$ always stays the same. Using familiar techniques, we can show that $T(n) \in \Theta(n^3\log k)$, which is a massive improvement. The main point is that by interpreting our graph as a familiar mathematical object (a matrix), we were able to reduce our problem of counting walks to a more familiar problem of matrix exponentiation, which we know how to do efficiently.
+
+<Dropdown title={`Application: Random Walk Distributions`}>
+
+Our walk-counting algorithm allows us to answer some very interesting combinatorial questions about graphs. Here's one example: a **random walk** is defined as a walk on a graph where each next node in the sequence is chosen uniformly randomly from the neighbors of the previous node. If we start at some vertex $v_i$ and take a random walk with $k$ steps, what is the probability that we end up at $v_i$ again? To compute this probability, we can compute the total number of walks from $v_i$ to itself and divide that by the total number of walks from $v_i$, or
+
+$$
+P = { W_{ii} \over \sum_{j=0}^{n} W_{ij} }
+$$
+
+More generally, this gives us a discrete probability distribution of where we end up after a $k$-step random walk starting at $v_i$:
+
+$$
+F(v_j) = { W_{ij} \over \sum_{j=0}^{n} W_{ij} }
+$$
+
+This is very closely related to a concept known as **markov chain process** which we will (eventually) discuss later.
+
+<!-- Are there any interesting applications of this? -->
+
+</Dropdown>
 
 </Dropdown>
 
@@ -90,13 +136,22 @@ It is easy to see why this is a practically useful problem to have a solution fo
 - If your graph represents a social network (with vertices as people and edges as personal connections), this problem asks whether there is a line of connections between two people -- this would tell you, for instance, whether a rumor could spread between these two people just by word of mouth.
 - If your graph represents states and transitions between them, this problem asks whether there is a way to get from one state to another only through transitions.
 
-The most common way to solve the reachability problem is with a **searching algorithm**. At a very high level, here is how pretty much _every_ search algorithm works:
+The most common way to solve the reachability problem is with a **searching algorithm**. At a very high level, here is how pretty much _every_ search algorithm works: we maintain a partition of the vertices $V$ into two sets, which I will call $X$ (for e**x**plored) and $U$ for (**u**nexplored). We repeatedly look for edges which leave $X$ and enter $U$ -- I will call these fringe edges -- and process and move the $U$ vertex to $X$. We terminate when there are no more fringe edges. Algorithm 1 shows very high level psuedocode for such an algorithm.
 
-- Maintain a set of nodes which we have **visited**.
-- Iterate until we have visited every node:
-  - Choose a node we have not visited that is adjacent to a node we have visited.
-  - If this node is our destination, terminate and report true. Otherwise, mark this node as visited.
-- If we have visited every node without finding our destination, report false.
+- process $v_s$
+- $X \gets \{ v_s \}$
+- **while** there exists a fringe edge
+  - $(x, u) \gets$ some fringe edge
+  - process $u$.
+  - $X \gets X \cup \{ u \}$.
+
+We have left out a lot of details here, but let's first prove that this high-level algorithm accomplishes our goal before we try to flesh it out.
+
+**Theorem.** After algorithm 1 terminates, $X$ contains exactly the vertices in $G$ which are reachable from $v_s$.
+
+_Intuition._ The basic idea is that at all times, there is a path from $v_s$ to any $x \in X$. So, in order to add a new vertex to $X$, we need to find a path to it from $v_s$. If we have a fringe edge $(x, u)$, we can find the path from $v_s$ to $x$ and append $u$ to get a path from $v_s$ to $u$. Thus, it is safe to add $u$ to $X$. Every time we do this, we increase the size of $X$ by one, and as long as the graph is finite, we will eventually run out of nodes in $G$ to add.
+
+_Proof._ We proceed by induction in the shortest path distance from $v_s$. <Todo />
 
 ## Breadth-first Search
 

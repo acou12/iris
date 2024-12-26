@@ -4,41 +4,42 @@ import type { Graph } from '$lib/graphics/graph/graph';
 import { MathAlign, type MathRenderer } from '$lib/graphics/math/math-renderer';
 import type { PrimativeDrawer } from '$lib/graphics/primative/primative';
 
-import { Color, lighten } from '$lib/graphics/graph/color/color';
+import { Color } from '$lib/graphics/graph/color/color';
 import { StandardGraphInteractor } from '$lib/graphics/graph/interactor/standard-graph-interactor';
 import { p } from '$lib/graphics/point/point';
 import { KaTeXMathRenderer } from '$lib/graphics/math/katex-math-renderer';
-import { Edge } from '$lib/graphics/graph/edge';
 
 const AMBIENT_COLOR = new Color(87, 87, 87);
 const HOVER_COLOR = new Color(255, 100, 0);
 
-export class AdjMatrix {
+export class AdjList {
 	graph: Graph<number>;
 	interactor: GraphInteractor<number>;
 	hoverVertex: number | undefined;
-	matrixLabels: MathRenderer<number>;
+	listLabels: MathRenderer<number>;
 
 	constructor(private primative: PrimativeDrawer, private animator: GraphAnimator<number>) {
 		this.graph = animator.getGraph();
 		this.interactor = new StandardGraphInteractor(animator);
 		this.hoverVertex = undefined;
 
-		this.matrixLabels = new KaTeXMathRenderer(animator.getCanvas());
+		this.listLabels = new KaTeXMathRenderer(animator.getCanvas());
 
 		for (const v1 of this.graph.getAllVertices()) {
-			for (const v2 of this.graph.getAllVertices()) {
-				const index = v1 * this.graph.getAllVertices().size + v2;
-				this.matrixLabels.addElement(
-					index,
-					this.graph.hasEdge(new Edge(v1, v2)) ? `1` : `0`,
-					p(900 + v1 * 30, 50 + v2 * 30),
-					{
-						color: this.graph.hasEdge(new Edge(v1, v2)) ? 'black' : 'gray'
-					},
-					MathAlign.CENTER
-				);
-			}
+			const list = `\\langle ${this.graph
+				.getAdjacent(v1)
+				.map((adj) => `v_{${adj.getTo()}}`)
+				.join(', ')} \\rangle`;
+			const index = v1;
+			this.listLabels.addElement(
+				index,
+				`v_{${v1}} \\to ${list}`,
+				p(900, 25 + v1 * 35),
+				{
+					color: 'black'
+				},
+				MathAlign.LEFT
+			);
 		}
 	}
 
@@ -58,37 +59,17 @@ export class AdjMatrix {
 		}
 
 		for (const v1 of this.graph.getAllVertices()) {
-			for (const v2 of this.graph.getAllVertices()) {
-				const index = v1 * this.graph.getAllVertices().size + v2;
-				const color = this.graph.hasEdge(new Edge(v1, v2)) ? 'black' : 'gray';
-				this.matrixLabels.setElementStyle(index, { color });
-			}
+			const index = v1;
+			this.listLabels.setElementStyle(index, {
+				color: 'black'
+			});
 		}
 
 		if (this.hoverVertex !== undefined) {
-			for (const v2 of this.graph.getAllVertices()) {
-				const color = lighten(HOVER_COLOR).toString();
-				this.matrixLabels.setElementStyle(
-					this.hoverVertex * this.graph.getAllVertices().size + v2,
-					{ color }
-				);
-				this.matrixLabels.setElementStyle(
-					v2 * this.graph.getAllVertices().size + this.hoverVertex,
-					{ color }
-				);
-			}
-			for (const edge of this.graph.getAdjacent(this.hoverVertex)) {
-				const v2 = edge.getTo();
-				const color = HOVER_COLOR.toString();
-				this.matrixLabels.setElementStyle(
-					this.hoverVertex * this.graph.getAllVertices().size + v2,
-					{ color }
-				);
-				this.matrixLabels.setElementStyle(
-					v2 * this.graph.getAllVertices().size + this.hoverVertex,
-					{ color }
-				);
-			}
+			const color = HOVER_COLOR.toString();
+			this.listLabels.setElementStyle(this.hoverVertex, {
+				color
+			});
 			this.animator.colorVertex(this.hoverVertex, HOVER_COLOR);
 			for (const edge of this.graph.getAdjacent(this.hoverVertex)) {
 				this.animator.colorEdge(edge, HOVER_COLOR);

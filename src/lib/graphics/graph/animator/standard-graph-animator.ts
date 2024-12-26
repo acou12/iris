@@ -1,4 +1,4 @@
-import type { MathRenderer } from '../../math/math-renderer';
+import { MathAlign, type MathRenderer } from '../../math/math-renderer';
 import type { PrimativeDrawer } from '../../primative/primative';
 import type { GraphAnimator } from './graph-animator';
 import type { Graph } from '../graph';
@@ -30,7 +30,13 @@ export class StandardGraphAnimator<V> implements GraphAnimator<V> {
 		this.vertexLabelRenderer = new KaTeXMathRenderer(canvas);
 		for (const v of graph.getAllVertices()) {
 			this.vertexColorMap.set(v, new AnimatedColor(new Color(0, 0, 0)));
-			this.vertexLabelRenderer.addElement(v, `v_{${v}}`, p(0, 0), { color: 'white' });
+			this.vertexLabelRenderer.addElement(
+				v,
+				`v_{${v}}`,
+				p(0, 0),
+				{ color: 'white' },
+				MathAlign.CENTER
+			);
 		}
 		for (const e of graph.getAllEdges()) {
 			this.edgeColorMap.set(e, new AnimatedColor(new Color(0, 0, 0)));

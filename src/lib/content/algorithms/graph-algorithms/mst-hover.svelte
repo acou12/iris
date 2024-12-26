@@ -7,7 +7,7 @@
 
 	import { Canvas2DPrimativeDrawer } from '$lib/graphics/primative/canvas2d-primative';
 	import { HoverMSTGraph } from '$lib/graphics/graph/hover-mst-graph';
-	import { wally } from '$lib/graphics/graph/presets';
+	import { sarah } from '$lib/graphics/graph/presets';
 
 	// @hmr:reset
 	let canvas: HTMLCanvasElement;
@@ -23,7 +23,7 @@
 		canvas.height = canvas.clientHeight;
 
 		primative = new Canvas2DPrimativeDrawer(canvas);
-		graph = wally(primative, canvas, false);
+		graph = sarah(primative, canvas, false);
 
 		const hoverGraph = new HoverMSTGraph(graph);
 

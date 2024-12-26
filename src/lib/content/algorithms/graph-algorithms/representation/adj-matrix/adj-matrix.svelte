@@ -4,7 +4,7 @@
 
 	import { onMount } from 'svelte';
 	import { Canvas2DPrimativeDrawer } from '$lib/graphics/primative/canvas2d-primative';
-	import { wally } from '$lib/graphics/graph/presets';
+	import { sarah } from '$lib/graphics/graph/presets';
 	import { AdjMatrix } from './adj-matrix';
 
 	// @hmr:reset
@@ -21,7 +21,7 @@
 		canvas.height = canvas.clientHeight;
 
 		primative = new Canvas2DPrimativeDrawer(canvas);
-		animator = wally(primative, canvas, false);
+		animator = sarah(primative, canvas, false);
 
 		adjMatrixFigure = new AdjMatrix(primative, animator);
 

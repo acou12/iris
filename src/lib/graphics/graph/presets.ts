@@ -5,7 +5,7 @@ import { p } from '../point/point';
 import { StandardGraphAnimator } from './animator/standard-graph-animator';
 import { StandardGraph } from './standard-graph';
 
-export const wally = (
+export const sarah = (
 	primative: PrimativeDrawer,
 	canvas: HTMLCanvasElement,
 	weightsDisplayed: boolean
@@ -40,7 +40,7 @@ export const wally = (
 	graph.addEdge(new Edge(4, 5), Math.floor(Math.random() * 10) + 1);
 	graph.addEdge(new Edge(4, 6), Math.floor(Math.random() * 10) + 1);
 	graph.addEdge(new Edge(5, 6), Math.floor(Math.random() * 10) + 1);
-	graph.addEdge(new Edge(5, 7), Math.floor(Math.random() * 10) + 1);
+	// graph.addEdge(new Edge(5, 7), Math.floor(Math.random() * 10) + 1);
 	graph.addEdge(new Edge(5, 8), Math.floor(Math.random() * 10) + 1);
 	graph.addEdge(new Edge(6, 9), Math.floor(Math.random() * 10) + 1);
 	graph.addEdge(new Edge(6, 10), Math.floor(Math.random() * 10) + 1);

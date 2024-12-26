@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { GraphAnimator } from '$lib/graphics/graph/graph-animator';
+	import type { GraphAnimator } from '$lib/graphics/graph/animator/graph-animator';
 	import type { PrimativeDrawer } from '$lib/graphics/primative/primative';
 	import type { Algorithm } from './algorithm';
 

@@ -2,6 +2,7 @@
 import Graph from './graph.svelte';
 import AdjMatrix from './representation/adj-matrix/adj-matrix.svelte';
 import MSTHover from './mst-hover.svelte';
+import Dropdown from '$lib/components/article/Dropdown.svelte'
 </script>
 
 # Introduction
@@ -29,7 +30,7 @@ $$
 
 _Intuition._ It is more useful to consider the edge-incidence definition of degree here. First, observe that every edge is incident on exactly two vertices. Thus, in our sum of degrees, any given edge contributes to exactly two $\text{deg}(v)$ terms by 1. Therefore, we would expect this sum to be equal to twice the number of edges.
 
-_Proof._ We can actually formalize this intuitive idea of "contribution." (do that)
+_Proof._ We can actually formalize this intuitive idea of "contribution." (TODO: do that)
 
 # Representations
 
@@ -44,13 +45,33 @@ We have discussed the mathematical idea of a graph, but it remains to define the
 
 There are two common ways of implementing this data type.
 
+## Adjacency List
+
 ## Adjacency Matrix
 
 One way to interpret a graph is that it is simply a binary relation on the vertices -- that is, any two vertices are either adjacent or they aren't adjacent. This leads to a natural programmatic representation -- for every pair of vertices, keep track of whether they are adjacent or not. We can use any data type that acts as a two-place boolean predicate, but the most obvious choice is a two dimensional array. True to the relation interpretation, we could use a two-dimensional boolean array, but for reasons that will make sense later, it is more typical to use an integer array and store a $1$ for adjacency and $0$ for non-adjacency. This array is known as an **adjacency matrix**.
 
 <AdjMatrix/>
 
-## Adjacency List
+Adjacency matrices perform one operation _very_ quickly: to detect whether two vertices are connected by an edge, we can simply test whether the adjacency matrix has a 1 in the corresponding position. This can be done with (approximately) two pointer deferences, so this operation takes $\Theta(1)$ time.
+
+Unfortunately, unlike the case of the adjacency list, we can no longer quickly find neighbors. The adjacency matrix in Figure (2) demonstrates this. For a vertex $v_i$, we have no choice but to search the entire $i$-th row (or column) and check which entries have value 1. Neighbor iteration, thus, takes $\Theta(n)$. For the worst possible graphs, this is no worse than an adjacency list (since the degree of every vertex might be in $\Theta(n)$), but many graphs have much fewer edges than the worst case. A graph is called **sparse** if its number of edges is small compared to the maximum possible. It is **dense** if its number of edges is closer to the maximum. Graphs that are sparse typically benefit a lot from the adjacency list representation, since vertex degrees are small compared to the number of vertices.
+
+<Dropdown title={`Tangent: Walk Counting`}>
+
+Adjacency matrices have a couple of fringe applications that make use of matrix operations. One of the simplest examples of this is counting the number of walks bewteen adjacent vertices. A **walk** is a sequence of vertices in a graph such that every adjacent vertices in the sequence are connected by an edge. Note that the only difference between this definition and that of a path is that a path must contain unique vertices. A walk, on the other hand, can repeat vertices an arbitrary number of times. It turns out that there is a very simple algorithm to count the number of walks between _every pair of vertices_ if $G$ is represented as an adjacency matrix.
+
+**Lemma.** Let $W = G^k$, where $G$ is the adjacency matrix of a graph and $k$ is a positive integer and let $v_i$ and $v_j$ be arbitrary vertices in $G$. Then $W_{ij}$ is the number of walks that start at $v_i$ and end at $v_j$ of length $k$.
+
+_Proof._ We proceed by induction in $k$.
+
+**Base case:** Consider walks of length 1. Every possible walk of length 1 must start at $v_i$ and end at $v_j$ (by definition) -- therefore, the walk $\langle v_i, v_j \rangle$ is the only possible walk of length 1. This is only a valid walk if $(v_i, v_j) \in E$. Therefore, $G_{ij} = 1$ if and only if $W_{ij} = 1$, and so $W = G = G^1$.
+
+**Inductive step:** Suppose $W = G^k$ correctly represents the number of walks between all pairs of vertices in $G$. (TODO: finish this)
+
+We can compute this power quickly using the divide-and-conquer repeated squares technique, yielding a $\Theta(n^2 \log k)$ algorithm.
+
+</Dropdown>
 
 # Searching
 

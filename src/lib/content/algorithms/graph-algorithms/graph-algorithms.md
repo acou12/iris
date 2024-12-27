@@ -5,6 +5,8 @@ import AdjList from './representation/adj-list/adj-list.svelte';
 import MSTHover from './mst-hover.svelte';
 import Dropdown from '$lib/components/article/Dropdown.svelte'
 import Todo from '$lib/components/article/Todo.svelte'
+import Figure from '$lib/figure/Figure.svelte'
+import FigureLink from '$lib/figure/FigureLink.svelte'
 </script>
 
 # Introduction
@@ -51,17 +53,25 @@ There are two common ways of implementing this data type.
 
 The most common way of representing a graph is by associating each vertex with a list of its neighbors, as shown in Figure 2.
 
-<AdjList/>
+<Figure id={`2`} name={`adj-list`} 
+        caption={`A graph (left) and its adjacency list representation (right). Hover over vertices
+                  to see their corresponding list in the map.`}>
+  <AdjList/>
+</Figure>
 
 ## Adjacency Matrix
 
 One way to interpret a graph is that it is simply a binary relation on the vertices -- that is, any two vertices are either adjacent or they aren't adjacent. This leads to a natural programmatic representation -- for every pair of vertices, keep track of whether they are adjacent or not. We can use any data type that acts as a two-place boolean predicate, but the most obvious choice is a two dimensional array. True to the relation interpretation, we could use a two-dimensional boolean array, but for reasons that will make sense later, it is more typical to use an integer array and store a $1$ for adjacency and $0$ for non-adjacency. This array is known as an **adjacency matrix**.
 
-<AdjMatrix/>
+<Figure id={`3`} name={`adj-matrix`} 
+        caption={`A graph (left) and its adjacency matrix representation (right). Hover over vertices
+                  to see their corresponding row and column in the matrix.`}>
+  <AdjMatrix/>
+</Figure>
 
 Adjacency matrices perform one operation _very_ quickly: to detect whether two vertices are connected by an edge, we can simply test whether the adjacency matrix has a 1 in the corresponding position. This can be done with (approximately) two pointer deferences, so this operation takes $\Theta(1)$ time.
 
-Unfortunately, unlike the case of the adjacency list, we can no longer quickly find neighbors. The adjacency matrix in Figure (2) demonstrates this. For a vertex $v_i$, we have no choice but to search the entire $i$-th row (or column) and check which entries have value 1. Neighbor iteration, thus, takes $\Theta(n)$. For the worst possible graphs, this is no worse than an adjacency list (since the degree of every vertex might be in $\Theta(n)$), but many graphs have much fewer edges than the worst case. A graph is called **sparse** if its number of edges is small compared to the maximum possible. It is **dense** if its number of edges is closer to the maximum. Graphs that are sparse typically benefit a lot from the adjacency list representation, since vertex degrees are small compared to the number of vertices.
+Unfortunately, unlike the case of the adjacency list, we can no longer quickly find neighbors. The adjacency matrix in <FigureLink id=3 name="adj-matrix"/> demonstrates this. For a vertex $v_i$, we have no choice but to search the entire $i$-th row (or column) and check which entries have value 1. Neighbor iteration, thus, takes $\Theta(n)$. For the worst possible graphs, this is no worse than an adjacency list (since the degree of every vertex might be in $\Theta(n)$), but many graphs have much fewer edges than the worst case. A graph is called **sparse** if its number of edges is small compared to the maximum possible. It is **dense** if its number of edges is closer to the maximum. Graphs that are sparse typically benefit a lot from the adjacency list representation, since vertex degrees are small compared to the number of vertices.
 
 <Dropdown title={`Tangent: Walk Counting`}>
 
@@ -136,14 +146,14 @@ It is easy to see why this is a practically useful problem to have a solution fo
 - If your graph represents a social network (with vertices as people and edges as personal connections), this problem asks whether there is a line of connections between two people -- this would tell you, for instance, whether a rumor could spread between these two people just by word of mouth.
 - If your graph represents states and transitions between them, this problem asks whether there is a way to get from one state to another only through transitions.
 
-The most common way to solve the reachability problem is with a **searching algorithm**. At a very high level, here is how pretty much _every_ search algorithm works: we maintain a partition of the vertices $V$ into two sets, which I will call $X$ (for e**x**plored) and $U$ for (**u**nexplored). We repeatedly look for edges which leave $X$ and enter $U$ -- I will call these fringe edges -- and process and move the $U$ vertex to $X$. We terminate when there are no more fringe edges. Algorithm 1 shows very high level psuedocode for such an algorithm.
+The most common way to solve the reachability problem is with a **searching algorithm**. There are many different ways to search a graph, but almost all of them are basic variations of the following high level algorithm.
 
-- process $v_s$
+We start with some specified vertex $v_s$ (for **s**tart). We maintain a partition of the vertices $V$ into two sets, which I will call $X$ (for e**x**plored) and $U$ for (**u**nexplored). As the names imply, $X$ consists of vertices which we are sure are reachable from $v_s$, while $U$ consists of vertices for which this reachability is unknown. Call an edge $(x, u)$ a **fringe** edge if $x \in X$ and $u \in U$. Every iteration, we find a fringe edge and use it to increase the size of $X$, and repeat this until there are no more fringe edges. Algorithm 1 shows very high level psuedocode for such an algorithm.
+
 - $X \gets \{ v_s \}$
 - **while** there exists a fringe edge
   - $(x, u) \gets$ some fringe edge
-  - process $u$.
-  - $X \gets X \cup \{ u \}$.
+  - $X \gets X \cup \{ u \}$
 
 We have left out a lot of details here, but let's first prove that this high-level algorithm accomplishes our goal before we try to flesh it out.
 
@@ -153,11 +163,33 @@ _Intuition._ The basic idea is that at all times, there is a path from $v_s$ to 
 
 _Proof._ We proceed by induction in the shortest path distance from $v_s$. <Todo />
 
+We can't analyze the runtime of this algorithm yet as we have not specified all of its details. How do we actually find one of these fringe edges in the first place? It's easy to check whether any particular edge is a fringe edge, so the most straightforward approach is checking all of the edges.
+
+- $X \gets \{ v_s \}$
+- **while** FindFringe(G, X) $\neq$ NIL
+  - $(x, u) \gets$ FindFringe(G, X)
+  - $X \gets X \cup \{ u \}$
+
+There are at most $n$ iterations (in the case we add all vertices to $X$), and FindFringe takes $\Theta(m)$ time, so the entire algorithm takes $\Theta(nm)$ time.
+
+But every iteration, we're only adding _one vertex_ to $X$, so the fringe is not changing dramatically. It seems like we're wasting a lot of time by checking all of the edges every time when most of them haven't changed to or from being fringe edges. Indeed, we can do much better than this.
+
 ## Breadth-first Search
 
-<Graph/>
+<Figure id={`4`} name={`breadth-first-search`} 
+        caption={`A demonstration of breadth first search. Click to advance one iteration.`}>
+  <Graph/>
+</Figure>
 
-## MST Lemma
+## Depth-first Search
+
+<Todo/>
+
+## Path Reconstruction
+
+<Todo/>
+
+## Minimum Spanning Trees
 
 **Theorem (The Minimum Spanning Tree Lemma).** Suppose $T$ is a minimum spanning tree of a graph $G$. Let $e$ be an edge in $G \setminus T$. Then the following are true:
 
@@ -165,10 +197,14 @@ _Proof._ We proceed by induction in the shortest path distance from $v_s$. <Todo
 - Let $e' \in C$. Then $T^\prime = T - \{e\} \cup \{e'\}$ is a spanning tree of $G$.
 - If $w(e') \leq w(e)$, then $w(T') \leq w(T)$.
 
-_Proof._
+<Figure id={`5`} name={`spanning-tree-cycles`} 
+        caption={`A spanning tree of a graph. Hover over a non-tree edge to reveal the cycle
+                  guaranteed by the minimum spanning tree lemma.`}>
+  <MSTHover />
+</Figure>
 
-- Since $T$ is a spanning tree, there is exactly one path between any two vertices. Let's define $v_i$ and $v_j$ as the two nodes $e$ connects; that is, $e = (v_i, v_j)$. Now, let $p$ be the path between $v_i$ and $v_j$. We can make a cycle $C$ by simply adding the edge $(v_j, v_i)$ to this path -- this is a path from $v_i$ to itself!
+<!-- _Proof._
 
-<MSTHover />
+- Since $T$ is a spanning tree, there is exactly one path between any two vertices. Let's define $v_i$ and $v_j$ as the two nodes $e$ connects; that is, $e = (v_i, v_j)$. Now, let $p$ be the path between $v_i$ and $v_j$. We can make a cycle $C$ by simply adding the edge $(v_j, v_i)$ to this path -- this is a path from $v_i$ to itself! -->
 
-- We removed an edge and added a different one, so $T'$ has the same number of edges. Therefore, it suffices to show that $T'$ is still a tree, since any tree with $n - 1$ edges is a spanning tree. So, we need to show that our new graph has no cycles.
+<!-- - We removed an edge and added a different one, so $T'$ has the same number of edges. Therefore, it suffices to show that $T'$ is still a tree, since any tree with $n - 1$ edges is a spanning tree. So, we need to show that our new graph has no cycles. -->

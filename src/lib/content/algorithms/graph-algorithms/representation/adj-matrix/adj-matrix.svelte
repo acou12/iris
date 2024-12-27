@@ -53,7 +53,7 @@
 <style lang="scss">
 	canvas {
 		width: 100%;
-		height: 500px;
+		height: 430px;
 		margin: auto;
 		display: block;
 	}

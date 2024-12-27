@@ -18,6 +18,7 @@ export class AdjMatrix {
 	interactor: GraphInteractor<number>;
 	hoverVertex: number | undefined;
 	matrixLabels: MathRenderer<number>;
+	vertexLabels: MathRenderer<number>;
 
 	constructor(private primative: PrimativeDrawer, private animator: GraphAnimator<number>) {
 		this.graph = animator.getGraph();
@@ -40,6 +41,25 @@ export class AdjMatrix {
 				);
 			}
 		}
+
+		this.vertexLabels = new KaTeXMathRenderer(animator.getCanvas());
+
+		for (const v1 of this.graph.getAllVertices()) {
+			this.vertexLabels.addElement(
+				v1,
+				`v_{${v1}}`,
+				p(900 + v1 * 30, 20),
+				{ color: 'gray' },
+				MathAlign.CENTER
+			);
+			this.vertexLabels.addElement(
+				v1 + this.graph.getAllVertices().size,
+				`v_{${v1}}`,
+				p(900 - 30, 50 + 30 * v1),
+				{ color: 'gray' },
+				MathAlign.CENTER
+			);
+		}
 	}
 
 	update(delta: number): void {
@@ -49,6 +69,13 @@ export class AdjMatrix {
 	}
 
 	draw(): void {
+		for (const v1 of this.graph.getAllVertices()) {
+			this.vertexLabels.setElementStyle(v1, { color: AMBIENT_COLOR.toString() });
+			this.vertexLabels.setElementStyle(v1 + this.graph.getAllVertices().size, {
+				color: AMBIENT_COLOR.toString()
+			});
+		}
+
 		for (const vertex of this.graph.getAllVertices()) {
 			this.animator.colorVertex(vertex, AMBIENT_COLOR);
 		}
@@ -66,6 +93,11 @@ export class AdjMatrix {
 		}
 
 		if (this.hoverVertex !== undefined) {
+			this.vertexLabels.setElementStyle(this.hoverVertex, { color: HOVER_COLOR.toString() });
+			this.vertexLabels.setElementStyle(this.hoverVertex + this.graph.getAllVertices().size, {
+				color: HOVER_COLOR.toString()
+			});
+
 			for (const v2 of this.graph.getAllVertices()) {
 				const color = lighten(HOVER_COLOR).toString();
 				this.matrixLabels.setElementStyle(

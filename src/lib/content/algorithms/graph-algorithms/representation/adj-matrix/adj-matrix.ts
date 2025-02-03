@@ -130,4 +130,9 @@ export class AdjMatrix {
 
 		this.animator.draw();
 	}
+
+	destroy(): void {
+		this.matrixLabels.destroy();
+		this.vertexLabels.destroy();
+	}
 }

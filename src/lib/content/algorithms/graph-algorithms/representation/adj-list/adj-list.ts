@@ -79,4 +79,8 @@ export class AdjList {
 
 		this.animator.draw();
 	}
+
+	destroy(): void {
+		this.listLabels.destroy();
+	}
 }

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { GraphAnimator } from '$lib/graphics/graph/graph-animator';
+	import type { GraphAnimator } from '$lib/graphics/graph/animator/graph-animator';
 	import type { PrimativeDrawer } from '$lib/graphics/primative/primative';
 	import type { Algorithm } from './algorithm';
 
 	import { Canvas2DPrimativeDrawer } from '$lib/graphics/primative/canvas2d-primative';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { FringeSearch } from './search/fringe';
 	import { sarah } from '$lib/graphics/graph/presets';
 
@@ -35,6 +35,10 @@
 				algorithm.step();
 			}
 		});
+	});
+
+	onDestroy(() => {
+		graph?.destroy();
 	});
 
 	let lastTime = 0;

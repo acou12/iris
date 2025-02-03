@@ -122,4 +122,8 @@ export class StandardGraphAnimator<V> implements GraphAnimator<V> {
 	getCanvas(): HTMLCanvasElement {
 		return this.canvas;
 	}
+
+	destroy(): void {
+		this.vertexLabelRenderer.destroy();
+	}
 }

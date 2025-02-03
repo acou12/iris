@@ -94,4 +94,10 @@ export class KaTeXMathRenderer<K> implements MathRenderer<K> {
 	setElementStyle(key: K, style: MathElementStyle) {
 		this.map.get(key).setStyle(style);
 	}
+
+	destroy(): void {
+		for (const mathObject of this.map.values()) {
+			mathObject.remove();
+		}
+	}
 }

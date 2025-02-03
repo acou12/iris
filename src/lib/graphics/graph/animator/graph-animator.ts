@@ -39,4 +39,5 @@ export interface GraphAnimator<V> {
 
 	update(delta: number): void;
 	draw(): void;
+	destroy(): void;
 }

@@ -3,7 +3,7 @@
 	import type { PrimativeDrawer } from '$lib/graphics/primative/primative';
 	import type { Algorithm } from './algorithm';
 
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 
 	import { Canvas2DPrimativeDrawer } from '$lib/graphics/primative/canvas2d-primative';
 	import { HoverMSTGraph } from '$lib/graphics/graph/hover-mst-graph';
@@ -50,6 +50,10 @@
 		canvas.addEventListener('click', (event) => {
 			algorithm.step();
 		});
+	});
+
+	onDestroy(() => {
+		graph?.destroy();
 	});
 </script>
 

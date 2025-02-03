@@ -2,7 +2,7 @@
 	import type { GraphAnimator } from '$lib/graphics/graph/animator/graph-animator';
 	import type { PrimativeDrawer } from '$lib/graphics/primative/primative';
 
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { Canvas2DPrimativeDrawer } from '$lib/graphics/primative/canvas2d-primative';
 	import { sarah } from '$lib/graphics/graph/presets';
 	import { AdjList } from './adj-list';
@@ -26,6 +26,11 @@
 		adjListFigure = new AdjList(primative, animator);
 
 		draw(0);
+	});
+
+	onDestroy(() => {
+		animator?.destroy();
+		adjListFigure?.destroy();
 	});
 
 	let lastTime = 0;

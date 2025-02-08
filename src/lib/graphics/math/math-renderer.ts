@@ -22,5 +22,6 @@ export interface MathRenderer<K> {
 	moveElement(key: K, position: Point): void;
 	setElementText(key: K, text: string): void;
 	setElementStyle(key: K, style: MathElementStyle);
+	update(delta: number): void;
 	destroy(): void;
 }

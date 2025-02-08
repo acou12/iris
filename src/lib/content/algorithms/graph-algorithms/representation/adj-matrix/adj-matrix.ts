@@ -65,6 +65,8 @@ export class AdjMatrix {
 	update(delta: number): void {
 		this.animator.update(delta);
 		this.interactor.update(delta);
+		this.matrixLabels.update(delta);
+		this.vertexLabels.update(delta);
 		this.hoverVertex = this.interactor.getHoverVertex();
 	}
 

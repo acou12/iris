@@ -46,6 +46,7 @@ export class AdjList {
 	update(delta: number): void {
 		this.animator.update(delta);
 		this.interactor.update(delta);
+		this.listLabels.update(delta);
 		this.hoverVertex = this.interactor.getHoverVertex();
 	}
 

@@ -7,7 +7,7 @@ class KaTeXMathObject {
 
 	constructor(
 		text: string,
-		position: Point,
+		private position: Point,
 		private canvas: HTMLCanvasElement,
 		style: MathElementStyle,
 		private align: MathAlign
@@ -24,6 +24,18 @@ class KaTeXMathObject {
 	}
 
 	setPosition(position: Point) {
+		this.position = position;
+	}
+
+	setText(text: string): void {
+		this.element.innerHTML = katex.renderToString(text);
+	}
+
+	setStyle(style: MathElementStyle) {
+		this.element.style.color = style.color;
+	}
+
+	update(_delta: number): void {
 		this.element.style.position = 'absolute';
 		const boundingBox = this.element.getBoundingClientRect();
 
@@ -37,16 +49,8 @@ class KaTeXMathObject {
 			offsetY = 0;
 		}
 
-		this.element.style.left = `${position.x + this.canvas.offsetLeft - offsetX}px`;
-		this.element.style.top = `${position.y + this.canvas.offsetTop - offsetY - 3}px`;
-	}
-
-	setText(text: string): void {
-		this.element.innerHTML = katex.renderToString(text);
-	}
-
-	setStyle(style: MathElementStyle) {
-		this.element.style.color = style.color;
+		this.element.style.left = `${this.position.x + this.canvas.offsetLeft - offsetX}px`;
+		this.element.style.top = `${this.position.y + this.canvas.offsetTop - offsetY - 3}px`;
 	}
 
 	remove() {
@@ -93,6 +97,12 @@ export class KaTeXMathRenderer<K> implements MathRenderer<K> {
 
 	setElementStyle(key: K, style: MathElementStyle) {
 		this.map.get(key).setStyle(style);
+	}
+
+	update(delta: number): void {
+		for (const mathObject of this.map.values()) {
+			mathObject.update(delta);
+		}
 	}
 
 	destroy(): void {

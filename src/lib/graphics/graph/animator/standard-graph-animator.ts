@@ -68,6 +68,8 @@ export class StandardGraphAnimator<V> implements GraphAnimator<V> {
 		for (const v of this.graph.getAllVertices()) {
 			this.vertexColorMap.get(v).update(delta);
 		}
+
+		this.vertexLabelRenderer.update(delta);
 	}
 
 	draw(): void {

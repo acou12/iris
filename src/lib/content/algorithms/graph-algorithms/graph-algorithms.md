@@ -6,7 +6,9 @@ import MSTHover from './mst-hover.svelte';
 import Dropdown from '$lib/components/article/Dropdown.svelte'
 import Todo from '$lib/components/article/Todo.svelte'
 import Figure from '$lib/figure/Figure.svelte'
+import Algorithm from '$lib/figure/Algorithm.svelte'
 import FigureLink from '$lib/figure/FigureLink.svelte'
+import AlgorithmLink from '$lib/figure/AlgorithmLink.svelte'
 import PsuedocodeTest from '$lib/components/PsuedocodeTest.svelte'
 </script>
 
@@ -153,20 +155,13 @@ As it turns out, it's not much harder to solve a more general problem: _which ve
 
 Let's try to describe this in a way that is a little closer to an actual algorithm. Let's say a vertex $v$ is a **fringe** vertex if $v \not\in X$, but $(u, v) \in E$ for some $u \in X$. Basically, $v$ is a fringe vertex if it is one edge away from a vertex in $X$. Then our algorithm should repeatedly find a fringe vertex and add it to $X$. Algorithm 1 summarizes this approach.
 
-- $X \gets \{ u \}$
-- **while** there exists a fringe vertex $v$
-  - $X \gets X \cup \{ v \}$
-
-<!-- We start with some specified vertex $v_s$ (for **s**tart). We maintain a partition of the vertices $V$ into two sets, which I will call $X$ (for e**x**plored) and $U$ for (**u**nexplored). As the names imply, $X$ consists of vertices which we are sure are reachable from $v_s$, while $U$ consists of vertices for which this reachability is unknown. Call an edge $(x, u)$ a **fringe** edge if $x \in X$ and $u \in U$. Every iteration, we find a fringe edge and use it to increase the size of $X$, and repeat this until there are no more fringe edges. Algorithm 1 shows very high level psuedocode for such an algorithm. -->
-
-<!-- - $X \gets \{ v_s \}$
-- **while** there exists a fringe edge
-  - $(x, u) \gets$ some fringe edge
-  - $X \gets X \cup \{ u \}$ -->
+<Algorithm id={`1`} name={`search-algorithm`} caption={`A high level overview of searching using a fringe.`}>
+<PsuedocodeTest/>
+</Algorithm>
 
 We have left out a lot of details here, but let's first prove that this high-level algorithm accomplishes our goal before we try to flesh it out.
 
-**Theorem.** After algorithm 1 terminates, $X$ contains exactly the vertices in $G$ which are reachable from $u$.
+**Theorem.** After <AlgorithmLink id=1 name="search-algorithm"/> terminates, $X$ contains exactly the vertices in $G$ which are reachable from $u$.
 
 Let's first prove the following invariant: _all vertices in $X$ are reachable from $u$ _.This certainly holds before the loop starts ($u$ is reachable from itself), so we just need to show that it holds after each iteration of the loop. We need to show that the new element we've added to $X$, the fringe vertex $v$, is reachable from $u$. By definition of fringe vertex, there is some $w \in X$ such that $(w, v) \in E$. By the invariant, $w$ is reachable from $u$, and so there is some path
 
@@ -232,4 +227,4 @@ But every iteration, we're only adding _one vertex_ to $X$, so the fringe is not
 
 <!-- - We removed an edge and added a different one, so $T'$ has the same number of edges. Therefore, it suffices to show that $T'$ is still a tree, since any tree with $n - 1$ edges is a spanning tree. So, we need to show that our new graph has no cycles. -->
 
-<PsuedocodeTest />
+<!-- <PsuedocodeTest /> -->

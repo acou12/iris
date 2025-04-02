@@ -7,6 +7,7 @@ import Dropdown from '$lib/components/article/Dropdown.svelte'
 import Todo from '$lib/components/article/Todo.svelte'
 import Figure from '$lib/figure/Figure.svelte'
 import FigureLink from '$lib/figure/FigureLink.svelte'
+import PsuedocodeTest from '$lib/components/PsuedocodeTest.svelte'
 </script>
 
 # Introduction
@@ -148,22 +149,44 @@ It is easy to see why this is a practically useful problem to have a solution fo
 
 The most common way to solve the reachability problem is with a **searching algorithm**. There are many different ways to search a graph, but almost all of them are basic variations of the following high level algorithm.
 
-We start with some specified vertex $v_s$ (for **s**tart). We maintain a partition of the vertices $V$ into two sets, which I will call $X$ (for e**x**plored) and $U$ for (**u**nexplored). As the names imply, $X$ consists of vertices which we are sure are reachable from $v_s$, while $U$ consists of vertices for which this reachability is unknown. Call an edge $(x, u)$ a **fringe** edge if $x \in X$ and $u \in U$. Every iteration, we find a fringe edge and use it to increase the size of $X$, and repeat this until there are no more fringe edges. Algorithm 1 shows very high level psuedocode for such an algorithm.
+As it turns out, it's not much harder to solve a more general problem: _which vertices are reachable from $u$?_ This is the problem searching algorithms actually solve. Here's how: starting at $u$, we begin building a set $X$ of e**x**plored vertices, which we know for sure are reachable from $u$. We repeatedly expand $X$ by finding vertices which are connected to already explored vertices. Eventually, we run out of vertices to add, and we stop -- at this point, $X$ contains all of the vertices reachable from $u$!
 
-- $X \gets \{ v_s \}$
+Let's try to describe this in a way that is a little closer to an actual algorithm. Let's say a vertex $v$ is a **fringe** vertex if $v \not\in X$, but $(u, v) \in E$ for some $u \in X$. Basically, $v$ is a fringe vertex if it is one edge away from a vertex in $X$. Then our algorithm should repeatedly find a fringe vertex and add it to $X$. Algorithm 1 summarizes this approach.
+
+- $X \gets \{ u \}$
+- **while** there exists a fringe vertex $v$
+  - $X \gets X \cup \{ v \}$
+
+<!-- We start with some specified vertex $v_s$ (for **s**tart). We maintain a partition of the vertices $V$ into two sets, which I will call $X$ (for e**x**plored) and $U$ for (**u**nexplored). As the names imply, $X$ consists of vertices which we are sure are reachable from $v_s$, while $U$ consists of vertices for which this reachability is unknown. Call an edge $(x, u)$ a **fringe** edge if $x \in X$ and $u \in U$. Every iteration, we find a fringe edge and use it to increase the size of $X$, and repeat this until there are no more fringe edges. Algorithm 1 shows very high level psuedocode for such an algorithm. -->
+
+<!-- - $X \gets \{ v_s \}$
 - **while** there exists a fringe edge
   - $(x, u) \gets$ some fringe edge
-  - $X \gets X \cup \{ u \}$
+  - $X \gets X \cup \{ u \}$ -->
 
 We have left out a lot of details here, but let's first prove that this high-level algorithm accomplishes our goal before we try to flesh it out.
 
-**Theorem.** After algorithm 1 terminates, $X$ contains exactly the vertices in $G$ which are reachable from $v_s$.
+**Theorem.** After algorithm 1 terminates, $X$ contains exactly the vertices in $G$ which are reachable from $u$.
 
-_Intuition._ The basic idea is that at all times, there is a path from $v_s$ to any $x \in X$. So, in order to add a new vertex to $X$, we need to find a path to it from $v_s$. If we have a fringe edge $(x, u)$, we can find the path from $v_s$ to $x$ and append $u$ to get a path from $v_s$ to $u$. Thus, it is safe to add $u$ to $X$. Every time we do this, we increase the size of $X$ by one, and as long as the graph is finite, we will eventually run out of nodes in $G$ to add.
+Let's first prove the following invariant: _all vertices in $X$ are reachable from $u$ _.This certainly holds before the loop starts ($u$ is reachable from itself), so we just need to show that it holds after each iteration of the loop. We need to show that the new element we've added to $X$, the fringe vertex $v$, is reachable from $u$. By definition of fringe vertex, there is some $w \in X$ such that $(w, v) \in E$. By the invariant, $w$ is reachable from $u$, and so there is some path
 
-_Proof._ We proceed by induction in the shortest path distance from $v_s$. <Todo />
+$$
+p = \langle u, p_1, \dots, p_{n-1}, w \rangle
+$$
 
-We can't analyze the runtime of this algorithm yet as we have not specified all of its details. How do we actually find one of these fringe edges in the first place? It's easy to check whether any particular edge is a fringe edge, so the most straightforward approach is checking all of the edges.
+If we construct a new path by simply appending the edge $(w, v)$, we get the path
+
+$$
+p' = \langle u, p_1, \dots, p_{n-1}, w, v \rangle
+$$
+
+and so $v$ is reachable from $u$. Thus, the invariant is preserved.
+
+<!-- _Intuition._ The basic idea is that at all times, there is a path from $v_s$ to any $x \in X$. So, in order to add a new vertex to $X$, we need to find a path to it from $v_s$. If we have a fringe edge $(x, u)$, we can find the path from $v_s$ to $x$ and append $u$ to get a path from $v_s$ to $u$. Thus, it is safe to add $u$ to $X$. Every time we do this, we increase the size of $X$ by one, and as long as the graph is finite, we will eventually run out of nodes in $G$ to add. -->
+
+<!-- _Proof._ We proceed by induction in the shortest path distance from $v_s$. <Todo /> -->
+
+<!-- We can't analyze the runtime of this algorithm yet as we have not specified all of its details. How do we actually find one of these fringe edges in the first place? It's easy to check whether any particular edge is a fringe edge, so the most straightforward approach is checking all of the edges.
 
 - $X \gets \{ v_s \}$
 - **while** FindFringe(G, X) $\neq$ NIL
@@ -172,11 +195,11 @@ We can't analyze the runtime of this algorithm yet as we have not specified all 
 
 There are at most $n$ iterations (in the case we add all vertices to $X$), and FindFringe takes $\Theta(m)$ time, so the entire algorithm takes $\Theta(nm)$ time.
 
-But every iteration, we're only adding _one vertex_ to $X$, so the fringe is not changing dramatically. It seems like we're wasting a lot of time by checking all of the edges every time when most of them haven't changed to or from being fringe edges. Indeed, we can do much better than this.
+But every iteration, we're only adding _one vertex_ to $X$, so the fringe is not changing dramatically. It seems like we're wasting a lot of time by checking all of the edges every time when most of them haven't changed to or from being fringe edges. Indeed, we can do much better than this. -->
 
 ## Breadth-first Search
 
-<Figure id={`4`} name={`breadth-first-search`} 
+<Figure id={`4`} name={`breadth-first-search`}
         caption={`A demonstration of breadth first search. Click to advance one iteration.`}>
   <Graph/>
 </Figure>
@@ -197,7 +220,7 @@ But every iteration, we're only adding _one vertex_ to $X$, so the fringe is not
 - Let $e' \in C$. Then $T^\prime = T - \{e\} \cup \{e'\}$ is a spanning tree of $G$.
 - If $w(e') \leq w(e)$, then $w(T') \leq w(T)$.
 
-<Figure id={`5`} name={`spanning-tree-cycles`} 
+<Figure id={`5`} name={`spanning-tree-cycles`}
         caption={`A spanning tree of a graph. Hover over a non-tree edge to reveal the cycle
                   guaranteed by the minimum spanning tree lemma.`}>
   <MSTHover />
@@ -208,3 +231,5 @@ But every iteration, we're only adding _one vertex_ to $X$, so the fringe is not
 - Since $T$ is a spanning tree, there is exactly one path between any two vertices. Let's define $v_i$ and $v_j$ as the two nodes $e$ connects; that is, $e = (v_i, v_j)$. Now, let $p$ be the path between $v_i$ and $v_j$. We can make a cycle $C$ by simply adding the edge $(v_j, v_i)$ to this path -- this is a path from $v_i$ to itself! -->
 
 <!-- - We removed an edge and added a different one, so $T'$ has the same number of edges. Therefore, it suffices to show that $T'$ is still a tree, since any tree with $n - 1$ edges is a spanning tree. So, we need to show that our new graph has no cycles. -->
+
+<PsuedocodeTest />

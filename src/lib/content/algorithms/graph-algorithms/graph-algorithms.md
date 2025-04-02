@@ -3,6 +3,7 @@ import Graph from './graph.svelte';
 import AdjMatrix from './representation/adj-matrix/adj-matrix.svelte';
 import AdjList from './representation/adj-list/adj-list.svelte';
 import MSTHover from './mst-hover.svelte';
+import GraphSearchStepwise from './graph-search-stepwise.svelte';
 import Dropdown from '$lib/components/article/Dropdown.svelte'
 import Todo from '$lib/components/article/Todo.svelte'
 import Figure from '$lib/figure/Figure.svelte'
@@ -153,11 +154,16 @@ The most common way to solve the reachability problem is with a **searching algo
 
 As it turns out, it's not much harder to solve a more general problem: _which vertices are reachable from $u$?_ This is the problem searching algorithms actually solve. Here's how: starting at $u$, we begin building a set $X$ of e**x**plored vertices, which we know for sure are reachable from $u$. We repeatedly expand $X$ by finding vertices which are connected to already explored vertices. Eventually, we run out of vertices to add, and we stop -- at this point, $X$ contains all of the vertices reachable from $u$!
 
-Let's try to describe this in a way that is a little closer to an actual algorithm. Let's say a vertex $v$ is a **fringe** vertex if $v \not\in X$, but $(u, v) \in E$ for some $u \in X$. Basically, $v$ is a fringe vertex if it is one edge away from a vertex in $X$. Then our algorithm should repeatedly find a fringe vertex and add it to $X$. Algorithm 1 summarizes this approach.
+Let's try to describe this in a way that is a little closer to an actual algorithm. Let's say a vertex $v$ is a **fringe** vertex if $v \not\in X$, but $(u, v) \in E$ for some $u \in X$. Basically, $v$ is a fringe vertex if it hasn't been explored, but it is one edge away from a vertex that has been explored. Then our algorithm should repeatedly find a fringe vertex and add it to $X$. <AlgorithmLink id=1 name="search-algorithm"/> summarizes this approach, and <FigureLink id=4 name="graph-search-stepwise"/> visualizes the idea.
 
 <Algorithm id={`1`} name={`search-algorithm`} caption={`A high level overview of searching using a fringe.`}>
 <PsuedocodeTest/>
 </Algorithm>
+
+<Figure id={`4`} name={`graph-search-stepwise`}
+        caption={`A visualization of the high level graph search algorith. Orange vertices are those that are one edge away from the explored set. Click an edge to add it and its fringe vertex to the explored set.`}>
+<GraphSearchStepwise />
+</Figure>
 
 We have left out a lot of details here, but let's first prove that this high-level algorithm accomplishes our goal before we try to flesh it out.
 
@@ -177,13 +183,15 @@ $$
 
 and so $v$ is reachable from $u$. Thus, the invariant is preserved.
 
-<!-- _Intuition._ The basic idea is that at all times, there is a path from $v_s$ to any $x \in X$. So, in order to add a new vertex to $X$, we need to find a path to it from $v_s$. If we have a fringe edge $(x, u)$, we can find the path from $v_s$ to $x$ and append $u$ to get a path from $v_s$ to $u$. Thus, it is safe to add $u$ to $X$. Every time we do this, we increase the size of $X$ by one, and as long as the graph is finite, we will eventually run out of nodes in $G$ to add. -->
+So, when the algorithm terminates, $X$ contains only vertices rachable from $u$. Aren't we done, then? Not quite. We have shown that if a vertex is in $X$, it is reachable from $u$, but we still need to show that if a vertex is reachable from $u$, it is in $X$. Essentially, thus far we have only shown that $X$ is a subset of the vertices reachable from $u$, but we need to show it is equal.
 
-<!-- _Proof._ We proceed by induction in the shortest path distance from $v_s$. <Todo /> -->
+This direction is slightly more involved. What we want to show is that... <Todo/>
 
-<!-- We can't analyze the runtime of this algorithm yet as we have not specified all of its details. How do we actually find one of these fringe edges in the first place? It's easy to check whether any particular edge is a fringe edge, so the most straightforward approach is checking all of the edges.
+So we've shown that the algorithm correctly finds all of the vertices we need to find. However, we haven't specified completely how we even find fringe vertices in the first place. Until we do that, we can't even implement this algorithm, let alone analyze its runtime.
 
-- $X \gets \{ v_s \}$
+<Todo/>
+
+<!-- - $X \gets \{ v_s \}$
 - **while** FindFringe(G, X) $\neq$ NIL
   - $(x, u) \gets$ FindFringe(G, X)
   - $X \gets X \cup \{ u \}$
@@ -194,7 +202,7 @@ But every iteration, we're only adding _one vertex_ to $X$, so the fringe is not
 
 ## Breadth-first Search
 
-<Figure id={`4`} name={`breadth-first-search`}
+<Figure id={`5`} name={`breadth-first-search`}
         caption={`A demonstration of breadth first search. Click to advance one iteration.`}>
   <Graph/>
 </Figure>
@@ -215,7 +223,7 @@ But every iteration, we're only adding _one vertex_ to $X$, so the fringe is not
 - Let $e' \in C$. Then $T^\prime = T - \{e\} \cup \{e'\}$ is a spanning tree of $G$.
 - If $w(e') \leq w(e)$, then $w(T') \leq w(T)$.
 
-<Figure id={`5`} name={`spanning-tree-cycles`}
+<Figure id={`6`} name={`spanning-tree-cycles`}
         caption={`A spanning tree of a graph. Hover over a non-tree edge to reveal the cycle
                   guaranteed by the minimum spanning tree lemma.`}>
   <MSTHover />

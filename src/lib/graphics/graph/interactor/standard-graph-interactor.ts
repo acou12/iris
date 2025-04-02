@@ -17,11 +17,15 @@ export class StandardGraphInteractor<V> implements GraphInteractor<V> {
 
 	constructor(private animator: GraphAnimator<V>) {
 		this.graph = animator.getGraph();
+		this.vertexHandlers = [];
+		this.edgeHandlers = [];
 		this.setup();
 	}
 
 	private setup() {
 		const canvas = this.animator.getCanvas();
+
+		console.log(canvas);
 
 		this.mousePos = p(0, 0);
 
@@ -29,7 +33,7 @@ export class StandardGraphInteractor<V> implements GraphInteractor<V> {
 			this.mousePos = p(e.offsetX, e.offsetY);
 		});
 
-		canvas.addEventListener('mouseclick', () => {
+		canvas.addEventListener('click', () => {
 			if (this.hoverVertex !== undefined) {
 				this.vertexHandlers.forEach((handle) => handle(this.hoverVertex));
 			}

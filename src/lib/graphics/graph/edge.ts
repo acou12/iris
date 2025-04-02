@@ -16,4 +16,11 @@ export class Edge<V> {
 	toString(): string {
 		return `${this.from},${this.to}`;
 	}
+
+	identical(other: Edge<V>) {
+		return (
+			(this.from == other.from && this.to == other.to) ||
+			(this.from == other.to && this.to == other.from)
+		);
+	}
 }

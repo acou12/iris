@@ -15,3 +15,10 @@
 		<slot />
 	{/if}
 </div>
+
+<style lang="scss">
+	.dropdown {
+		border-left: solid 5px rgb(225, 225, 225);
+		padding-left: 20px;
+	}
+</style>

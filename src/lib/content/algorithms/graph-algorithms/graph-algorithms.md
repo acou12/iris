@@ -185,9 +185,16 @@ and so $v$ is reachable from $u$. Thus, the invariant is preserved.
 
 So, when the algorithm terminates, $X$ contains only vertices rachable from $u$. Aren't we done, then? Not quite. We have shown that if a vertex is in $X$, it is reachable from $u$, but we still need to show that if a vertex is reachable from $u$, it is in $X$. Essentially, thus far we have only shown that $X$ is a subset of the vertices reachable from $u$, but we need to show it is equal.
 
-This direction is slightly more involved. What we want to show is that... <Todo/>
+<Todo />
+THINK ABOUT THIS. I think it can be salvaged, bit it's not quite right.
 
-So we've shown that the algorithm correctly finds all of the vertices we need to find. However, we haven't specified completely how we even find fringe vertices in the first place. Until we do that, we can't even implement this algorithm, let alone analyze its runtime.
+This direction is slightly more involved. There are many ways to proceed, but here is one idea: for each vertex $v$ that is $u$-reachable, we can prove the following invariant: _$X$ either contains $v$ or there is a fringe vertex $w$ such that there is a path from $u$ to $v$ that passes through $w$._
+
+In other words, the invariant says that we have either found $v$, or we are _on our way_ to finding it through some fringe node $w$. Let us now prove the invariant, again by induction. First, the base case: when $X = \{ u \}$, does this invariant hold? If $u = v$, then the first part of the "or" is clearly true, since $v \in X$. Otherwise, consider any path from $u$ to $v$. Since $u \neq v$, the path consists of more than one path, and so there must be some node $w$ such that $(u, w) \in E$. But since $u$ is the only explored node, $w$ must be a fringe node.
+
+Now, assuming the invariant is true for some iteration, we need to show that it holds for the next as well. Every iteration we add some fringe node $\ell$ to $X$. If $\ell = v$, then clearly the invariant is still true, since now $v \in X$. If $\ell \neq w$, then $w$ is stil a fringe node, and so the second part of the or "or" is still true. The more complicated case is when $\ell = w$. We know there is some path $p = \langle u, \dots, w, w', \dots v \rangle$ that connects $u$ and $v$ and contains $w$. Notice the suspiciously placed $w'$, which is the node after $w$ in the path. Since $p$ is a path, $(w, w') \in E$. After exp
+
+So we've shown that the algorithm correctly finds exactly the vertices we need to find. However, we haven't specified completely how we even find fringe vertices in the first place. Until we do that, we can't even implement this algorithm, let alone analyze its runtime.
 
 <Todo/>
 

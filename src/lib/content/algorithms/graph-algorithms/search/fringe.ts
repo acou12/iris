@@ -1,5 +1,5 @@
 import type { GraphAnimator } from '$lib/graphics/graph/animator/graph-animator';
-import type { Algorithm } from '../algorithm';
+import type { Algorithm } from '../../algorithm';
 
 import { Edge } from '$lib/graphics/graph/edge';
 import { Color } from '$lib/graphics/graph/color/color';

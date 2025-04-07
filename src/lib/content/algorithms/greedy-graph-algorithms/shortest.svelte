@@ -3,17 +3,17 @@
 	import type { PrimativeDrawer } from '$lib/graphics/primative/primative';
 	import type { Algorithm } from '../algorithm';
 
-	import { onDestroy, onMount } from 'svelte';
-
 	import { Canvas2DPrimativeDrawer } from '$lib/graphics/primative/canvas2d-primative';
+	import { onDestroy, onMount } from 'svelte';
+	import { DijkstrasSearch } from './search/dijkstra';
 	import { sarah } from '$lib/graphics/graph/presets';
-	import { GraphSearchStepwise } from '$lib/graphics/graph/graph-search-stepwise';
 
 	// @hmr:reset
 	let canvas: HTMLCanvasElement;
 	let context: CanvasRenderingContext2D;
 	let primative: PrimativeDrawer;
 	let graph: GraphAnimator<number>;
+	let algorithm: Algorithm<number>;
 
 	onMount(() => {
 		context = canvas.getContext('2d');
@@ -22,34 +22,43 @@
 		canvas.height = canvas.clientHeight;
 
 		primative = new Canvas2DPrimativeDrawer(canvas);
-		graph = sarah(primative, canvas, false);
+		graph = sarah(primative, canvas, true);
 
-		const graphSearchStepwise = new GraphSearchStepwise(graph);
+		algorithm = new DijkstrasSearch(graph);
 
-		let lastTime = 0;
-		const draw = (time: number) => {
-			let delta: number;
-			if (lastTime > 0) {
-				delta = (time - lastTime) / 1000;
-			} else {
-				delta = 0;
-			}
-			lastTime = time;
-
-			context.clearRect(0, 0, canvas.width, canvas.height);
-
-			graphSearchStepwise.update(delta);
-			graphSearchStepwise.draw();
-
-			requestAnimationFrame(draw);
-		};
+		algorithm.initalize(0);
 
 		draw(0);
+
+		canvas.addEventListener('click', (event) => {
+			if (!algorithm.hasTerminated()) {
+				algorithm.step();
+			}
+		});
 	});
 
 	onDestroy(() => {
 		graph?.destroy();
 	});
+
+	let lastTime = 0;
+
+	const draw = (time: number) => {
+		let delta: number;
+		if (lastTime > 0) {
+			delta = (time - lastTime) / 1000;
+		} else {
+			delta = 0;
+		}
+		lastTime = time;
+
+		context.clearRect(0, 0, canvas.width, canvas.height);
+
+		graph.update(delta);
+		graph.draw();
+
+		requestAnimationFrame(draw);
+	};
 </script>
 
 <canvas bind:this={canvas} />
@@ -57,7 +66,7 @@
 <style lang="scss">
 	canvas {
 		width: 75%;
-		height: 420px;
+		height: 500px;
 		margin: auto;
 		display: block;
 	}

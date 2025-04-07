@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { GraphAnimator } from '$lib/graphics/graph/animator/graph-animator';
 	import type { PrimativeDrawer } from '$lib/graphics/primative/primative';
-	import type { Algorithm } from './algorithm';
+	import type { Algorithm } from '../algorithm';
 
 	import { Canvas2DPrimativeDrawer } from '$lib/graphics/primative/canvas2d-primative';
 	import { onDestroy, onMount } from 'svelte';

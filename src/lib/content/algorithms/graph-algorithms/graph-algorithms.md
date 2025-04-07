@@ -1,8 +1,8 @@
 <script>
+import { graphSearch, breadthFirstSearch } from './psuedocode'
 import Graph from './graph.svelte';
 import AdjMatrix from './representation/adj-matrix/adj-matrix.svelte';
 import AdjList from './representation/adj-list/adj-list.svelte';
-import MSTHover from './mst-hover.svelte';
 import GraphSearchStepwise from './graph-search-stepwise.svelte';
 import Dropdown from '$lib/components/article/Dropdown.svelte'
 import Todo from '$lib/components/article/Todo.svelte'
@@ -10,7 +10,7 @@ import Figure from '$lib/figure/Figure.svelte'
 import Algorithm from '$lib/figure/Algorithm.svelte'
 import FigureLink from '$lib/figure/FigureLink.svelte'
 import AlgorithmLink from '$lib/figure/AlgorithmLink.svelte'
-import PsuedocodeTest from '$lib/components/PsuedocodeTest.svelte'
+import Psuedocode from '$lib/components/Psuedocode.svelte'
 </script>
 
 # Introduction
@@ -157,7 +157,7 @@ As it turns out, it's not much harder to solve a more general problem: _which ve
 Let's try to describe this in a way that is a little closer to an actual algorithm. Let's say a vertex $v$ is a **fringe** vertex if $v \not\in X$, but $(u, v) \in E$ for some $u \in X$. Basically, $v$ is a fringe vertex if it hasn't been explored, but it is one edge away from a vertex that has been explored. Then our algorithm should repeatedly find a fringe vertex and add it to $X$. <AlgorithmLink id=1 name="search-algorithm"/> summarizes this approach, and <FigureLink id=4 name="graph-search-stepwise"/> visualizes the idea.
 
 <Algorithm id={`1`} name={`search-algorithm`} caption={`A high level overview of searching using a fringe.`}>
-<PsuedocodeTest/>
+<Psuedocode fn={graphSearch}/>
 </Algorithm>
 
 <Figure id={`4`} name={`graph-search-stepwise`}
@@ -198,18 +198,13 @@ So we've shown that the algorithm correctly finds exactly the vertices we need t
 
 <Todo/>
 
-<!-- - $X \gets \{ v_s \}$
-- **while** FindFringe(G, X) $\neq$ NIL
-  - $(x, u) \gets$ FindFringe(G, X)
-  - $X \gets X \cup \{ u \}$
-
-There are at most $n$ iterations (in the case we add all vertices to $X$), and FindFringe takes $\Theta(m)$ time, so the entire algorithm takes $\Theta(nm)$ time.
-
-But every iteration, we're only adding _one vertex_ to $X$, so the fringe is not changing dramatically. It seems like we're wasting a lot of time by checking all of the edges every time when most of them haven't changed to or from being fringe edges. Indeed, we can do much better than this. -->
-
 ## Breadth-first Search
 
-<Figure id={`5`} name={`breadth-first-search`}
+<Algorithm id={`2`} name={`breadth-first-search-alg`} caption={`Breadth-first-search.`}>
+<Psuedocode fn={breadthFirstSearch}/>
+</Algorithm>
+
+<Figure id={`5`} name={`breadth-first-search-fig`}
         caption={`A demonstration of breadth first search. Click to advance one iteration.`}>
   <Graph/>
 </Figure>
@@ -221,25 +216,3 @@ But every iteration, we're only adding _one vertex_ to $X$, so the fringe is not
 ## Path Reconstruction
 
 <Todo/>
-
-## Minimum Spanning Trees
-
-**Theorem (The Minimum Spanning Tree Lemma).** Suppose $T$ is a minimum spanning tree of a graph $G$. Let $e$ be an edge in $G \setminus T$. Then the following are true:
-
-- $T \cup \{e\}$ contains a unique cycle $C$.
-- Let $e' \in C$. Then $T^\prime = T - \{e\} \cup \{e'\}$ is a spanning tree of $G$.
-- If $w(e') \leq w(e)$, then $w(T') \leq w(T)$.
-
-<Figure id={`6`} name={`spanning-tree-cycles`}
-        caption={`A spanning tree of a graph. Hover over a non-tree edge to reveal the cycle
-                  guaranteed by the minimum spanning tree lemma.`}>
-  <MSTHover />
-</Figure>
-
-<!-- _Proof._
-
-- Since $T$ is a spanning tree, there is exactly one path between any two vertices. Let's define $v_i$ and $v_j$ as the two nodes $e$ connects; that is, $e = (v_i, v_j)$. Now, let $p$ be the path between $v_i$ and $v_j$. We can make a cycle $C$ by simply adding the edge $(v_j, v_i)$ to this path -- this is a path from $v_i$ to itself! -->
-
-<!-- - We removed an edge and added a different one, so $T'$ has the same number of edges. Therefore, it suffices to show that $T'$ is still a tree, since any tree with $n - 1$ edges is a spanning tree. So, we need to show that our new graph has no cycles. -->
-
-<!-- <PsuedocodeTest /> -->

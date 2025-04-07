@@ -6,7 +6,7 @@
 	import { onDestroy, onMount } from 'svelte';
 
 	import { Canvas2DPrimativeDrawer } from '$lib/graphics/primative/canvas2d-primative';
-	import { sarah } from '$lib/graphics/graph/presets';
+	import { wally } from '$lib/graphics/graph/presets';
 	import { GraphSearchStepwise } from '$lib/graphics/graph/graph-search-stepwise';
 
 	// @hmr:reset
@@ -22,7 +22,7 @@
 		canvas.height = canvas.clientHeight;
 
 		primative = new Canvas2DPrimativeDrawer(canvas);
-		graph = sarah(primative, canvas, false);
+		graph = wally(primative, canvas, false);
 
 		const graphSearchStepwise = new GraphSearchStepwise(graph);
 

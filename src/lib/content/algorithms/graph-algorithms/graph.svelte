@@ -6,7 +6,7 @@
 	import { Canvas2DPrimativeDrawer } from '$lib/graphics/primative/canvas2d-primative';
 	import { onDestroy, onMount } from 'svelte';
 	import { FringeSearch } from './search/fringe';
-	import { sarah } from '$lib/graphics/graph/presets';
+	import { wally } from '$lib/graphics/graph/presets';
 
 	// @hmr:reset
 	let canvas: HTMLCanvasElement;
@@ -22,7 +22,7 @@
 		canvas.height = canvas.clientHeight;
 
 		primative = new Canvas2DPrimativeDrawer(canvas);
-		graph = sarah(primative, canvas, false);
+		graph = wally(primative, canvas, false);
 
 		algorithm = new FringeSearch(graph);
 

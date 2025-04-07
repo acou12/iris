@@ -5,7 +5,7 @@ import { p } from '../point/point';
 import { StandardGraphAnimator } from './animator/standard-graph-animator';
 import { StandardGraph } from './standard-graph';
 
-export const sarah = (
+export const wally = (
 	primative: PrimativeDrawer,
 	canvas: HTMLCanvasElement,
 	weightsDisplayed: boolean

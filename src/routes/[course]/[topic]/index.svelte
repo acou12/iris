@@ -6,8 +6,8 @@
 	export const load: Load = async ({ params, fetch, session, stuff }) => {
 		const { course: courseName, topic: topicName } = params;
 		const course = courses.find((it) => it.name == courseName);
-		const topic = course.topics.find((it) => it.name == topicName);
-		if (!course || !topic) {
+		const topicIndex = course.topics.findIndex((it) => it.name == topicName);
+		if (!course || topicIndex === -1) {
 			return {
 				status: 404
 			};
@@ -16,7 +16,7 @@
 			status: 200,
 			props: {
 				course,
-				topic
+				topicIndex
 			}
 		};
 	};
@@ -26,10 +26,12 @@
 	import '$lib/styles/global.scss';
 	// @ts-ignore
 	import Placeholder from '$lib/content/placeholder.md';
+	import IrisButton from '$lib/components/IrisButton.svelte';
 
 	export let course: Course;
-	export let topic: Topic;
-	const svelte = topic.svelte;
+	export let topicIndex: number;
+	$: topic = course.topics[topicIndex];
+	$: svelte = topic.svelte;
 
 	function lightenColor(color: string) {
 		const red = parseInt(color.substring(1, 3), 16);
@@ -71,6 +73,36 @@
 		<svelte:component this={Placeholder} />
 	{/if}
 </div>
+{#key topicIndex}
+	<div class="end-buttons">
+		<div class="prev">
+			{#if topicIndex - 1 >= 0}
+				<IrisButton
+					href="/{course.name}/{course.topics[topicIndex - 1].name}"
+					color={course.color}
+					icon={course.topics[topicIndex - 1].icon}
+				>
+					<h2>
+						← &nbsp; {course.topics[topicIndex - 1].prettyName}
+					</h2>
+				</IrisButton>
+			{/if}
+		</div>
+		<div class="next">
+			{#if topicIndex + 1 < course.topics.length}
+				<IrisButton
+					href="/{course.name}/{course.topics[topicIndex + 1].name}"
+					color={course.color}
+					icon={course.topics[topicIndex + 1].icon}
+				>
+					<h2>
+						{course.topics[topicIndex + 1].prettyName} &nbsp; →
+					</h2>
+				</IrisButton>
+			{/if}
+		</div>
+	</div>
+{/key}
 
 <style lang="scss">
 	.header {
@@ -112,5 +144,12 @@
 		padding: 30px;
 		max-width: 1300px;
 		margin: auto;
+	}
+
+	.end-buttons {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		padding: 20px;
+		margin-top: 100px;
 	}
 </style>

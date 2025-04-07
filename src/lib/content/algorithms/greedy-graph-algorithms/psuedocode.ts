@@ -6,6 +6,7 @@ export const dijkstrasSearch = ps.func(
 	[
 		ps.generals([`F \\gets`, ` new queue`]),
 		ps.generals([`W \\gets`, ` new ordered dictionary `, `(\\mathcal{N} \\to \\mathbb{R})`]),
+		ps.generals([``, `set `, `W(v) = \\infty`, ` for all `, `v`]),
 		ps.generals([``, `add `, `u`, ` to `, `F`]),
 		ps.whiles('|F| > 0', [
 			ps.generals([`v \\gets `, ` pop from `, `F`]),

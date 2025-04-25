@@ -19,7 +19,7 @@ kasjhdkajshdkj
 
 ## The Minimum Spanning Tree Problem
 
-**Theorem (The Spanning Tree Lemma).** Suppose $T$ is a minimum spanning tree of a graph $G$. Let $e$ be an edge in $G \setminus T$. Then the following are true:
+**Theorem (The Spanning Tree Lemma).** Suppose $T$ is a spanning tree of a graph $G$. Let $e$ be an edge in $G \setminus T$. Then the following are true:
 
 - $T \cup \{e\}$ contains a unique cycle $C$.
 - Let $e' \in C$. Then $T^\prime = T - \{e\} \cup \{e'\}$ is a spanning tree of $G$.

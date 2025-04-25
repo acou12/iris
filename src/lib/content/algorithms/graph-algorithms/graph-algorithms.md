@@ -38,7 +38,13 @@ $$
 
 _Intuition._ It is more useful to consider the edge-incidence definition of degree here. First, observe that every edge is incident on exactly two vertices. Thus, in our sum of degrees, any given edge contributes to exactly two $\text{deg}(v)$ terms by 1. Therefore, we would expect this sum to be equal to twice the number of edges.
 
-_Proof._ We can formalize this intuitive idea. <Todo/>
+_Proof._ We can formalize this intuitive idea. Let $\delta_{ij} = 1$ if and only if $e_j$ is incident on vertex $v_i$; otherwise, it is defined as 0. So, we can now rewrite $\text{deg}(v_i) = \sum_{j=1}^{m} \delta_{ij}$. So, the sum of all of these degrees is
+
+$$
+\sum_{i=1}^{n} \sum_{j=1}^{m} \delta_{ij} = \sum_{j=1}^{m} \sum_{i=1}^{n} \delta_{ij} = \sum_{i=1}^{n} 2 = 2m
+$$
+
+Here we simply rearrange the sum and use the fact that there are exactly 2 vertices incident on any edge, so $\sum_{i=1}^{n} \delta_{ij} = 2$.
 
 # Representations
 
@@ -53,21 +59,11 @@ We have discussed the mathematical idea of a graph, but it remains to define the
 
 There are two common ways of implementing this data type.
 
-## Adjacency List
-
-The most common way of representing a graph is by associating each vertex with a list of its neighbors, as shown in Figure 2.
-
-<Figure id={`2`} name={`adj-list`} 
-        caption={`A graph (left) and its adjacency list representation (right). Hover over vertices
-                  to see their corresponding list in the map.`}>
-  <AdjList/>
-</Figure>
-
 ## Adjacency Matrix
 
 One way to interpret a graph is that it is simply a binary relation on the vertices -- that is, any two vertices are either adjacent or they aren't adjacent. This leads to a natural programmatic representation -- for every pair of vertices, keep track of whether they are adjacent or not. We can use any data type that acts as a two-place boolean predicate, but the most obvious choice is a two dimensional array. True to the relation interpretation, we could use a two-dimensional boolean array, but for reasons that will make sense later, it is more typical to use an integer array and store a $1$ for adjacency and $0$ for non-adjacency. This array is known as an **adjacency matrix**.
 
-<Figure id={`3`} name={`adj-matrix`} 
+<Figure id={`2`} name={`adj-matrix`} 
         caption={`A graph (left) and its adjacency matrix representation (right). Hover over vertices
                   to see their corresponding row and column in the matrix.`}>
   <AdjMatrix/>
@@ -75,7 +71,9 @@ One way to interpret a graph is that it is simply a binary relation on the verti
 
 Adjacency matrices perform one operation _very_ quickly: to detect whether two vertices are connected by an edge, we can simply test whether the adjacency matrix has a 1 in the corresponding position. This can be done with (approximately) two pointer deferences, so this operation takes $\Theta(1)$ time.
 
-Unfortunately, unlike the case of the adjacency list, we can no longer quickly find neighbors. The adjacency matrix in <FigureLink id=3 name="adj-matrix"/> demonstrates this. For a vertex $v_i$, we have no choice but to search the entire $i$-th row (or column) and check which entries have value 1. Neighbor iteration, thus, takes $\Theta(n)$. For the worst possible graphs, this is no worse than an adjacency list (since the degree of every vertex might be in $\Theta(n)$), but many graphs have much fewer edges than the worst case. A graph is called **sparse** if its number of edges is small compared to the maximum possible. It is **dense** if its number of edges is closer to the maximum. Graphs that are sparse typically benefit a lot from the adjacency list representation, since vertex degrees are small compared to the number of vertices.
+Let us investigate the other operations. To iterate over every neighbor of $v_i$, we can iterate through the $i$-th row and report all the entries which are 1. Since a row is size $n$, this always takes $\Theta(n)$ time. Similarly, to iterate over all edges, we can go through the entire matrix and return all of the entries with a 1 in them, taking $\Theta(n^2)$ time. As we will see, neither of these are particularly good -- this is because we waste a lot of time iterating over entries which don't actually represent any edges, but are just empty placeholds for where edges _could_ be. The next representation, the adjacency list, addresses this issue.
+
+<!-- Unfortunately, unlike the case of the adjacency list, we can no longer quickly find neighbors. The adjacency matrix in <FigureLink id=2 name="adj-matrix"/> demonstrates this. For a vertex $v_i$, we have no choice but to search the entire $i$-th row (or column) and check which entries have value 1. Neighbor iteration, thus, takes $\Theta(n)$. For the worst possible graphs, this is no worse than an adjacency list (since the degree of every vertex might be in $\Theta(n)$), but many graphs have much fewer edges than the worst case. A graph is called **sparse** if its number of edges is small compared to the maximum possible. It is **dense** if its number of edges is closer to the maximum. Graphs that are sparse typically benefit a lot from the adjacency list representation, since vertex degrees are small compared to the number of vertices. -->
 
 <Dropdown title={`Tangent: Walk Counting`}>
 
@@ -131,6 +129,47 @@ This is very closely related to a concept known as **markov chain process** whic
 
 </Dropdown>
 
+</Dropdown>
+
+## Adjacency List
+
+One useful metric of graphs is their **density**, which is how many edges they have relative to the number of vertices they have. A graph is called **dense** if its number of edges is asymptotically close to the maximum. A graph is called **sparse** if it is not **dense**; that is, if its number of edges is far less than the maximum. Some formalizations of these terms exist (see tangent <Todo/>), but for now just think of
+
+In practice, many graphs are sparse. For example, imagine a graph representing locations in the real world. You could imagine a complex enough graph of this type having, say, a million different locations. For any particular location, however, the maximum number of edges between that location and adjacent locations is probably no more than 4 -- maybe up to 5, 6, if you have some really crazy intersection. It is certainly nowhere close to a million. We would expect, then, that this graph probably has no more than 5 to 6 million edges, even though it could _in principle_ have up to ${10^6 \choose 2} \approx 10^{12}$ edges.
+
+Sparse graphs benefit from a more efficient representation called an **adjacency list**. Here, for each vertex, we simply store a "list" of adjacent vertices. I put list in scare quotes since it really makes more sense to think of this as a set (there are no duplicates, nor is there any particular order), but conventionally it's just called a list anyway.
+
+<Figure id={`3`} name={`adj-list`} 
+        caption={`A graph (left) and its adjacency list representation (right). Hover over vertices
+                  to see their corresponding list in the map.`}>
+  <AdjList/>
+</Figure>
+
+Comparing the two figures, it should hopefully clear where the speedup comes from: instead of checking every node to see if it is adjacent to some vertex $v_i$, we can just instantly have access to a list of neighbors and iterate over it. So, neighbor iteration for adjacency lists is in $\Theta(\text{deg}(v_i))$. Since there are $\text{deg}(v_i)$ neighbors anyway, this is _literally the best we can do_. We can also iterate over all edges quickly by iterating every list; this takes $\Theta(n + m)$ time.
+
+On the other hand, edge detection is not as nice. In order to determine if $(u, v) \in E$, we have to go through $u$'s list and check if $v$ is in it, or vice versa. As long as we know the length of each list, we can pick the shortest, so edge detection takes $\Theta(\text{min}(\text{deg}(u), \text{deg(v)}))$. Note that for dense graphs, this can be quite bad... $\Theta(n)$, in the worst case! Much worse than the $\Theta(1)$ we had for adjacency matrices. But in sparse graphs, where we expect the degree to be relatively small, this is still quite efficient.
+
+So, we can see that there is a tradeoff -- by using lists, we get faster neighbor and edge iteration, but slower edge detection. By using matrices, we get faster edge detection, but slower neighbor and edge iteration. As it turns out, however, neighbor iteration is used _wayyy_ more than any other operation. This operation is essentially the fundamental operation used when searching through graphs, which is kind of the thing you do with graphs. Hence, adjacency lists are generally used unless there is a good reason in particular to use adjacency matrices.
+
+<Dropdown title={`Remark: Implicit Graphs`}>
+From what we have described here, it seems like one should always use adjacency lists unless one is in need of some esoteric matrix multiplication fuckery. There's another consideration we have so far sort of swept under the rug -- what if you don't have control of the graph representation in the first place? This is more common than it might seem.
+
+<!-- Imagine you have a complex system that can transition between different states. Maybe you are trying to write a Rubik's cube solver. You know that from any given state, there are a fixed set of moves you can make. It's fairly easy to enumerate all of these states. You can think of a grap -->
+
+Now imagine you have a set of line segments, some intersecting. You want to group these segments into components of segments that are intersecting, such that no two components have segments that intersect each other. How do you get a list of all of the segments the intersect some other segment? Well... you _can't_. All you have are the segments' coordinates, not any information about intersecting segments. The only thing you really _can_ do is iterate through each segment and use geometry to determine if that segment intersects with the one you're interested in. This is exactly how the adjacency matrix representation of a graph works. We can tell very quickly whether any two vertices are adjacent, but to find all of them, we just have to check all of them.
+
+Knowing how both of these representations work is useful, as you may encounter a situation where you are forced to use one over the other.
+
+<Dropdown title={`Counter-Remark: Preprocessing`}>
+
+Of course, if you really need to use a different graph representation than you are naturally provided, there is nothing stopping you from just constructing a new one that has the same graph data. For instance, we could make a new adjacenctly list graph, make a node for each line segment, and add an edge for each intersection. This preproceesing step would take $\Theta(n^2)$, but then we would have a graph that we could efficiency query the neighbors of. Depending on the application, this might be something you want to do, but it may not be worth the effort if the given graph representation is good enough. Also, sometimes constructing an entirely new graph is infeasible. Consider the Rubik's cube case above: an adjacency matrix of the cube state graph would take up 1.87 million quettabytes of memory, or about six _Call of Duty: Modern Warfares_ of memory.
+
+</Dropdown>
+
+</Dropdown>
+
+<Dropdown title={`Tangent: Dynamic Graphs`}>
+<Todo/>
 </Dropdown>
 
 # Searching

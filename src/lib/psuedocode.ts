@@ -30,6 +30,18 @@ export class WhileStatement {
 	}
 }
 
+export class ForStatement {
+	constructor(private condition: LaTeXMath, private body: Block) {}
+
+	render(depth: number): RenderedLine[] {
+		return [
+			{ depth, math: `\\textbf{for }${this.condition.render()}\\textbf{ do}` },
+			...this.body.render(depth + 1),
+			{ depth, math: `\\textbf{end for}` }
+		];
+	}
+}
+
 export class GeneralStatement {
 	constructor(private math: LaTeXMath) {}
 
@@ -49,6 +61,7 @@ export class Block {
 export enum StatementType {
 	IF,
 	WHILE,
+	FOR,
 	GENERAL
 }
 
@@ -60,6 +73,10 @@ export type Line =
 	| {
 			type: StatementType.WHILE;
 			statement: WhileStatement;
+	  }
+	| {
+			type: StatementType.FOR;
+			statement: ForStatement;
 	  }
 	| {
 			type: StatementType.GENERAL;
@@ -114,6 +131,11 @@ export const ifs = (cond: string, lines: Line[]): Line => ({
 export const whiles = (cond: string, lines: Line[]): Line => ({
 	type: StatementType.WHILE,
 	statement: new WhileStatement(math(cond), new Block(lines))
+});
+
+export const fors = (cond: string, lines: Line[]): Line => ({
+	type: StatementType.FOR,
+	statement: new ForStatement(math(cond), new Block(lines))
 });
 
 export const generals = (parts: string[]): Line => {

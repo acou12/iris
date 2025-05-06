@@ -1,9 +1,12 @@
 <script>
 import { graphSearch, breadthFirstSearch } from './psuedocode'
+import { dijkstrasSearch } from '../greedy-graph-algorithms/psuedocode'
 import Graph from './graph.svelte';
 import AdjMatrix from './representation/adj-matrix/adj-matrix.svelte';
 import AdjList from './representation/adj-list/adj-list.svelte';
 import GraphSearchStepwise from './graph-search-stepwise.svelte';
+import MSTHover from '../greedy-graph-algorithms/mst-hover.svelte';
+import Shortest from '../greedy-graph-algorithms/shortest.svelte';
 import Dropdown from '$lib/components/article/Dropdown.svelte'
 import Todo from '$lib/components/article/Todo.svelte'
 import Figure from '$lib/figure/Figure.svelte'
@@ -17,8 +20,8 @@ import Psuedocode from '$lib/components/Psuedocode.svelte'
 
 A **graph** is an abstraction representing some objects and connections between pairs of objects. In its simplest form, a graph has just two pieces:
 
-- A set of vertices $V$, representing the objects we are interested in. These could represent, for instance, people, physical locations, webpages, or even other graphs.
-- A set of edges $E$, consisting of pairs of the form $(v_i, v_j)$, representing a connection between vertices. These could represent, for instance, relationships between people, roads between physical locations, links between webpages, or isomorphisms between graphs.
+- A set of **vertices** $V$, representing the objects we are interested in. These could represent, for instance, people, physical locations, webpages, or even other graphs. Vertices can also be called **nodes**, points, junctions, pins, and knobs. This text will keep standard computer science convention by using the terms **vertex** and **node** interchangably, in no way that is internally consistent.
+- A set of **edges** $E$, consisting of pairs of the form $(v_i, v_j)$, representing a connection between vertices. These could represent, for instance, relationships between people, roads between physical locations, links between webpages, or isomorphisms between graphs. Edges can also be called arcs, lines, branches, connectors, strands, and veins. This text will use the term **edge**.
 
 More generally, a graph contains information about what pairs of objects are related to each other in some way.
 
@@ -26,9 +29,9 @@ Let us first define some terminology that will make talking about graphs less cu
 
 The **degree** of a node $v$ (denoted $\text{deg}(v)$) is the number of other nodes adjacent to it, or in other words, the number of neighbors it has. Equivalently, $\text{deg}(v)$ is the number of edges incident on $v$.
 
-We define a **path** as a sequence of nodes such that any two adjacent nodes in the sequence are adjacent in $G$. Two nodes $u$ and $v$ are then **reachable** from each other if there is a path that starts at $u$ and ends at $v$ (or vice versa).
+We define a **walk** as a sequence of nodes such that any two adjacent nodes in the sequence are adjacent in $G$. A walk is called a **path** if it consists of distinct vertices -- that is, it doesn't go over any vertex more than once. Two vertices $u$ and $v$ are then **reachable** from each other if there is a path (or walk) that starts at $u$ and ends at $v$ (or vice versa).
 
-As with most sufficiently complex mathematical notions, there is an [infinite black hole](https://en.wikipedia.org/wiki/Glossary_of_graph_theory) of graph theory terminology, much of which we will see in the future. For now, however, these terms are sufficient for making basic claims about graphs. The following is one of the most important facts about graphs, especially for the purpose of runtime analysis.
+As with most sufficiently complex mathematical notions, graph theory terminology is an [all-consuming black hole](https://en.wikipedia.org/wiki/Glossary_of_graph_theory), and we have only covered a small fraction of all of the words one can use to describe graphs and their parts and properties. However, these terms are sufficient for making basic claims about graphs. The following is one of the most important facts about graphs, especially for the purpose of runtime analysis.
 
 **The Handshaking Lemma.** For any graph $G$, the sum of the degrees of every node is twice the number of edges. That is,
 
@@ -61,7 +64,7 @@ There are two common ways of implementing this data type.
 
 ## Adjacency Matrix
 
-One way to interpret a graph is that it is simply a binary relation on the vertices -- that is, any two vertices are either adjacent or they aren't adjacent. This leads to a natural programmatic representation -- for every pair of vertices, keep track of whether they are adjacent or not. We can use any data type that acts as a two-place boolean predicate, but the most obvious choice is a two dimensional array. True to the relation interpretation, we could use a two-dimensional boolean array, but for reasons that will make sense later, it is more typical to use an integer array and store a $1$ for adjacency and $0$ for non-adjacency. This array is known as an **adjacency matrix**.
+One way to interpret a graph is that it is simply a binary relation on the vertices — that is, any two vertices are either adjacent or they aren't adjacent. This leads to a natural programmatic representation — for every pair of vertices, keep track of whether they are adjacent or not. We can use any data type that acts as a two-place boolean predicate, but the most obvious choice is a two dimensional array. True to the relation interpretation, we could use a two-dimensional boolean array, but for reasons that will make sense later, it is more typical to use an integer array and store a $1$ for adjacency and $0$ for non-adjacency. This array is known as an **adjacency matrix**.
 
 <Figure id={`2`} name={`adj-matrix`} 
         caption={`A graph (left) and its adjacency matrix representation (right). Hover over vertices
@@ -71,7 +74,7 @@ One way to interpret a graph is that it is simply a binary relation on the verti
 
 Adjacency matrices perform one operation _very_ quickly: to detect whether two vertices are connected by an edge, we can simply test whether the adjacency matrix has a 1 in the corresponding position. This can be done with (approximately) two pointer deferences, so this operation takes $\Theta(1)$ time.
 
-Let us investigate the other operations. To iterate over every neighbor of $v_i$, we can iterate through the $i$-th row and report all the entries which are 1. Since a row is size $n$, this always takes $\Theta(n)$ time. Similarly, to iterate over all edges, we can go through the entire matrix and return all of the entries with a 1 in them, taking $\Theta(n^2)$ time. As we will see, neither of these are particularly good -- this is because we waste a lot of time iterating over entries which don't actually represent any edges, but are just empty placeholds for where edges _could_ be. The next representation, the adjacency list, addresses this issue.
+Let us investigate the other operations. To iterate over every neighbor of $v_i$, we can iterate through the $i$-th row and report all the entries which are 1. Since a row is size $n$, this always takes $\Theta(n)$ time. Similarly, to iterate over all edges, we can go through the entire matrix and return all of the entries with a 1 in them, taking $\Theta(n^2)$ time. As we will see, neither of these are particularly good — this is because we waste a lot of time iterating over entries which don't actually represent any edges, but are just empty placeholds for where edges _could_ be. The next representation, the adjacency list, addresses this issue.
 
 <!-- Unfortunately, unlike the case of the adjacency list, we can no longer quickly find neighbors. The adjacency matrix in <FigureLink id=2 name="adj-matrix"/> demonstrates this. For a vertex $v_i$, we have no choice but to search the entire $i$-th row (or column) and check which entries have value 1. Neighbor iteration, thus, takes $\Theta(n)$. For the worst possible graphs, this is no worse than an adjacency list (since the degree of every vertex might be in $\Theta(n)$), but many graphs have much fewer edges than the worst case. A graph is called **sparse** if its number of edges is small compared to the maximum possible. It is **dense** if its number of edges is closer to the maximum. Graphs that are sparse typically benefit a lot from the adjacency list representation, since vertex degrees are small compared to the number of vertices. -->
 
@@ -83,7 +86,7 @@ Adjacency matrices have a couple of fringe applications that make use of matrix 
 
 _Proof._ We proceed by induction in $k$.
 
-**Base case:** Consider walks of length 1. Every possible walk of length 1 must start at $v_i$ and end at $v_j$ (by definition) -- therefore, the walk $\langle v_i, v_j \rangle$ is the only possible walk of length 1. This is only a valid walk if $(v_i, v_j) \in E$. Therefore, $G_{ij} = 1$ if and only if $W_{ij} = 1$, and so $W = G = G^1$.
+**Base case:** Consider walks of length 1. Every possible walk of length 1 must start at $v_i$ and end at $v_j$ (by definition) — therefore, the walk $\langle v_i, v_j \rangle$ is the only possible walk of length 1. This is only a valid walk if $(v_i, v_j) \in E$. Therefore, $G_{ij} = 1$ if and only if $W_{ij} = 1$, and so $W = G = G^1$.
 
 **Inductive step:** Suppose $W = G^k$ correctly represents the number of walks between all pairs of vertices in $G$. <Todo />
 
@@ -135,7 +138,7 @@ This is very closely related to a concept known as **markov chain process** whic
 
 One useful metric of graphs is their **density**, which is how many edges they have relative to the number of vertices they have. A graph is called **dense** if its number of edges is asymptotically close to the maximum. A graph is called **sparse** if it is not **dense**; that is, if its number of edges is far less than the maximum. Some formalizations of these terms exist (see tangent <Todo/>), but for now just think of
 
-In practice, many graphs are sparse. For example, imagine a graph representing locations in the real world. You could imagine a complex enough graph of this type having, say, a million different locations. For any particular location, however, the maximum number of edges between that location and adjacent locations is probably no more than 4 -- maybe up to 5, 6, if you have some really crazy intersection. It is certainly nowhere close to a million. We would expect, then, that this graph probably has no more than 5 to 6 million edges, even though it could _in principle_ have up to ${10^6 \choose 2} \approx 10^{12}$ edges.
+In practice, many graphs are sparse. For example, imagine a graph representing locations in the real world. You could imagine a complex enough graph of this type having, say, a million different locations. For any particular location, however, the maximum number of edges between that location and adjacent locations is probably no more than 4 — maybe up to 5, 6, if you have some really crazy intersection. It is certainly nowhere close to a million. We would expect, then, that this graph probably has no more than 5 to 6 million edges, even though it could _in principle_ have up to ${10^6 \choose 2} \approx 10^{12}$ edges.
 
 Sparse graphs benefit from a more efficient representation called an **adjacency list**. Here, for each vertex, we simply store a "list" of adjacent vertices. I put list in scare quotes since it really makes more sense to think of this as a set (there are no duplicates, nor is there any particular order), but conventionally it's just called a list anyway.
 
@@ -149,20 +152,21 @@ Comparing the two figures, it should hopefully clear where the speedup comes fro
 
 On the other hand, edge detection is not as nice. In order to determine if $(u, v) \in E$, we have to go through $u$'s list and check if $v$ is in it, or vice versa. As long as we know the length of each list, we can pick the shortest, so edge detection takes $\Theta(\text{min}(\text{deg}(u), \text{deg(v)}))$. Note that for dense graphs, this can be quite bad... $\Theta(n)$, in the worst case! Much worse than the $\Theta(1)$ we had for adjacency matrices. But in sparse graphs, where we expect the degree to be relatively small, this is still quite efficient.
 
-So, we can see that there is a tradeoff -- by using lists, we get faster neighbor and edge iteration, but slower edge detection. By using matrices, we get faster edge detection, but slower neighbor and edge iteration. As it turns out, however, neighbor iteration is used _wayyy_ more than any other operation. This operation is essentially the fundamental operation used when searching through graphs, which is kind of the thing you do with graphs. Hence, adjacency lists are generally used unless there is a good reason in particular to use adjacency matrices.
+So, we can see that there is a tradeoff — by using lists, we get faster neighbor and edge iteration, but slower edge detection. By using matrices, we get faster edge detection, but slower neighbor and edge iteration. As it turns out, however, neighbor iteration is used _wayyy_ more than any other operation. This operation is essentially the fundamental operation used when searching through graphs, which is kind of the thing you do with graphs. Hence, adjacency lists are generally used unless there is a good reason in particular to use adjacency matrices.
+p
 
-<Dropdown title={`Remark: Implicit Graphs`}>
-From what we have described here, it seems like one should always use adjacency lists unless one is in need of some esoteric matrix multiplication fuckery. There's another consideration we have so far sort of swept under the rug -- what if you don't have control of the graph representation in the first place? This is more common than it might seem.
+<Dropdown title={`Remark: Choice`}>
+From what we have described here, it seems like one should always use adjacency lists unless one is in need of some esoteric matrix multiplication fuckery. There's another consideration we have so far sort of swept under the rug — what if you don't have control of the graph representation in the first place? This is more common than it might seem.
 
-<!-- Imagine you have a complex system that can transition between different states. Maybe you are trying to write a Rubik's cube solver. You know that from any given state, there are a fixed set of moves you can make. It's fairly easy to enumerate all of these states. You can think of a grap -->
+Imagine you are tasked to find the shortest path from _Cherry pie_ to _Adolf Hitler_ on Wikipedia through only hyperlinks. To determine this, you can treat Wikipedia as a graph, where each page is a node and edges connect pages that are accessible from each other through links. You can very quickly get access to all of the neighbors of a node in this graph: visit that page and look at all of the places that it links to. In this way, we use the Wikipedia graph as if it was implemeted using an adjacency list.
 
-Now imagine you have a set of line segments, some intersecting. You want to group these segments into components of segments that are intersecting, such that no two components have segments that intersect each other. How do you get a list of all of the segments the intersect some other segment? Well... you _can't_. All you have are the segments' coordinates, not any information about intersecting segments. The only thing you really _can_ do is iterate through each segment and use geometry to determine if that segment intersects with the one you're interested in. This is exactly how the adjacency matrix representation of a graph works. We can tell very quickly whether any two vertices are adjacent, but to find all of them, we just have to check all of them.
+On the other hand, imagine a different problem: you have a set of line segments, some intersecting. You want to group these segments into components of segments that are intersecting, such that no two components have segments that intersect each other. You can this of the system of segments as a graph, where each segment is a node and each edge connects two segments that have a point of intersection. In this case, there isn't a quick way to get all of the neighbors of a node. You really have no choice but to iterate over all of the segments and find the ones that intersect with the segment you're interested in. However, determining whether two nodes are adjacent (or, whether two segments intersect) is very simple: just do the constant time geometry procudure to check for intersection. The way we handle this graph is much closer to an adjacency matrix, where edge detection is fast but neighbor iteration is slow.
 
-Knowing how both of these representations work is useful, as you may encounter a situation where you are forced to use one over the other.
+Knowing how both of these representations work is useful, as you may encounter a situation where you are forced to use one over the other due to circumstance.
 
 <Dropdown title={`Counter-Remark: Preprocessing`}>
 
-Of course, if you really need to use a different graph representation than you are naturally provided, there is nothing stopping you from just constructing a new one that has the same graph data. For instance, we could make a new adjacenctly list graph, make a node for each line segment, and add an edge for each intersection. This preproceesing step would take $\Theta(n^2)$, but then we would have a graph that we could efficiency query the neighbors of. Depending on the application, this might be something you want to do, but it may not be worth the effort if the given graph representation is good enough. Also, sometimes constructing an entirely new graph is infeasible. Consider the Rubik's cube case above: an adjacency matrix of the cube state graph would take up 1.87 million quettabytes of memory, or about six _Call of Duty: Modern Warfares_ of memory.
+Of course, if you really need to use a different graph representation than you are naturally provided, there is nothing stopping you from just constructing a new one that has the same graph data. For the line intersection graph, we could make a new adjacency list graph, make a node for each line segment, and add an edge for each intersection. This preproceesing step would take $\Theta(n^2)$, but then we would have a graph that we could efficiency query the neighbors of. Depending on the application, this might be something you want to do, but it may not be worth the effort if the given graph representation is good enough. Also, sometimes constructing an entirely new graph is infeasible. Consider the Wikipedia case above: in order to construct an adjacency matrix representation of Wikipedia, you would need to download all of Wikipedia and then put it in a very, very large matrix. It would take up about 40 petabytes of memory, or about two copies of _Call of Duty: Modern Warfare_.
 
 </Dropdown>
 
@@ -186,12 +190,12 @@ But not yet questions which answer higher level, global properties of graphs. He
 It is easy to see why this is a practically useful problem to have a solution for.
 
 - If your graph represents a set of locations and roadways between them, this problem asks whether there is a (literal, physical) path between two locations.
-- If your graph represents a social network (with vertices as people and edges as personal connections), this problem asks whether there is a line of connections between two people -- this would tell you, for instance, whether a rumor could spread between these two people just by word of mouth.
+- If your graph represents a social network (with vertices as people and edges as personal connections), this problem asks whether there is a line of connections between two people — this would tell you, for instance, whether a rumor could spread between these two people just by word of mouth.
 - If your graph represents states and transitions between them, this problem asks whether there is a way to get from one state to another only through transitions.
 
 The most common way to solve the reachability problem is with a **searching algorithm**. There are many different ways to search a graph, but almost all of them are basic variations of the following high level algorithm.
 
-As it turns out, it's not much harder to solve a more general problem: _which vertices are reachable from $u$?_ This is the problem searching algorithms actually solve. Here's how: starting at $u$, we begin building a set $X$ of e**x**plored vertices, which we know for sure are reachable from $u$. We repeatedly expand $X$ by finding vertices which are connected to already explored vertices. Eventually, we run out of vertices to add, and we stop -- at this point, $X$ contains all of the vertices reachable from $u$!
+As it turns out, it's not much harder to solve a more general problem: _which vertices are reachable from $u$?_ This is the problem searching algorithms actually solve. Here's how: starting at $u$, we begin building a set $X$ of e**x**plored vertices, which we know for sure are reachable from $u$. We repeatedly expand $X$ by finding vertices which are connected to already explored vertices. Eventually, we run out of vertices to add, and we stop — at this point, $X$ contains all of the vertices reachable from $u$!
 
 Let's try to describe this in a way that is a little closer to an actual algorithm. Let's say a vertex $v$ is a **fringe** vertex if $v \not\in X$, but $(u, v) \in E$ for some $u \in X$. Basically, $v$ is a fringe vertex if it hasn't been explored, but it is one edge away from a vertex that has been explored. Then our algorithm should repeatedly find a fringe vertex and add it to $X$. <AlgorithmLink id=1 name="search-algorithm"/> summarizes this approach, and <FigureLink id=4 name="graph-search-stepwise"/> visualizes the idea.
 
@@ -255,3 +259,27 @@ So we've shown that the algorithm correctly finds exactly the vertices we need t
 ## Path Reconstruction
 
 <Todo/>
+
+## The Minimum Spanning Tree Problem
+
+**Theorem (The Spanning Tree Lemma).** Suppose $T$ is a spanning tree of a graph $G$. Let $e$ be an edge in $G \setminus T$. Then the following are true:
+
+- $T \cup \{e\}$ contains a unique cycle $C$.
+- Let $e' \in C$. Then $T^\prime = T - \{e\} \cup \{e'\}$ is a spanning tree of $G$.
+
+<Figure id={`6`} name={`spanning-tree-cycles`}
+        caption={`A spanning tree of a graph. Hover over a non-tree edge to reveal the cycle
+                  guaranteed by the minimum spanning tree lemma.`}>
+  <MSTHover />
+</Figure>
+
+## The Shortest Path Problem
+
+<Figure id={`7`} name={`dijkstras-search-figure`}
+        caption={`Dijkstra's shortest path algorithm, starting at $v_0$. Click to advance.`}>
+<Shortest/>
+</Figure>
+
+<Algorithm id={`3`} name={`dijkstras-search-figure`} caption={`algorithm!!! algorithm!!!!!!`}>
+<Psuedocode fn={dijkstrasSearch}/>
+</Algorithm>

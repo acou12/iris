@@ -2,6 +2,7 @@ import AngularMomentum from '$lib/content/physics/angular-momentum/angular-momen
 import Momentum from '$lib/content/physics/momentum/momentum.md';
 import Smh from '$lib/content/physics/shm/simple-harmonic-motion.md';
 import GraphAlgorithms from '$lib/content/algorithms/graph-algorithms/graph-algorithms.md';
+import Dictionaries from '$lib/content/algorithms/dictionary/dictionary-outline.md';
 // import GreedyGraphAlgorithms from '$lib/content/algorithms/greedy-graph-algorithms/greedy-graph-algorithms.md';
 import SweepLine from '$lib/content/interactive-systems/sweep-line.md';
 import SetTheory from '$lib/content/discrete-math/set-theory/set-theory.md';
@@ -29,7 +30,13 @@ export const courses: Course[] = [
 		color: '#f94144',
 		topics: [
 			{
-				prettyName: 'Intro to Graph Algorithms',
+				prettyName: 'Dictionaries',
+				name: 'dictionary',
+				svelte: Dictionaries,
+				icon: 'dictionary'
+			},
+			{
+				prettyName: 'Graph Algorithms',
 				name: 'graph-algorithms',
 				svelte: GraphAlgorithms,
 				feature: 0,

@@ -4,6 +4,7 @@ import { dijkstrasSearch } from '../greedy-graph-algorithms/psuedocode'
 import Graph from './graph.svelte';
 import AdjMatrix from './representation/adj-matrix/adj-matrix.svelte';
 import AdjList from './representation/adj-list/adj-list.svelte';
+import Definitions from './definitions/definitions.svelte';
 import GraphSearchStepwise from './graph-search-stepwise.svelte';
 import MSTHover from '../greedy-graph-algorithms/mst-hover.svelte';
 import Shortest from '../greedy-graph-algorithms/shortest.svelte';
@@ -18,20 +19,36 @@ import Psuedocode from '$lib/components/Psuedocode.svelte'
 
 # Introduction
 
-A **graph** is an abstraction representing some objects and connections between pairs of objects. In its simplest form, a graph has just two pieces:
+# Definitions
 
-- A set of **vertices** $V$, representing the objects we are interested in. These could represent, for instance, people, physical locations, webpages, or even other graphs. Vertices can also be called **nodes**, points, junctions, pins, and knobs. This text will keep standard computer science convention by using the terms **vertex** and **node** interchangably, in no way that is internally consistent.
-- A set of **edges** $E$, consisting of pairs of the form $(v_i, v_j)$, representing a connection between vertices. These could represent, for instance, relationships between people, roads between physical locations, links between webpages, or isomorphisms between graphs. Edges can also be called arcs, lines, branches, connectors, strands, and veins. This text will use the term **edge**.
+Formally, a **graph** is an abstraction representing some objects and connections between pairs of objects. In its simplest form, a graph has just two pieces:
 
-More generally, a graph contains information about what pairs of objects are related to each other in some way.
+- A set of **vertices** $V$, representing the objects we are interested in. Vertices can also be called **nodes**, points, junctions, pins, knobs... this text will keep standard computer science convention by using the terms **vertex** and **node** interchangably, in no way that is internally consistent.
+- A set of **edges** $E$, consisting of pairs of the form $(v_i, v_j)$, representing a connection between the vertices $v_i$ and $v_j$. Edges can also be called arcs, lines, branches, connectors, strands, nerves... this text will use the term **edge**. Depending on whether a graph is **directed** or **undirected**, edges may be one-directional or bidirectional (respectively). For now, we will assume graphs are undirected, but we will discuss directed graphs later, and little modification is typically needed to make algorithms and graph representations work with directed graphs.
 
-Let us first define some terminology that will make talking about graphs less cumbersome. If $G$ has an edge $e = (u, v)$, we say $u$ and $v$ are **adjacent**. We also say $u$ is a neighbor of $v$ and $v$ is a neighbor of $u$. The edge $e$ is also referred to as being **incident** on $u$ (and $v$, as well).
-
-The **degree** of a node $v$ (denoted $\text{deg}(v)$) is the number of other nodes adjacent to it, or in other words, the number of neighbors it has. Equivalently, $\text{deg}(v)$ is the number of edges incident on $v$.
+If $G$ has an edge $e = (u, v)$, we say $u$ and $v$ are **adjacent**. We also say $u$ is a **neighbor** of $v$ and $v$ is a neighbor of $u$. The edge $e$ is also referred to as being **incident** on $u$ (and $v$, as well). The **degree** of a node $v$ (denoted $\text{deg}(v)$) is the number of other nodes adjacent to it, or in other words, the number of neighbors it has. Equivalently, $\text{deg}(v)$ is the number of edges incident on $v$.
 
 We define a **walk** as a sequence of nodes such that any two adjacent nodes in the sequence are adjacent in $G$. A walk is called a **path** if it consists of distinct vertices -- that is, it doesn't go over any vertex more than once. Two vertices $u$ and $v$ are then **reachable** from each other if there is a path (or walk) that starts at $u$ and ends at $v$ (or vice versa).
 
-As with most sufficiently complex mathematical notions, graph theory terminology is an [all-consuming black hole](https://en.wikipedia.org/wiki/Glossary_of_graph_theory), and we have only covered a small fraction of all of the words one can use to describe graphs and their parts and properties. However, these terms are sufficient for making basic claims about graphs. The following is one of the most important facts about graphs, especially for the purpose of runtime analysis.
+A graph can also be **weighted**. In a weighted graph, we assign a value (usually, a real number) to every edge. To denote weights, we will assume there exists a function $w: V \to \mathbb{R}$, defined such that $w(e)$ is the weight assigned to the edge $e$. We can also talk about the total weight of a walk (or path), defined as the sum of the weights of each edge in the walk (or path).
+
+<Definitions/>
+
+As with most sufficiently complex mathematical notions, graph theory terminology is an [all-consuming black hole](https://en.wikipedia.org/wiki/Glossary_of_graph_theory), and we have only covered a small fraction of all of the words one can use to describe graphs and their parts and properties. However, these terms are sufficient for establishing some basic claims about graphs, which the next section will do.
+
+# Properties
+
+Graphs are the first data structures that we have come across which have two separate, semi-independent sizes: the number of nodes and the number of edges. It is possible for a graph to have a large number of nodes, but not many edges, or vice versa; furthermore, edges can be clustered in certain parts of the graphs, such that the degree of one node is much larger than another. These facts slightly complicate our desire to determine the runtime complexity of graph algorihms. Still, it is possible to use some bounds to make this analysis easier.
+
+The first important fact is that the number of edges can only be so large relative to the number of nodes. Imagine trying to fill in a graph with $n$ nodes with as many edges as possible (known as a **complete graph**). We can start at node $1$, connecting it to every other node, giving $n - 1$ edges. Then, we can connect node $2$ to every other edge. We have already added the edge $(1, 2)$ before, so we only get $n - 2$ more edges from this action. Continuing this, we see that a graph with $n$ nodes can have at most
+
+$$
+\sum_{i=1}^{n} (n - i) = \sum_{j=0}^{n-1} i = \frac{n(n-1)}{2}
+$$
+
+edges. Less precisely, but more importantly, **an $n$-node graph can have at most $\Theta(n^2)$ edges**.
+
+Another common workflow when working with graphs is doing some operation on every neighbor of every node. As we mentioned, the degree is free to vary wildly throughout a graph, so it is useful to have a bound on the total sum of all of these degrees, which the next lemma provides.
 
 **The Handshaking Lemma.** For any graph $G$, the sum of the degrees of every node is twice the number of edges. That is,
 

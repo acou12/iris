@@ -38,15 +38,17 @@ As with most sufficiently complex mathematical notions, graph theory terminology
 
 # Properties
 
-Graphs are the first data structures that we have come across which have two separate, semi-independent sizes: the number of nodes and the number of edges. It is possible for a graph to have a large number of nodes, but not many edges, or vice versa; furthermore, edges can be clustered in certain parts of the graphs, such that the degree of one node is much larger than another. These facts slightly complicate our desire to determine the runtime complexity of graph algorihms. Still, it is possible to use some bounds to make this analysis easier.
+A graph is the first data structures that we have come across which has two separate, semi-independent sizes: the number of nodes and the number of edges. It is possible for a graph to have a large number of nodes, but not many edges, or vice versa; furthermore, edges can be clustered in certain parts of the graphs, such that the degree of one node is much larger than another. These facts slightly complicate our desire to determine the runtime complexity of graph algorithms. It may seem like an algorithm that operates on many nodes and their neighbors would have a runtime expressed only through some complicated combination of sums. As it turns out, however, it is possible to use some bounds to make this analysis easier.
 
-The first important fact is that the number of edges can only be so large relative to the number of nodes. Imagine trying to fill in a graph with $n$ nodes with as many edges as possible (known as a **complete graph**). We can start at node $1$, connecting it to every other node, giving $n - 1$ edges. Then, we can connect node $2$ to every other edge. We have already added the edge $(1, 2)$ before, so we only get $n - 2$ more edges from this action. Continuing this, we see that a graph with $n$ nodes can have at most
+The first important fact is that the number of edges can only be so large relative to the number of nodes. Imagine trying to fill in a graph with $n$ nodes with as many edges as possible. We can start at node $1$, connecting it to every other node, giving $n - 1$ edges. Then, we can connect node $2$ to every other edge. We have already added the edge $(1, 2)$ before, so we only get $n - 2$ more edges from this action. Continuing this until we have no more edges to add yields what is called a **complete graph**. The number of edges in this graph is
 
 $$
-\sum_{i=1}^{n} (n - i) = \sum_{j=0}^{n-1} i = \frac{n(n-1)}{2}
+\sum_{i=1}^{n} (n - i) = \sum_{j=0}^{n-1} j = \frac{n(n-1)}{2}
 $$
 
-edges. Less precisely, but more importantly, **an $n$-node graph can have at most $\Theta(n^2)$ edges**.
+Less precisely, but more importantly, **an $n$-node graph can have at most $\Theta(n^2)$ edges**. This allows us to upper bound certain quantities which contain both $V$ and $E$ in terms of just $E$, which can be useful if the precise edge structure of a graph is not known.
+
+For instance, suppose a graph algorithm takes $\Theta(V^2 + E^2)$ time. Since $E$ can be as low as zero, the algorithm takes at least $\Omega(V^2)$ time, but from our upper bound, the algorithm takes at most $O(V^2 + V^4) = O(V^4)$ time.
 
 Another common workflow when working with graphs is doing some operation on every neighbor of every node. As we mentioned, the degree is free to vary wildly throughout a graph, so it is useful to have a bound on the total sum of all of these degrees, which the next lemma provides.
 
@@ -65,6 +67,12 @@ $$
 $$
 
 Here we simply rearrange the sum and use the fact that there are exactly 2 vertices incident on any edge, so $\sum_{i=1}^{n} \delta_{ij} = 2$.
+
+<Dropdown title={`Nomenclature: Handshaking`}>
+
+If you were curious where the name **handshaking lemma** comes from: imagine a set of people at a computer science conference, simultaneously shaking hands with one another. The nodes in the graph represent the computer scientists and each edge represents a handshake between two people. The degree of a node, then, is the number of hands that that person has, and the lemma tells us that the total number of hands is equal to twice the number of handshakes, which makes sense, since a handshake involves two hands! You might be wondering how these people have so many hands. It is a fairly well-kept secret that after you receive a doctorate degree, you gain the ability to grow an arbitrary number of hands. This is something to look forward to if you plan on furthering your education.
+
+</Dropdown>
 
 # Representations
 
@@ -145,7 +153,23 @@ $$
 
 This is very closely related to a concept known as **markov chain process** which we will (eventually) discuss later.
 
-<!-- Are there any interesting applications of this? -->
+</Dropdown>
+
+<Dropdown title={`Bonus Exercises: Walk Counting`}>
+
+1. A **triangle** in a graph is cycle of length three. Design an algorithm that determines the number of triangles in a graph $G$ using adjacency matrix multiplication.
+2. There has been an accident with your Roomba. Unfortunately, it has bumped into a table and spilled orange juice all over itself, damaging its ability to determine its own location. It is now wondering sporadically around the house looking for its docking station: more precisely, every second, it chooses a cardinal direction that it can move to uniformly randomly and moves in that direction. If it reaches its docking station, it stops moving. You are given a grid, the Roomba's starting location, and the docking station location as input to the following algorithms you are to design.
+
+   1. Design an algorithm to determine the probability that the Roomba has found the docking station after $t$ seconds. Let $n$ be the number of tiles in the grid. Then, your algorithm should take at most $O(n^3 \log t)$ time.
+   2. Design an algorithm to determine the smallest time $t$ such that it is more than likely (more than a 0.5 probability) that the Roomba has found its docking station. This should take at most $O(n^3 t)$ time.
+   3. Design an algorithm that solves the problem in (2) in $O(n^3 \log t)$ time.<br>
+      <Dropdown title={`Hint`}>
+
+      Recall the fact that the Roomba stops whenever it reaches its docking station. Because of this, as time goes on, it only gets more likely that it has reached the station -- the probabilty can never decrease. Hence, the probability is a _non-decreasing_ function of $t$. How can you use this?
+
+      </Dropdown>
+
+3. (Open ended) Let $G$ and $H$ be the adjacency matrices of two graphs with $n$ nodes. Interpret $GH$, $G + H$, $G^{-1}$ (if it exists), and $\det(G)$.
 
 </Dropdown>
 

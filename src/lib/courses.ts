@@ -1,8 +1,12 @@
 import AngularMomentum from '$lib/content/physics/angular-momentum/angular-momentum.md';
 import Momentum from '$lib/content/physics/momentum/momentum.md';
 import Smh from '$lib/content/physics/shm/simple-harmonic-motion.md';
-import GraphAlgorithms from '$lib/content/algorithms/graph-algorithms/graph-algorithms.md';
+import DynamicLists from '$lib/content/algorithms/lists/dynamic-lists.md';
+import PriorityQueues from '$lib/content/algorithms/priority-queues/priority-queues.md';
 import Dictionaries from '$lib/content/algorithms/dictionary/dictionary-outline.md';
+import OrderedDictionaries from '$lib/content/algorithms/ordered-dictionary/ordered-dictionary-outline.md';
+import GraphAlgorithms from '$lib/content/algorithms/graph-algorithms/graph-algorithms.md';
+import Sandbox from '$lib/content/algorithms/sandbox/sand.md';
 // import GreedyGraphAlgorithms from '$lib/content/algorithms/greedy-graph-algorithms/greedy-graph-algorithms.md';
 import SweepLine from '$lib/content/interactive-systems/sweep-line.md';
 import SetTheory from '$lib/content/discrete-math/set-theory/set-theory.md';
@@ -30,17 +34,41 @@ export const courses: Course[] = [
 		color: '#f94144',
 		topics: [
 			{
-				prettyName: 'Dictionaries',
-				name: 'dictionary',
+				prettyName: 'Dynamic Lists',
+				name: 'dynamic-lists',
+				svelte: DynamicLists,
+				icon: 'lists'
+			},
+			{
+				prettyName: 'Priority Queues',
+				name: 'priority-queues',
+				svelte: PriorityQueues,
+				icon: 'priority-queues'
+			},
+			{
+				prettyName: 'Sets and Dictionaries',
+				name: 'sets-dictionaries',
 				svelte: Dictionaries,
 				icon: 'dictionary'
 			},
 			{
-				prettyName: 'Graph Algorithms',
-				name: 'graph-algorithms',
+				prettyName: 'Ordered Dictionaries',
+				name: 'ordered-dictionaries',
+				svelte: OrderedDictionaries,
+				icon: 'ordered-dictionary'
+			},
+			{
+				prettyName: 'Graphs',
+				name: 'graphs',
 				svelte: GraphAlgorithms,
 				feature: 0,
 				icon: 'graph-algorithms'
+			},
+			{
+				prettyName: 'Sandbox',
+				name: 'sandbox',
+				svelte: Sandbox,
+				icon: 'sandbox'
 			}
 			// {
 			// 	prettyName: 'Greedy Graph Algorithms',

@@ -9,6 +9,9 @@ export class Point {
 	length() {
 		return Math.hypot(this.x, this.y);
 	}
+	copy() {
+		return this.multiply(1);
+	}
 }
 
 export const p = (x: number, y: number) => {

@@ -6,9 +6,9 @@ $$
 \{ 1, 2, 3 \} \tag{1}
 $$
 
-$$
+<!-- $$
 \{ \text{apple}, \text{banana}, \text {orange}\} \tag{2}
-$$
+$$ -->
 
 $$
 \{ f, g, h \} \tag{3}
@@ -44,6 +44,6 @@ $$
 
 # Set Builder Notation
 
-$$
+<!-- $$
 \{f(x) \mid P(x) \}
-$$
+$$ -->

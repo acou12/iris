@@ -1,7 +1,7 @@
-import AngularMomentum from '$lib/content/physics/angular-momentum/angular-momentum.md';
+// import AngularMomentum from '$lib/content/physics/angular-momentum/angular-momentum.md';
 import Momentum from '$lib/content/physics/momentum/momentum.md';
 import Smh from '$lib/content/physics/shm/simple-harmonic-motion.md';
-import DynamicLists from '$lib/content/algorithms/lists/dynamic-lists.md';
+// import DynamicLists from '$lib/content/algorithms/lists/dynamic-lists.md';
 import PriorityQueues from '$lib/content/algorithms/priority-queues/priority-queues.md';
 import Dictionaries from '$lib/content/algorithms/dictionary/dictionary-outline.md';
 import OrderedDictionaries from '$lib/content/algorithms/ordered-dictionary/ordered-dictionary-outline.md';
@@ -11,6 +11,7 @@ import Sandbox from '$lib/content/algorithms/sandbox/sand.md';
 import SweepLine from '$lib/content/interactive-systems/sweep-line.md';
 import SetTheory from '$lib/content/discrete-math/set-theory/set-theory.md';
 import GraphTheory from '$lib/content/discrete-math/graph-theory/graph-theory.md';
+import { Article, testArticle } from './components/article/article';
 
 export type Course = {
 	prettyName: string;
@@ -23,6 +24,7 @@ export type Topic = {
 	prettyName: string;
 	name: string;
 	svelte?: typeof import('*.md').default;
+	article?: Article;
 	feature?: number;
 	icon?: string;
 };
@@ -36,7 +38,8 @@ export const courses: Course[] = [
 			{
 				prettyName: 'Dynamic Lists',
 				name: 'dynamic-lists',
-				svelte: DynamicLists,
+				// svelte: DynamicLists,
+				article: testArticle,
 				icon: 'lists'
 			},
 			{
@@ -73,7 +76,7 @@ export const courses: Course[] = [
 			// {
 			// 	prettyName: 'Greedy Graph Algorithms',
 			// 	name: 'greedy-graph-algorithms',
-			// 	svelte: GreedyGraphAlgorithms
+			// svelte: GreedyGraphAlgorithms
 			// }
 		]
 	},
@@ -99,7 +102,7 @@ export const courses: Course[] = [
 			{
 				prettyName: 'Angular Momentum',
 				name: 'angular-momentum',
-				svelte: AngularMomentum,
+				// svelte: AngularMomentum,
 				icon: 'angular-momentum'
 			},
 			{ prettyName: 'Electrostatics', name: 'electrostatics' },

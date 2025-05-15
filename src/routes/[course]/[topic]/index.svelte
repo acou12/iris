@@ -27,6 +27,7 @@
 	// @ts-ignore
 	import Placeholder from '$lib/content/placeholder.md';
 	import IrisButton from '$lib/components/IrisButton.svelte';
+	import Article from '$lib/components/article/Article.svelte';
 
 	export let course: Course;
 	export let topicIndex: number;
@@ -67,8 +68,10 @@
 	</div>
 </div>
 <div class="content">
-	{#if svelte}
+	{#if svelte !== undefined}
 		<svelte:component this={svelte} />
+	{:else if topic.article !== undefined}
+		<Article article={topic.article} />
 	{:else}
 		<svelte:component this={Placeholder} />
 	{/if}

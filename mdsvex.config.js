@@ -1,6 +1,6 @@
 import { defineMDSveXConfig as defineConfig } from 'mdsvex';
 import rehypeKatexSvelte from 'rehype-katex-svelte';
-import remarkMath from 'remark-math';
+import remarkMath from 'remark-math-old';
 
 const config = defineConfig({
 	extensions: ['.svelte.md', '.md', '.svx'],

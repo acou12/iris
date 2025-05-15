@@ -23,7 +23,6 @@
 		"mdsvex": "^0.10.5",
 		"prettier": "^2.5.1",
 		"prettier-plugin-svelte": "^2.5.0",
-		"remark-math": "^3.0.0",
 		"svelte": "^3.44.0",
 		"svelte-check": "^2.2.6",
 		"svelte-preprocess": "^4.10.1",
@@ -39,11 +38,14 @@
 		"highlight.js": "^11.6.0",
 		"katex": "^0.15.3",
 		"pixi.js": "^6.3.0",
-		"rehype-katex": "^6.0.2",
-		"rehype-katex-svelte": "^1.0.3",
-		"rehype-stringify": "^9.0.3",
-		"remark-parse": "^10.0.1",
-		"remark-rehype": "^10.1.0",
-		"sass": "^1.50.0"
+		"rehype-katex": "^7.0.1",
+		"rehype-katex-svelte": "^1.0.2",
+		"rehype-stringify": "^9.0.4",
+		"remark-math": "^6.0.0",
+		"remark-math-old": "npm:remark-math@^3.0.0",
+		"remark-parse": "^11.0.0",
+		"remark-rehype": "^11.1.2",
+		"sass": "^1.50.0",
+		"unified": "^11.0.5"
 	}
 }

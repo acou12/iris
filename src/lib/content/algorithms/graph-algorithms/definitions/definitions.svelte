@@ -75,7 +75,6 @@
 			)} is <strong>incident</strong> on ${math(`v_{${interactor.getHoverEdge()[1]}}`)}</div>`;
 			text = newText;
 		} else {
-			console.log('nada');
 			text = ``;
 		}
 

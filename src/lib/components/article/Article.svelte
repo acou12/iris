@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Article } from './article';
+	import type { StructuredArticle } from './article';
 	import { onMount } from 'svelte';
 
 	import { unified } from 'unified';
@@ -12,7 +12,7 @@
 	import rehypeStringify from 'rehype-stringify';
 	import ArticleContents from './ArticleContents.svelte';
 
-	export let article: Article;
+	export let article: StructuredArticle;
 
 	onMount(() => {});
 

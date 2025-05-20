@@ -25,8 +25,6 @@ export class StandardGraphInteractor<V> implements GraphInteractor<V> {
 	private setup() {
 		const canvas = this.animator.getCanvas();
 
-		console.log(canvas);
-
 		this.mousePos = p(0, 0);
 
 		canvas.addEventListener('mousemove', (e) => {

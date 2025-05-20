@@ -19,12 +19,16 @@ import {
 	ul
 } from '$lib/components/article/article';
 
-import MSTHover from '../greedy-graph-algorithms/mst-hover.svelte';
-import Shortest from '../greedy-graph-algorithms/shortest.svelte';
+// import MSTHover from '../greedy-graph-algorithms/mst-hover.svelte';
+// import Shortest from '../greedy-graph-algorithms/shortest.svelte';
 
-export default article('Graph Algorithms', () => {
-	// let fm = new FigureManager();
-	// let definitionsFig = fm.newFigure('definitions');
+export default article('Graph Algorithms', ({ figMan, algMan }) => {
+	const definitionsFigure = figMan.newFigure('definitions');
+	const adjMatrixFigure = figMan.newFigure('adj-matrix');
+	const adjListFigure = figMan.newFigure('adj-list');
+	const graphSearchStepwiseFigure = figMan.newFigure('graph-search-stepwise');
+
+	const graphSearchStepwiseAlg = algMan.newAlgorithm('graph-search-stepwise');
 
 	return [
 		h1(`Introduction`),
@@ -43,7 +47,11 @@ export default article('Graph Algorithms', () => {
 
 		p`We define a **walk** as a sequence of nodes such that any two adjacent nodes in the sequence are adjacent in $G$. A walk is called a **path** if it consists of distinct vertices -- that is, it doesn't go over any vertex more than once. Two vertices $u$ and $v$ are then **reachable** from each other if there is a path (or walk) that starts at $u$ and ends at $v$ (or vice versa).`,
 
-		fig(Definitions, 'Hover over vertices or edges to see examples of adjacency and incidence.'),
+		fig(
+			definitionsFigure,
+			Definitions,
+			'Hover over vertices or edges to see examples of adjacency and incidence.'
+		),
 
 		p`A graph can also be **weighted**. In a weighted graph, we assign a value (usually, a real number) to every edge. To denote weights, we will assume there exists a function $w: V \\to \\mathbb{R}$, defined such that $w(e)$ is the weight assigned to the edge $e$. We can also talk about the total weight of a walk (or path), defined as the sum of the weights of each edge in the walk (or path).`,
 
@@ -100,6 +108,7 @@ export default article('Graph Algorithms', () => {
 		p`One way to interpret a graph is that it is simply a binary relation on the vertices — that is, any two vertices are either adjacent or they aren't adjacent. This leads to a natural programmatic representation — for every pair of vertices, keep track of whether they are adjacent or not. We can use any data type that acts as a two-place boolean predicate, but the most obvious choice is a two dimensional array. True to the relation interpretation, we could use a two-dimensional boolean array, but for reasons that will make sense later, it is more typical to use an integer array and store a $1$ for adjacency and $0$ for non-adjacency. This array is known as an **adjacency matrix**.`,
 
 		fig(
+			adjMatrixFigure,
 			AdjMatrix,
 			'A graph (left) and its adjacency matrix representation (right). Hover over vertices to see their corresponding row and column in the matrix.'
 		),
@@ -145,6 +154,7 @@ export default article('Graph Algorithms', () => {
 		p`Sparse graphs benefit from a more efficient representation called an **adjacency list**. Here, for each vertex, we simply store a "list" of adjacent vertices. I put list in scare quotes since it really makes more sense to think of this as a set (there are no duplicates, nor is there any particular order), but conventionally it's just called a list anyway.`,
 
 		fig(
+			adjListFigure,
 			AdjList,
 			'A graph (left) and its adjacency list representation (right). Hover over vertices to see their corresponding list in the map.'
 		),
@@ -176,9 +186,10 @@ export default article('Graph Algorithms', () => {
 		p`As it turns out, it's not much harder to solve a more general problem: _which vertices are reachable from $u$?_ This is the problem searching algorithms actually solve. Here's how: starting at $u$, we begin building a set $X$ of e**x**plored vertices, which we know for sure are reachable from $u$. We repeatedly expand $X$ by finding vertices which are connected to already explored vertices. Eventually, we run out of vertices to add, and we stop — at this point, $X$ contains all of the vertices reachable from $u$!`,
 		p`Let's try to describe this in a way that is a little closer to an actual algorithm. Let's say a vertex $v$ is a **fringe** vertex if $v \\not\\in X$, but $(u, v) \\in E$ for some $u \\in X$. Basically, $v$ is a fringe vertex if it hasn't been explored, but it is one edge away from a vertex that has been explored. Then our algorithm should repeatedly find a fringe vertex and add it to $X$. <AlgorithmLink id=1 name="search-algorithm"/> summarizes this approach, and <FigureLink id=4 name="graph-search-stepwise"/> visualizes the idea.`,
 
-		alg(graphSearch, `A high level overview of searching using a fringe.`),
+		alg(graphSearchStepwiseAlg, graphSearch, `A high level overview of searching using a fringe.`),
 
 		fig(
+			graphSearchStepwiseFigure,
 			GraphSearchStepwise,
 			'A visualization of the high level graph search algorith. Orange vertices are those that are one edge away from the explored set. Click an edge to add it and its fringe vertex to the explored set.'
 		),
@@ -218,14 +229,14 @@ export default article('Graph Algorithms', () => {
 			p`Let $e' \\in C$. Then $T^\\prime = T - \\{e\\} \\cup \\{e'\\}$ is a spanning tree of $G$.`
 		]),
 
-		fig(
-			MSTHover,
-			'A spanning tree of a graph. Hover over a non-tree edge to reveal the cycle guaranteed by the minimum spanning tree lemma'
-		),
+		// fig(
+		// 	MSTHover,
+		// 	'A spanning tree of a graph. Hover over a non-tree edge to reveal the cycle guaranteed by the minimum spanning tree lemma'
+		// ),
 
 		h2(`The Shortest Path Problem`),
 
-		fig(Shortest, "Dijkstra's shortest path algorithm, starting at $v_0$."),
+		// fig(Shortest, "Dijkstra's shortest path algorithm, starting at $v_0$."),
 
 		p`${todo}`
 	];

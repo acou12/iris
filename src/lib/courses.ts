@@ -11,7 +11,7 @@ import Sandbox from '$lib/content/algorithms/sandbox/sand.md';
 import SweepLine from '$lib/content/interactive-systems/sweep-line.md';
 import SetTheory from '$lib/content/discrete-math/set-theory/set-theory.md';
 import GraphTheory from '$lib/content/discrete-math/graph-theory/graph-theory.md';
-import { Article } from './components/article/article';
+import { StructuredArticle } from './components/article/article';
 import graphAlgorithms from './content/algorithms/graph-algorithms/graph-algorithms';
 
 export type Course = {
@@ -25,7 +25,7 @@ export type Topic = {
 	prettyName: string;
 	name: string;
 	svelte?: typeof import('*.md').default;
-	article?: Article;
+	article?: StructuredArticle;
 	feature?: number;
 	icon?: string;
 };

@@ -5,13 +5,14 @@ import Smh from '$lib/content/physics/shm/simple-harmonic-motion.md';
 import PriorityQueues from '$lib/content/algorithms/priority-queues/priority-queues.md';
 import Dictionaries from '$lib/content/algorithms/dictionary/dictionary-outline.md';
 import OrderedDictionaries from '$lib/content/algorithms/ordered-dictionary/ordered-dictionary-outline.md';
-import GraphAlgorithms from '$lib/content/algorithms/graph-algorithms/graph-algorithms.md';
+// import GraphAlgorithms from '$lib/content/algorithms/graph-algorithms/graph-algorithms.md';
 import Sandbox from '$lib/content/algorithms/sandbox/sand.md';
 // import GreedyGraphAlgorithms from '$lib/content/algorithms/greedy-graph-algorithms/greedy-graph-algorithms.md';
 import SweepLine from '$lib/content/interactive-systems/sweep-line.md';
 import SetTheory from '$lib/content/discrete-math/set-theory/set-theory.md';
 import GraphTheory from '$lib/content/discrete-math/graph-theory/graph-theory.md';
-import { Article, testArticle } from './components/article/article';
+import { Article } from './components/article/article';
+import graphAlgorithms from './content/algorithms/graph-algorithms/graph-algorithms';
 
 export type Course = {
 	prettyName: string;
@@ -39,7 +40,7 @@ export const courses: Course[] = [
 				prettyName: 'Dynamic Lists',
 				name: 'dynamic-lists',
 				// svelte: DynamicLists,
-				article: testArticle,
+				// article: testArticle,
 				icon: 'lists'
 			},
 			{
@@ -63,7 +64,8 @@ export const courses: Course[] = [
 			{
 				prettyName: 'Graphs',
 				name: 'graphs',
-				svelte: GraphAlgorithms,
+				article: graphAlgorithms,
+				// svelte: GraphAlgorithms,
 				feature: 0,
 				icon: 'graph-algorithms'
 			},

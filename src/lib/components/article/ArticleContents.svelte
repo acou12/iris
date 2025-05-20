@@ -1,38 +1,18 @@
 <script lang="ts">
-	import { ArticleElementType } from './article';
+	import { ArticleElementType, ParagraphPartType } from './article';
 	import type { ArticleElement } from './article';
 	import { onMount } from 'svelte';
 
-	import { unified } from 'unified';
-	import remarkParse from 'remark-parse';
-	import remarkRehype from 'remark-rehype';
-	import remarkMath from 'remark-math';
-	import remarkGfm from 'remark-gfm';
-	import remarkSmartyPants from 'remark-smartypants';
-	import rehypeKatex from 'rehype-katex';
-	import rehypeStringify from 'rehype-stringify';
 	import Psuedocode from '../Psuedocode.svelte';
-	import { element } from 'svelte/internal';
 	import Dropdown from './Dropdown.svelte';
+	import { pretty } from './render';
+	import TextContent from './TextContent.svelte';
+
+	import katex from 'katex';
 
 	export let elements: ArticleElement[];
 
 	onMount(() => {});
-
-	const pretty = async (s: string) => {
-		const proc = unified()
-			.use(remarkParse)
-			.use(remarkMath)
-			.use(remarkGfm)
-			.use(remarkRehype)
-			.use(remarkSmartyPants)
-			.use(rehypeKatex)
-			// @ts-ignore
-			.use(rehypeStringify);
-
-		// @ts-ignore
-		return String(await proc.process(s)).replaceAll(/(<p>|<\/p>)/g, '');
-	};
 </script>
 
 {#each elements as element}
@@ -49,9 +29,19 @@
 			<h3>{@html t}</h3>
 		{/await}
 	{:else if element.type === ArticleElementType.PARAGRAPH}
-		{#await pretty(element.value.text) then t}
-			<p>{@html t}</p>
-		{/await}
+		<p>
+			<TextContent parts={element.value.parts} />
+		</p>
+	{:else if element.type === ArticleElementType.LIST}
+		<ul>
+			{#each element.value.elements as li}
+				<li>
+					<TextContent parts={li.parts} />
+				</li>
+			{/each}
+		</ul>
+	{:else if element.type === ArticleElementType.BLOCK_MATH}
+		{@html katex.renderToString(element.value.lines.join('\\'), { displayMode: true })}
 	{:else if element.type === ArticleElementType.FIGURE}
 		<svelte:component this={element.value.svelteComponent.svelte} />
 		<div class="caption">

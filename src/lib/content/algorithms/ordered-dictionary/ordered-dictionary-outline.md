@@ -5,11 +5,12 @@ Ordered dictionaries allow you to work with ordered data in a nice way. They fun
 # The Abstract Data Type
 
 - ordered dictionaries have the same abstract representation as dictionaries. they are partial functions.
-- there is one extra requirement: the domain K must be _linearly ordered_. formally, we must provide along with our domain type KK a relation <= on KK that is transitive and total.
+- there is one extra requirement: the domain KK must be _linearly ordered_. formally, we must provide along with our domain type KK a relation <= on KK that is transitive and total.
 - this order provides extra methods.
 
+has(k) - return whether k in K
 get(k) - return f(k)
-put(v) - assign f(k) = v
+put(k, v) - assign f(k) = v
 delete(v) - remove k from K
 successor(k) - return the smallest k' in K such that k < k'.
 predecessor(k) - return the largest k' in K such that k' < k

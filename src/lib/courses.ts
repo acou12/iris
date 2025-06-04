@@ -3,7 +3,7 @@ import Momentum from '$lib/content/physics/momentum/momentum.md';
 import Smh from '$lib/content/physics/shm/simple-harmonic-motion.md';
 // import DynamicLists from '$lib/content/algorithms/lists/dynamic-lists.md';
 import PriorityQueues from '$lib/content/algorithms/priority-queues/priority-queues.md';
-import Dictionaries from '$lib/content/algorithms/dictionary/dictionary-outline.md';
+// import Dictionaries from '$lib/content/algorithms/dictionary/dictionary-outline.md';
 // import OrderedDictionaries from '$lib/content/algorithms/ordered-dictionary/ordered-dictionary-outline.md';
 // import GraphAlgorithms from '$lib/content/algorithms/graph-algorithms/graph-algorithms.md';
 import Sandbox from '$lib/content/algorithms/sandbox/sand.md';
@@ -14,6 +14,7 @@ import GraphTheory from '$lib/content/discrete-math/graph-theory/graph-theory.md
 import { StructuredArticle } from './components/article/article';
 import graphAlgorithms from './content/algorithms/graph-algorithms/graph-algorithms';
 import orderedDictionary from './content/algorithms/ordered-dictionary/ordered-dictionary';
+import dictionary from './content/algorithms/dictionary/dictionary';
 
 export type Course = {
 	prettyName: string;
@@ -53,7 +54,8 @@ export const courses: Course[] = [
 			{
 				prettyName: 'Sets and Dictionaries',
 				name: 'sets-dictionaries',
-				svelte: Dictionaries,
+				article: dictionary,
+				// svelte: Dictionaries,
 				icon: 'dictionary'
 			},
 			{
